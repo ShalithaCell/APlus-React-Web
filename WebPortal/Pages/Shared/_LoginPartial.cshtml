@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using WebPortal.Models;
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@using Portal.Domain.IdentityModels;
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
 
 @{
     string returnUrl = null;
