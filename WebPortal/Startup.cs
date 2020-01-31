@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Portal.Infrastructure.DAL.DatabaseContext;
 using Portal.Domain.IdentityModels;
+using Portal.Infrastructure.DAL.DefaultDataConfiguration;
 
 namespace WebPortal
 {
@@ -50,7 +51,7 @@ namespace WebPortal
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext context, RoleManager<AppRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -73,6 +74,11 @@ namespace WebPortal
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
+
+
+            //Seeding the Database with concrete values.
+            DatabaseSeeder.SeedDb(context, roleManager);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

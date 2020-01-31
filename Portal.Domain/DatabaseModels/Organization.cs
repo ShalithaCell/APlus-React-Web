@@ -16,10 +16,10 @@ namespace Portal.Domain.DatabaseModels
         public string OrganizationName { get; set; }
 
         [Required]
-        public int Country { get; set; }
+        public string Country { get; set; }
 
         [Required]
-        public int State { get; set; }
+        public string State { get; set; }
 
         [MaxLength(100)]
         public string Address1 { get; set; }

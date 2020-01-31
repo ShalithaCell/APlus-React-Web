@@ -8,6 +8,7 @@ using Portal.Domain.DatabaseModels;
 using Portal.Domain.DatabaseModels.BaseModel;
 using Portal.Domain.IdentityModels;
 using Portal.Infrastructure.DAL.DatabaseContext.ExtendModule;
+using Portal.Infrastructure.DAL.DefaultDataConfiguration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace Portal.Infrastructure.DAL.DatabaseContext
             }
 
             //table configuration and data seeding
-            //builder.ApplyConfiguration(new OrganizationConfiguration());
+            builder.ApplyConfiguration(new OrganizationDefaultConfiguration());
         }
     }
 
