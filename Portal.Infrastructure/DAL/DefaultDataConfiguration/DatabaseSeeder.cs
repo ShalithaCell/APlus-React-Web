@@ -56,5 +56,10 @@ namespace Portal.Infrastructure.DAL.DefaultDataConfiguration
             roleManager.CreateAsync(appRoleAuthenticatedUser).Wait();
 
         }
+
+        private static void SeedSuperUser(UserManager<AppUser> userManager)
+        {
+            
+        }
     }
 }

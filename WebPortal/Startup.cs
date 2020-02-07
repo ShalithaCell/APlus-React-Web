@@ -12,6 +12,19 @@ using Microsoft.Extensions.Hosting;
 using Portal.Infrastructure.DAL.DatabaseContext;
 using Portal.Domain.IdentityModels;
 using Portal.Infrastructure.DAL.DefaultDataConfiguration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Portal.Infrastructure.Security.IdentityEnhancedHasher;
+using Portal.Domain.Interfaces.System;
+using Portal.Infrastructure.Services.Network;
+using Portal.ApplicationCore.Services.SessionService;
+using AutoMapper;
+using Portal.Infrastructure.AutoMapperProfiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebPortal
 {
@@ -27,12 +40,53 @@ namespace WebPortal
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // <<************** Configure Application Database Context Here  **************>>
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            // <<************** Set Default Identity  **************>>
+            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<AppRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // <<************** Configure Identity Options Here  **************>>
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                //options.Lockout.MaxFailedAccessAttempts = 5;
+                //options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
+            });
+
+            // <<************** Configure Identity User Password Encryption Method Here **************>>
+            services.Replace(new ServiceDescriptor(
+               serviceType: typeof(IPasswordHasher<AppUser>),
+               implementationType: typeof(Md5PasswordHasher<AppUser>),
+               ServiceLifetime.Scoped));
+
+            // <<************** Configure System Email Sender Here  **************>>
+            services.AddTransient<IExtendedEmailSender, EmailSender>(i =>
+                new EmailSender(
+                    Configuration["EmailSender:Host"],
+                    Configuration.GetValue<int>("EmailSender:Port"),
+                    Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                    Configuration["EmailSender:UserName"],
+                    Configuration["EmailSender:Password"]
+                    )
+            );
+
 
             services.AddIdentityServer()
                 .AddApiAuthorization<AppUser, ApplicationDbContext>();
@@ -40,8 +94,58 @@ namespace WebPortal
             services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            services.AddControllers();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // <<************** register IHttpContextAccessor  **************>>
+            services.AddHttpContextAccessor();
+            services.AddScoped<SessionManager>();
+
+            // <<************** Configure Auto mapper profiles  **************>>
+            services.AddAutoMapper(typeof(MapperProfiles));
+
+
+            // <<************** Configure MVC Core Version Here **************>>
+            // Started as ASP.Net  Core 3.1 on 2020-02-01
+            services.AddMvc(options => {
+
+                //**************Add General Policy *********************
+                //User need to be a Authorized system user to access pages except allowAnonymous annotation
+                var generalPolicy = new AuthorizationPolicyBuilder()
+                                           .RequireAuthenticatedUser()
+                                           .Build();
+                options.Filters.Add(new AuthorizeFilter(generalPolicy));
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+
+
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+            .AddNewtonsoftJson(opt => {
+                opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            })
+            .AddRazorPagesOptions(options =>
+            {
+                //set default startup page
+                options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
+            });
+
+            // <<************** Set Session configuration Here **************>>
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(500);
+            });
+
+            // Configure ApplicationCookie 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(500);
+                options.LoginPath = "/Identity/Account/Login"; //Login path (if user is not logged in)
+                options.LogoutPath = "/Identity/Account/Logout";
+            });
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

@@ -221,8 +221,9 @@ namespace Portal.Infrastructure.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<int>("Country")
-                        .HasColumnType("int");
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Hearaboutus")
                         .HasColumnType("nvarchar(max)");
@@ -242,8 +243,9 @@ namespace Portal.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<int>("State")
-                        .HasColumnType("int");
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ZipPostalCode")
                         .HasColumnType("nvarchar(100)")
@@ -252,6 +254,22 @@ namespace Portal.Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Organization");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Address1 = "Kuliyapitiya",
+                            Address2 = "Kuliyapitiya",
+                            Address3 = "Kuliyapitiya",
+                            Country = "Srilanka",
+                            Hearaboutus = "NVIVID",
+                            IsActive = true,
+                            OrganizationName = "NVIVID Technologies",
+                            RegistedDate = new DateTime(2020, 2, 1, 9, 12, 20, 202, DateTimeKind.Local).AddTicks(4674),
+                            State = "Kurunegala",
+                            ZipPostalCode = "60200"
+                        });
                 });
 
             modelBuilder.Entity("Portal.Domain.IdentityModels.AppRole", b =>
