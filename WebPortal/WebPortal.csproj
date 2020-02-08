@@ -33,6 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\resources\fonts\" />
+    <Folder Include="ClientApp\src\resources\libs\" />
     <Folder Include="Documentation\WebLinks\" />
   </ItemGroup>
 
