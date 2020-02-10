@@ -8,19 +8,6 @@ import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
 import ApiAuthorizationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
 import { ApplicationPaths } from './components/api-authorization/ApiAuthorizationConstants';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './resources/layout/normalize.css';
-import './resources/layout/demo.css';
-import './resources/layout/component.css';
-import './resources/libs/font-awesome/css/font-awesome.css';
-
-import $ from 'jquery';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import './resources/layout/modernizr.custom.js';
-import './resources/layout/classie.js';
-import './resources/layout/gnmenu.js';
-
-
 import './custom.css'
 
 export default class App extends Component {

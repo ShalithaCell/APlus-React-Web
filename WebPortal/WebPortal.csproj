@@ -33,9 +33,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\resources\fonts\" />
-    <Folder Include="ClientApp\src\resources\libs\" />
     <Folder Include="Documentation\WebLinks\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\fonts\codropsicons\codropsicons.svg" />
+    <None Include="wwwroot\fonts\ecoicons\ecoicons.dev.svg" />
+    <None Include="wwwroot\fonts\ecoicons\ecoicons.svg" />
+    <None Include="wwwroot\fonts\Material-Design-Iconic-Font.svg" />
+    <None Include="wwwroot\fonts\Material-Design-Iconic-Font.woff2" />
   </ItemGroup>
 
   <ItemGroup>
