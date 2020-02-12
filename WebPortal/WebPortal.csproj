@@ -33,15 +33,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Documentation\WebLinks\" />
+    <None Remove="ClientApp\public\normalize.css" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\fonts\codropsicons\codropsicons.svg" />
-    <None Include="wwwroot\fonts\ecoicons\ecoicons.dev.svg" />
-    <None Include="wwwroot\fonts\ecoicons\ecoicons.svg" />
-    <None Include="wwwroot\fonts\Material-Design-Iconic-Font.svg" />
-    <None Include="wwwroot\fonts\Material-Design-Iconic-Font.woff2" />
+    <Content Include="ClientApp\public\normalize.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\public\resources\lib\" />
+    <Folder Include="Documentation\WebLinks\" />
   </ItemGroup>
 
   <ItemGroup>
