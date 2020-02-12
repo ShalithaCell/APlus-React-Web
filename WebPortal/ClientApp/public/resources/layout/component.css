@@ -236,7 +236,13 @@ input.gn-search:focus {
 }
 
 .gn-icon-search::before {
-		content: "\e005"
+	content: "\e005";
+	font-family: "Font Awesome 5 Free";
+	content: "\f002";
+	display: inline-block;
+	padding-right: 3px;
+	vertical-align: middle;
+	font-weight: 900;
 }
 
 .gn-icon-download::before {
