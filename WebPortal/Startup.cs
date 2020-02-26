@@ -125,26 +125,21 @@ namespace WebPortal
             .AddNewtonsoftJson(opt => {
                 opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 opt.SerializerSettings.ContractResolver = new DefaultContractResolver();
-            })
-            .AddRazorPagesOptions(options =>
-            {
-                //set default startup page
-                options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
             });
 
             // <<************** Set Session configuration Here **************>>
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(500);
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
             });
 
-            // Configure ApplicationCookie 
+            //Configure ApplicationCookie
             services.ConfigureApplicationCookie(options =>
             {
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(500);
-                options.LoginPath = "/Identity/Account/Login"; //Login path (if user is not logged in)
-                options.LogoutPath = "/Identity/Account/Logout";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                //options.LoginPath = "/authentication/login"; //Login path (if user is not logged in)
+                //options.LogoutPath = "/authentication/logout";
             });
 
             // In production, the React files will be served from this directory

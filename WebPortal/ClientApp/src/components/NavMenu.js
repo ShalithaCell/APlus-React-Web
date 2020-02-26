@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { LoginMenu } from './api-authorization/LoginMenu';
-//import './NavMenu.css';
+import authServiceManager from './api-authorization/AuthorizeService';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
@@ -17,7 +17,8 @@ export class NavMenu extends Component {
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
-      collapsed: true
+        collapsed: true,
+        authenticated: authServiceManager.isAuthenticated()
     };
   }
 
@@ -27,13 +28,24 @@ export class NavMenu extends Component {
     });
     }
 
-    componentDidMount() {
+    async componentDidMount(): Promise<void> {
         window.InitNavBar();
+
+        this.authstatus = await authServiceManager.isAuthenticated();
+
+        this.setState({
+            authenticated: this.authstatus
+        });
+
+        return Promise.resolve();
     }
 
     
-
-  render () {
+    render() {
+        if (this.state.authenticated)
+            console.log('authenticated');
+        else 
+            console.log('non-authenticated');
     return (
         <header>
             <ul id="gn-menu" className="gn-menu-main">
