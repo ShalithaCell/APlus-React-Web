@@ -10,13 +10,12 @@ import { Provider } from 'react-redux'
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const rootElement = document.getElementById('root');
 
-const store = createStore();
 
 ReactDOM.render(
     <BrowserRouter basename={baseUrl}>
-        <Provider store={store}>
+        
             <App />
-        </Provider>
+        
   </BrowserRouter>,
   rootElement);
 
