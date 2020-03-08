@@ -90,7 +90,7 @@ class LoginPage extends React.Component {
                                     </div>
                                 </div>
                                 <div className="footer">
-                                    Copyright &copy; @DateTime.Now.Year &mdash; <a href="#" target="_blank">NVIVID
+                                    Copyright &copy; {(new Date().getFullYear())} &mdash; <a href="#" target="_blank">NVIVID
                                     Technologies</a>
                                 </div>
                             </div>
