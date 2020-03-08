@@ -21,6 +21,7 @@ class LoginPage extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value });
