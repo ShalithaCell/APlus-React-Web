@@ -5,7 +5,7 @@ import { doLogin } from '../redux/userActions';
 class home extends Component {
 	componentDidMount()
 	{
-		this.props.doLogin();
+		this.props.doLogin('shalithax@gmail.com', 'Mvc@2018');
 	}
 
 	render(){

@@ -1,18 +1,18 @@
 import { DO_LOGIN, GET_TOKEN } from './actionTypes';
+import axios from 'axios';
+import { LOGIN_ENDPOINT } from '../config';
 
-export const doLogin = () => (dispatch) => 
+export const doLogin = (email, password) => (dispatch) =>
 {
-		fetch( 'https://localhost:44317/users/authenticate', {
-			method  : 'post',
-			headers : {
-				'Accept'       : 'application/json, text/plain, */*',
-				'Content-Type' : 'application/json'
-			},
-			body : JSON.stringify({ email: "shalithax@gmail.com", password: "Mvc@2018" })
-		}).then((res) => res.json())
-			.then( (data) => dispatch({
-				type    : DO_LOGIN,
-				payload : data
-			}));
+	axios({
+		method : 'post',
+		url    : LOGIN_ENDPOINT,
+		data   : {
+			email : email, password : password
+		}
+	}).then((res) => dispatch({
+			type    : DO_LOGIN,
+			payload : res.data
+		}));
 
 }

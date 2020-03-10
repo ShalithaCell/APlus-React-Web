@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import logo from './logo.svg';
 import './App.css';
 import home from './component/home'
+import login from './component/login'
 
 class App extends Component {
 	render(){
@@ -10,7 +11,8 @@ class App extends Component {
     <BrowserRouter>
         <div className="App">
             <Switch>
-                <Route path='/' component={ home } />
+                <Route path='/home' component={ home } />
+                <Route path='/login' component={ login } />
             </Switch>
         </div>
     </BrowserRouter>
