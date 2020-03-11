@@ -73,7 +73,7 @@ namespace Portal.API.Controllers
                 authenticatedResult.Authenticated = false;
                 authenticatedResult.StatusCode = StatusCodes.Status203NonAuthoritative;
                 authenticatedResult.ErrorMessages = new List<string> { "two factor authentication is allowed. " };
-                return Ok("vf");
+                return Ok(authenticatedResult);
             }
             else if (result.IsLockedOut)
             {
@@ -86,7 +86,7 @@ namespace Portal.API.Controllers
             {
                 authenticatedResult.Authenticated = false;
                 authenticatedResult.StatusCode = StatusCodes.Status401Unauthorized;
-                authenticatedResult.ErrorMessages = new List<string> { "Username or Password is incorrect !" };
+                authenticatedResult.ErrorMessages = new List<string> { "Incorrect email or password." };
                 return Ok(authenticatedResult);
             }
 

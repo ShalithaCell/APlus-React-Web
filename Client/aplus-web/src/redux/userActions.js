@@ -32,8 +32,10 @@ export const doLogin = (email, password) => async (dispatch) =>
 			type    : DO_LOGIN,
 			payload : resData
 		});
+
+		return { "success": resData.authenticated, "data": resData, "error": false };
 	}else{
 		return { "success": success, "data": resData, "error": true };
 	}
-	return { "success": success, "data": null, "error": false };
+
 }

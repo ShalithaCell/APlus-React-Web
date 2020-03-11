@@ -42,7 +42,7 @@ class login extends Component
 											this.props.history.push(from);
 										}else if( !result.success && !result.error ){ //failed login
 											setSubmitting(false);
-											setStatus("Incorrect username or password.");
+											setStatus(result.data.errorMessages);
 										}else{ //error
 											setSubmitting(false);
 											setStatus("Something went wrong please contact with our support hub.");
