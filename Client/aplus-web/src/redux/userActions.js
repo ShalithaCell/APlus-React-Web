@@ -6,6 +6,8 @@ export const doLogin = (email, password) => async (dispatch) =>
 {
 	let success = false;
 	let resData;
+
+	//API call
 	await axios({
 		method : 'post',
 		url    : LOGIN_ENDPOINT,
@@ -24,6 +26,7 @@ export const doLogin = (email, password) => async (dispatch) =>
 			console.log(error);
 		});
 
+	//Check API call is success or not
 	if(success){
 		dispatch({
 			type    : DO_LOGIN,

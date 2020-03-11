@@ -35,10 +35,18 @@ class login extends Component
 									{
 
 										setStatus();
-										const x = await this.props.doLogin('shalithax@gmail.com', 'Mvc@2018');
-										console.log(x);
-										setSubmitting(false);
-										console.log('below');
+										const result = await this.props.doLogin(username, password);
+
+										if(result.success && !result.error){ //success login
+											const { from } = this.props.location.state || { from: { pathname: "/home" } };
+											this.props.history.push(from);
+										}else if( !result.success && !result.error ){ //failed login
+											setSubmitting(false);
+											setStatus("Incorrect username or password.");
+										}else{ //error
+											setSubmitting(false);
+											setStatus("Something went wrong please contact with our support hub.");
+										}
 
 									} }
 									render={ ({ errors, status, touched, isSubmitting }) => (
