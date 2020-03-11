@@ -102,7 +102,7 @@ class login extends Component
 }
 
 const mapStateToProps = (state) => ({
-	items : state.user.items
+	items : state.user
 })
 
 export default connect(mapStateToProps, { doLogin })(login);
