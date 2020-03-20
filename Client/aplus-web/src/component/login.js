@@ -5,14 +5,27 @@ import { popupPasswordResetDialog } from '../redux/systemActions'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import '../resources/styles/login.css'
+import PasswordResetDialog from './dialog_password_reset';
 
 class login extends Component
 {
+
+	OnClickListner = (e) => {
+		e.preventDefault();
+
+		switch (e.target.id)
+		{
+			case 'forgot-password':
+				this.props.popupPasswordResetDialog(true);
+				break;
+		}
+	}
 
 	render()
 	{
 		return (
     <div className="my-login-page">
+        <PasswordResetDialog/>
         <section className="h-100">
             <div className="container h-100">
                 <div className="row justify-content-md-center h-100">
@@ -39,14 +52,14 @@ class login extends Component
 										const result = await this.props.doLogin(username, password);
 
 										if(result.success && !result.error){ //success login
-											const { from } = this.props.location.state || { from: { pathname: "/home" } };
+											const { from } = this.props.location.state || { from: { pathname: '/home' } };
 											this.props.history.push(from);
 										}else if( !result.success && !result.error ){ //failed login
 											setSubmitting(false);
 											setStatus(result.data.errorMessages);
 										}else{ //error
 											setSubmitting(false);
-											setStatus("Something went wrong please contact with our support hub.");
+											setStatus('Something went wrong please contact with our support hub.');
 										}
 
 									} }
@@ -61,7 +74,7 @@ class login extends Component
         <div className="form-group">
             <label htmlFor="password" className="left-c">
 												Password
-                <a id="forgot-password" className="float-right" href="#" onClick={ this.props.popupPasswordResetDialog(true) }>Forgot
+                <a id="forgot-password" className="float-right" href="#" onClick={ this.OnClickListner }>Forgot
 													Password?</a>
             </label>
             <Field name="password" type="Password" className={ 'form-control' + (errors.password && touched.password ? ' is-invalid' : '') } />
