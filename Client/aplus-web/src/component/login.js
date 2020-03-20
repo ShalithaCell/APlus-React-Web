@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { doLogin } from '../redux/userActions';
+import { popupPasswordResetDialog } from '../redux/systemActions'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import '../resources/styles/login.css'
@@ -60,7 +61,7 @@ class login extends Component
         <div className="form-group">
             <label htmlFor="password" className="left-c">
 												Password
-                <a id="forgot-password" className="float-right" href="#">Forgot
+                <a id="forgot-password" className="float-right" href="#" onClick={ this.props.popupPasswordResetDialog(true) }>Forgot
 													Password?</a>
             </label>
             <Field name="password" type="Password" className={ 'form-control' + (errors.password && touched.password ? ' is-invalid' : '') } />
@@ -97,12 +98,14 @@ class login extends Component
             </div>
         </section>
     </div>
+			
 		)
 	};
 }
 
 const mapStateToProps = (state) => ({
-	items : state.user
+	items       : state.user,
+	forgotPwPop : state.system.popupForgotpwDialog
 })
 
-export default connect(mapStateToProps, { doLogin })(login);
+export default connect(mapStateToProps, { doLogin, popupPasswordResetDialog })(login);
