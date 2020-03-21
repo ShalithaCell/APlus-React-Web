@@ -135,6 +135,7 @@ namespace Portal.API.Controllers
                 };
 
                 _context.passwordResetTokens.Add(passwordResetToken);
+                _ = _context.SaveChangesAsync();
 
                 ForgotEmailData forgotEmailData = new ForgotEmailData
                 {

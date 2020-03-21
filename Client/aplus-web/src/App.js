@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import logo from './logo.svg';
+import Loader from 'react-loader-spinner'
 import './App.css';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
+import { connect } from 'react-redux';
 
 class App extends Component {
 	render(){
@@ -14,10 +17,27 @@ class App extends Component {
                 <Route path='/home' component={ home } />
                 <Route path='/login' component={ login } />
             </Switch>
+            {this.props.loader ?
+                <div className="to-center">
+                    <Loader
+						type="Triangle"
+						color="#00BFFF"
+						height={ 200 }
+						width={ 200 }
+						visible={ true }
+					/>
+                </div>
+				:
+                <div></div>
+			}
         </div>
     </BrowserRouter>
 		);
 	}
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+	loader : state.system.loader
+})
+
+export default connect(mapStateToProps, null)(App);
