@@ -8,18 +8,50 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { popupPasswordResetDialog } from '../redux/systemActions';
+import { resetUserPassword } from '../redux/userActions';
 
 class PasswordResetDialog extends Component
 {
-	handleClose = () => {
+	constructor(props) {
+		super(props)
+		this.state = { errorText: '', txtvalue: '' }
+	}
+
+	formClose = () => {
 		this.props.popupPasswordResetDialog(false);
+	}
+
+	formSubmit = (e) => {
+		let valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(this.state.txtvalue);
+		if(!valid){
+			this.setState({ errorText: 'Invalid email format' })
+			return;
+		}
+
+		if(this.state.errorText.length != 0){
+			this.setState({ errorText: 'email is required' });
+			return;
+		}
+
+		this.props.resetUserPassword(this.state.txtvalue);
+	}
+
+	onChange = (e) => {
+		let valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(e.target.value);
+		if (valid) {
+			this.setState({ errorText: '' })
+		} else {
+			this.setState({ errorText: 'Invalid email format' })
+		}
+		
+		this.setState({ txtvalue: e.target.value } );
 	}
 
 	render() {
 		return (
     <div>
 
-        <Dialog open={ this.props.forgotPwPop } onClose={ this.handleClose } aria-labelledby="form-dialog-title">
+        <Dialog open={ this.props.forgotPwPop } aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -33,14 +65,18 @@ class PasswordResetDialog extends Component
 							label="Email Address"
 							type="email"
 							fullWidth
+							required
+							error ={ this.state.errorText.length === 0 ? false : true }
+							helperText={ this.state.errorText }
+							onChange={ this.onChange.bind(this) }
 						/>
             </DialogContent>
             <DialogActions>
-                <Button onClick={ this.handleClose } color="primary">
+                <Button id="btnClose" onClick={ this.formClose } color="primary">
 							Cancel
                 </Button>
-                <Button onClick={ this.handleClose } color="primary">
-							Subscribe
+                <Button onClick={ this.formSubmit } color="primary">
+							Send
                 </Button>
             </DialogActions>
         </Dialog>
@@ -53,4 +89,4 @@ const mapStateToProps = (state) => ({
 	forgotPwPop : state.system.popupForgotpwDialog
 })
 
-export default connect(mapStateToProps, { popupPasswordResetDialog })(PasswordResetDialog);
+export default connect(mapStateToProps, { popupPasswordResetDialog, resetUserPassword })(PasswordResetDialog);

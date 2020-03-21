@@ -1,6 +1,6 @@
 import { DO_LOGIN, GET_TOKEN } from './actionTypes';
 import axios from 'axios';
-import { LOGIN_ENDPOINT } from '../config';
+import { LOGIN_ENDPOINT, PASSWORD_RESET_ENDPOINT } from '../config';
 
 export const doLogin = (email, password) => async (dispatch) =>
 {
@@ -38,4 +38,18 @@ export const doLogin = (email, password) => async (dispatch) =>
 		return { "success": success, "data": resData, "error": true };
 	}
 
+}
+
+export const resetUserPassword = (email) => async (dispatch) => {
+	//API call
+	console.log(email);
+	await axios.post(PASSWORD_RESET_ENDPOINT, { "Email": email } )
+		.then((response) => {
+			console.log("success")
+			console.log(response)
+		})
+		.catch((error) => {
+			console.log("error")
+			console.log(error.response)
+		});
 }
