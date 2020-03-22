@@ -6,6 +6,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import '../resources/styles/login.css'
 import PasswordResetDialog from './dialog_password_reset';
+import { SetSession } from '../services/sessionManagement';
 
 class login extends Component
 {
@@ -52,7 +53,17 @@ class login extends Component
 										const result = await this.props.doLogin(username, password);
 
 										if(result.success && !result.error){ //success login
-											const { from } = this.props.location.state || { from: { pathname: '/home' } };
+											
+											//set session
+											const sessionObj = { 
+												'token' : this.props.items.token,
+												'name'  : this.props.items.userName,
+												'email' : this.props.items.email
+											};
+											console.log(sessionObj);
+											SetSession(sessionObj);
+											
+											const { from } = this.props.location.state || { from: { pathname: '/' } };
 											this.props.history.push(from);
 										}else if( !result.success && !result.error ){ //failed login
 											setSubmitting(false);
