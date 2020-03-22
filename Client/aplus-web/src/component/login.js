@@ -56,9 +56,7 @@ class login extends Component
 											
 											//set session
 											const sessionObj = { 
-												'token' : this.props.items.token,
-												'name'  : this.props.items.userName,
-												'email' : this.props.items.email
+												'sessionData' : this.props.items
 											};
 											console.log(sessionObj);
 											SetSession(sessionObj);
