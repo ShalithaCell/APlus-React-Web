@@ -1,4 +1,4 @@
 export const DO_LOGIN = 'DO_LOGIN';
-export const GET_TOKEN = 'GET_TOKEN';
+export const DO_LOGOUT = 'LOGOUT';
 export const POPUP_DIALOG_FORGOTPASSWORD = 'POPUP_DIALOG_FORGOTPASSWORD';
 export const POPUP_SPINNER = 'POPUP_SPINNER';
