@@ -122,6 +122,11 @@ namespace Portal.API
 
             //Dependencies
             services.AddScoped<IAuthenticationServices, AuthenticationServices>();
+
+            
+
+            services.Configure<ConfigurationParams>(Configuration.GetSection("ConfigurationParams"));
+            services.Configure<TemplateParams>(Configuration.GetSection("TemplateParams"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

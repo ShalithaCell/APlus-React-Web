@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Portal.API.Domain.BaseModels;
+using Portal.API.Domain.DataBaseModels;
 using Portal.API.Domain.IdentityModel;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
             : base(options)
         {
         }
+
+        public DbSet<PasswordResetToken> passwordResetTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
