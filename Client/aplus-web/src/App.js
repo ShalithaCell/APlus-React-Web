@@ -5,6 +5,7 @@ import './App.css';
 import home from './component/home'
 import login from './component/login'
 import add from './component/add'
+import chart from './component/chart'
 
 class App extends Component {
 	render(){
@@ -15,6 +16,7 @@ class App extends Component {
                 <Route path='/home' component={ home } />
                 <Route path='/login' component={ login } />
                 <Route path= '/add' component={ add }/>
+                <Route path= '/chart' component={ chart }/>
 
             </Switch>
         </div>
