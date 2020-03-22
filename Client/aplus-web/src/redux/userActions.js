@@ -33,23 +33,27 @@ export const doLogin = (email, password) => async (dispatch) =>
 			payload : resData
 		});
 
-		return { "success": resData.authenticated, "data": resData, "error": false };
+		return { 'success': resData.authenticated, 'data': resData, 'error': false };
 	}else{
-		return { "success": success, "data": resData, "error": true };
+		return { 'success': success, 'data': resData, 'error': true };
 	}
 
 }
 
 export const resetUserPassword = (email) => async (dispatch) => {
 	//API call
-	console.log(email);
-	await axios.post(PASSWORD_RESET_ENDPOINT, { "Email": email } )
+	let success = false;
+	let message = '';
+	await axios.post(PASSWORD_RESET_ENDPOINT, { 'Email': email } )
 		.then((response) => {
-			console.log("success")
-			console.log(response)
+			success = true;
+			message = response.data;
 		})
 		.catch((error) => {
-			console.log("error")
-			console.log(error.response)
+			console.log(error.response);
+			success = false;
+			message = response.data;
 		});
+	
+	return { 'success': success, 'message': message };
 }

@@ -7,7 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { popupPasswordResetDialog } from '../redux/systemActions';
+import { popupPasswordResetDialog, popupSpinner } from '../redux/systemActions';
 import { resetUserPassword } from '../redux/userActions';
 
 class PasswordResetDialog extends Component
@@ -21,19 +21,28 @@ class PasswordResetDialog extends Component
 		this.props.popupPasswordResetDialog(false);
 	}
 
-	formSubmit = (e) => {
+	formSubmit = async (e) =>
+	{
+		//loader start
+		this.props.popupSpinner(true);
+
 		let valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(this.state.txtvalue);
-		if(!valid){
+		if (!valid)
+		{
 			this.setState({ errorText: 'Invalid email format' })
 			return;
 		}
 
-		if(this.state.errorText.length != 0){
+		if (this.state.errorText.length != 0)
+		{
 			this.setState({ errorText: 'email is required' });
 			return;
 		}
 
-		this.props.resetUserPassword(this.state.txtvalue);
+		await this.props.resetUserPassword(this.state.txtvalue);
+
+		this.props.popupSpinner(false);
+		this.formClose();
 	}
 
 	onChange = (e) => {
@@ -86,7 +95,8 @@ class PasswordResetDialog extends Component
 }
 
 const mapStateToProps = (state) => ({
-	forgotPwPop : state.system.popupForgotpwDialog
+	forgotPwPop : state.system.popupForgotpwDialog,
+	loader      : state.system.loader
 })
 
-export default connect(mapStateToProps, { popupPasswordResetDialog, resetUserPassword })(PasswordResetDialog);
+export default connect(mapStateToProps, { popupPasswordResetDialog, resetUserPassword, popupSpinner })(PasswordResetDialog);
