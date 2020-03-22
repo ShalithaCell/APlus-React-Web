@@ -17,12 +17,10 @@ class App extends Component {
     <BrowserRouter>
         <div className="App">
             <Switch>
-                <Route path='/home' component={ home } />
-                <Route path='/login' component={ login } />
-                <Route path= '/add' component={ add }/>
-                <Route path= '/chart' component={ chart }/>
-                <Route exact path='/' component={ home } />
                 <Route exact path='/login' component={ login } />
+                <Route exact path= '/add' component={ add }/>
+                <Route exact path= '/chart' component={ chart }/>
+                <Route exact path='/' component={ home } />
             </Switch>
             {this.props.loader ?
                 <div className="to-center">
