@@ -2,7 +2,7 @@ import { IDENTIFICATION_STORAGE } from '../config';
 
 export function SetSession(obj)
 {
-	//obj.create = new Date();
+	obj.create = new Date();
 	let cache = [];
 	localStorage.setItem(IDENTIFICATION_STORAGE, JSON.stringify(obj, function(key, value) {
 		if (typeof value === 'object' && value !== null) {

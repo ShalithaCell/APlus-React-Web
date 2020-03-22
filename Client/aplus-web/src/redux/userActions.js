@@ -40,6 +40,14 @@ export const doLogin = (email, password) => async (dispatch) =>
 
 }
 
+export const setUserState = ( data ) => (dispatch) =>
+{
+	dispatch({
+		type    : DO_LOGIN,
+		payload : data
+	});
+}
+
 export const resetUserPassword = (email) => async (dispatch) => {
 	//API call
 	let success = false;
