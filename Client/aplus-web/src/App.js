@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import home from './component/home'
 import login from './component/login'
+import add from './component/add'
 
 class App extends Component {
 	render(){
@@ -13,6 +14,8 @@ class App extends Component {
             <Switch>
                 <Route path='/home' component={ home } />
                 <Route path='/login' component={ login } />
+                <Route path= '/add' component={ add }/>
+
             </Switch>
         </div>
     </BrowserRouter>
