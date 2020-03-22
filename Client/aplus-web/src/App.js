@@ -6,6 +6,9 @@ import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
+import add from './component/add'
+import chart from './component/chart'
+import update from './component/update';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -14,6 +17,10 @@ class App extends Component {
     <BrowserRouter>
         <div className="App">
             <Switch>
+                <Route path='/home' component={ home } />
+                <Route path='/login' component={ login } />
+                <Route path= '/add' component={ add }/>
+                <Route path= '/chart' component={ chart }/>
                 <Route exact path='/' component={ home } />
                 <Route exact path='/login' component={ login } />
             </Switch>
