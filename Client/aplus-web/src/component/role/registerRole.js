@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -15,6 +13,7 @@ import PermissionLevels from './permissionLevel';
 import Navbar from '../navbar';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
+import '../../resources/styles/common.css'
 
 const useStyles  = (theme) =>  ({
 	appBar : {
@@ -59,7 +58,22 @@ class RegisterRole extends Component{
 	{
 		super(props);
 		this.state = {
-			activeStep : 0
+			activeStep         : 0,
+			roleWarning        : '',
+			role               : '',
+			roleDisplay        : '',
+			roleDisplayWarning : '',
+			test               : ''
+		}
+	}
+
+	onTextChange = (e) => {
+
+		if (e.target.id === 'role'){
+			e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+			this.setState({
+				role : e.target.value
+			});
 		}
 	}
 
@@ -80,15 +94,15 @@ class RegisterRole extends Component{
 render()
 {
 	const { classes } = this.props;
-	const steps = [ 'Shipping address', 'Payment details' ];
+	const steps = [ 'Role information', 'Permission' ];
 	return(
     <React.Fragment>
         <CssBaseline/>
         <Navbar/>
-        <main className={ classes.layout }>
+        <main className={ classes.layout + ' top-margin' }>
             <Paper className={ classes.paper }>
                 <Typography component="h1" variant="h4" align="center">
-					Checkout
+					New Role
                 </Typography>
                 <Stepper activeStep={ this.state.activeStep } className={ classes.stepper }>
                     {steps.map((label) => (
@@ -110,7 +124,7 @@ render()
                         </React.Fragment>
 					) : (
     <React.Fragment>
-        {this.state.activeStep === 0 ? <RegisterRoleDetails /> : <PermissionLevels /> }
+        {this.state.activeStep === 0 ? <RegisterRoleDetails onTextChange={ this.onTextChange } data={ this.state }/> : <PermissionLevels /> }
         <div className={ classes.buttons }>
             {this.state.activeStep !== 0 && (
             <Button onClick={ this.handleBack } className={ classes.button }>
