@@ -13,10 +13,6 @@ import login from './component/login'
 import storeAdd from './component/storeAdd'
 import storeChart from './component/storeChart'
 import storeUpdate from './component/storeUpdate';
-import { connect } from 'react-redux';
-import add from './component/add'
-import chart from './component/chart'
-import update from './component/update';
 import register from './component/register';
 import RegisterRole from './component/role/registerRole';
 
@@ -31,18 +27,12 @@ class App extends Component {
 		return (
     <BrowserRouter>
         <div className="App">
-            <Switch>
-                <Route exact path='/login' component={ login } />
-                <Route exact path= '/storeAdd' component={ storeAdd }/>
-                <Route exact path= '/storeChart' component={ storeChart }/>
-                <Route exact path='/' component={ home } />
-                <Route exact path= '/storeUpdate' component={ storeUpdate } />
-            </Switch>
 			{ IsAuthenticated(this.props.setUserState) ?
 				<Switch>
 					<Route exact path='/login' component={ login } />
-					<Route exact path='/add' component={ add }/>
-					<Route exact path='/chart' component={ chart }/>
+					<Route exact path= '/storeAdd' component={ storeAdd }/>
+					<Route exact path= '/storeChart' component={ storeChart }/>
+					<Route exact path= '/storeUpdate' component={ storeUpdate } />
 					<Route exact path='/' component={ home } />
 					<Route exact path='/home' component={ home }/>
 					<Route exact path='/register' component={ register }/>
