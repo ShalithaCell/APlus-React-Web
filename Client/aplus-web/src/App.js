@@ -6,10 +6,11 @@ import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
-import add from './component/add'
-import chart from './component/chart'
-import update from './component/update';
+import storeAdd from './component/storeAdd'
+import storeChart from './component/storeChart'
+import storeUpdate from './component/storeUpdate';
 import { connect } from 'react-redux';
+
 
 class App extends Component {
 	render(){
@@ -18,9 +19,10 @@ class App extends Component {
         <div className="App">
             <Switch>
                 <Route exact path='/login' component={ login } />
-                <Route exact path= '/add' component={ add }/>
-                <Route exact path= '/chart' component={ chart }/>
+                <Route exact path= '/storeAdd' component={ storeAdd }/>
+                <Route exact path= '/storeChart' component={ storeChart }/>
                 <Route exact path='/' component={ home } />
+                <Route exact path= '/storeUpdate' component={ storeUpdate } />
             </Switch>
             {this.props.loader ?
                 <div className="to-center">
