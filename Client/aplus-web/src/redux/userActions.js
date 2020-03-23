@@ -1,4 +1,4 @@
-import { DO_LOGIN, GET_TOKEN } from './actionTypes';
+import { DO_LOGIN, DO_LOGOUT } from './actionTypes';
 import axios from 'axios';
 import { LOGIN_ENDPOINT, PASSWORD_RESET_ENDPOINT } from '../config';
 
@@ -38,6 +38,21 @@ export const doLogin = (email, password) => async (dispatch) =>
 		return { 'success': success, 'data': resData, 'error': true };
 	}
 
+}
+
+export const doLogOut = () => (dispatch) => {
+	dispatch({
+		type    : DO_LOGOUT,
+		payload : null
+	});
+}
+
+export const setUserState = ( data ) => (dispatch) =>
+{
+	dispatch({
+		type    : DO_LOGIN,
+		payload : data
+	});
 }
 
 export const resetUserPassword = (email) => async (dispatch) => {

@@ -56,15 +56,15 @@ class login extends Component
 											
 											//set session
 											const sessionObj = { 
-												'token' : this.props.items.token,
-												'name'  : this.props.items.userName,
-												'email' : this.props.items.email
+												'sessionData' : this.props.items
 											};
 											console.log(sessionObj);
 											SetSession(sessionObj);
-											
-											const { from } = this.props.location.state || { from: { pathname: '/' } };
+
+											const { from } = this.props.location.state || { from: { pathname: '/home' } };
 											this.props.history.push(from);
+
+											window.location.reload();
 										}else if( !result.success && !result.error ){ //failed login
 											setSubmitting(false);
 											setStatus(result.data.errorMessages);
