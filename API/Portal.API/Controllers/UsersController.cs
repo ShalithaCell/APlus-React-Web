@@ -12,6 +12,7 @@ using Portal.API.Domain.DataTransactionModels;
 using Portal.API.Domain.IdentityModel;
 using Portal.API.Domain.ResultModels;
 using Portal.API.Domain.SystemModels;
+using Portal.API.Infrastructure;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
 using Portal.API.Infrastructure.Interfaces;
 using System;
@@ -155,6 +156,14 @@ namespace Portal.API.Controllers
                 throw ex;
             }
             
+        }
+
+        [Authorize(Roles = Const.RoleSuperAdmin)]
+        [HttpGet("getRoles")]
+        public async Task<IActionResult> GetAllRoleList()
+        {
+            var roleList = _context.Roles.ToList();
+            return Ok(roleList);
         }
     }
 }
