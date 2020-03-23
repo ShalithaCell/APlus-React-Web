@@ -10,12 +10,15 @@ import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
+import storeAdd from './component/storeAdd'
+import storeChart from './component/storeChart'
+import storeUpdate from './component/storeUpdate';
+import { connect } from 'react-redux';
 import add from './component/add'
 import chart from './component/chart'
 import update from './component/update';
 import register from './component/register';
 import RegisterRole from './component/role/registerRole';
-
 
 class App extends Component {
 
@@ -28,6 +31,13 @@ class App extends Component {
 		return (
     <BrowserRouter>
         <div className="App">
+            <Switch>
+                <Route exact path='/login' component={ login } />
+                <Route exact path= '/storeAdd' component={ storeAdd }/>
+                <Route exact path= '/storeChart' component={ storeChart }/>
+                <Route exact path='/' component={ home } />
+                <Route exact path= '/storeUpdate' component={ storeUpdate } />
+            </Switch>
 			{ IsAuthenticated(this.props.setUserState) ?
 				<Switch>
 					<Route exact path='/login' component={ login } />
@@ -43,7 +53,6 @@ class App extends Component {
 					<Route path='/' component={ login } />
 				</Switch>
 			}
-
             {this.props.loader ?
                 <div className="to-center">
                     <Loader
