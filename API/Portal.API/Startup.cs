@@ -143,7 +143,6 @@ namespace Portal.API
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseAuthentication();
