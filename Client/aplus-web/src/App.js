@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import logo from './logo.svg';
+import { connect } from 'react-redux';
+import { setUserState } from './redux/userActions';
+import { IsAuthenticated } from './services/authenticationService';
 import Loader from 'react-loader-spinner'
 import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
@@ -10,9 +13,9 @@ import login from './component/login'
 import add from './component/add'
 import chart from './component/chart'
 import update from './component/update';
-import { connect } from 'react-redux';
-import { setUserState } from './redux/userActions';
-import { IsAuthenticated } from './services/authenticationService';
+import register from './component/register';
+import RegisterRole from './component/role/registerRole';
+
 
 class App extends Component {
 
@@ -32,6 +35,8 @@ class App extends Component {
 					<Route exact path='/chart' component={ chart }/>
 					<Route exact path='/' component={ home } />
 					<Route exact path='/home' component={ home }/>
+					<Route exact path='/register' component={ register }/>
+					<Route exact path='/registerRole' component={ RegisterRole }/>
 				</Switch>
 				:
 				<Switch>
