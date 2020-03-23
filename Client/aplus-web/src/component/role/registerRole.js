@@ -13,7 +13,9 @@ import PermissionLevels from './permissionLevel';
 import Navbar from '../navbar';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
-import '../../resources/styles/common.css'
+import '../../resources/styles/common.css';
+import { updateRoleDetails } from '../../redux/roleActions';
+import { connect } from 'react-redux';
 
 const useStyles  = (theme) =>  ({
 	appBar : {
@@ -65,6 +67,11 @@ class RegisterRole extends Component{
 			roleDisplayWarning : '',
 			test               : ''
 		}
+	}
+
+	componentDidMount()
+	{
+		this.props.updateRoleDetails('a');
 	}
 
 	onTextChange = (e) => {
@@ -163,4 +170,8 @@ RegisterRole.propTypes = {
 	classes : PropTypes.object.isRequired
 };
 
-export default withStyles(useStyles)(RegisterRole);
+const mapStateToProps = (state) => ({
+	roleList : state.role
+})
+
+export default connect(mapStateToProps, { updateRoleDetails })(withStyles(useStyles)(RegisterRole));

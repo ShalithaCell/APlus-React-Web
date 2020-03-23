@@ -15,6 +15,7 @@ import storeChart from './component/storeChart'
 import storeUpdate from './component/storeUpdate';
 import register from './component/register';
 import RegisterRole from './component/role/registerRole';
+import SessionExpire from './component/sessionExpire';
 
 class App extends Component {
 
@@ -56,6 +57,7 @@ class App extends Component {
 				:
                 <div></div>
 			}
+			<SessionExpire />
         </div>
     </BrowserRouter>
 		);
