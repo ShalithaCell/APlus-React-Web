@@ -13,7 +13,9 @@ import PermissionLevels from './permissionLevel';
 import Navbar from '../navbar';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
-import '../../resources/styles/common.css'
+import '../../resources/styles/common.css';
+import { updateRoleDetails } from '../../redux/roleActions';
+import { connect } from 'react-redux';
 
 const useStyles  = (theme) =>  ({
 	appBar : {
@@ -58,27 +60,99 @@ class RegisterRole extends Component{
 	{
 		super(props);
 		this.state = {
-			activeStep         : 0,
-			roleWarning        : '',
-			role               : '',
-			roleDisplay        : '',
-			roleDisplayWarning : '',
-			test               : ''
+			activeStep              : 0,
+			roleWarning             : '',
+			role                    : '',
+			roleDisplay             : '',
+			roleDisplayWarning      : '',
+			test                    : '',
+			reportAllowed           : false,
+			salesAllowed            : false,
+			inventoryViewAllowed    : false,
+			inventoryAddAllowed     : false,
+			inventoryUpdateAllowed  : false,
+			inventoryDeleteAllowed  : false,
+			customerHandlingAllowed : false
 		}
+	}
+
+	async componentDidMount()
+	{
+		this.props.updateRoleDetails('a');
 	}
 
 	onTextChange = (e) => {
 
+		//identified the textbox
 		if (e.target.id === 'role'){
+			//remove all special characters
 			e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+
+			//check role is already Exists
+			const roleExists = this.props.roleList.roleList.some((item) => item.roleName === e.target.value);
+
+			if(roleExists){
+				this.setState({
+					roleWarning : 'Role name is already exists'
+				});
+			}else{
+				this.setState({
+					roleWarning : ''
+				});
+			}
+
 			this.setState({
 				role : e.target.value
+			});
+		}else if (e.target.id === 'roleDisplay'){
+			//check role is already Exists
+			const roleExists = this.props.roleList.roleList.some((item) => item.roleDisplayName === e.target.value);
+
+			if(roleExists){
+				this.setState({
+					roleDisplayWarning : 'Display name is already exists'
+				});
+			}else{
+				this.setState({
+					roleDisplayWarning : ''
+				});
+			}
+
+			this.setState({
+				roleDisplay : e.target.value
 			});
 		}
 	}
 
+	onSwitchChanged = (e) => {
+		this.setState({
+			[ e.target.id ] : e.target.checked
+		})
+	}
+
 	handleNext = () =>
 	{
+
+		//check role details are filled
+		if(this.state.roleWarning.length !== 0 && this.state.roleDisplayWarning.length !== 0){
+			return;
+		}
+
+		if(this.state.role.length === 0)
+		{
+			this.setState({
+				roleWarning : 'Role is required.'
+			});
+			return;
+		}
+
+		if(this.state.roleDisplay.length === 0){
+			this.setState({
+				roleDisplayWarning : 'Display name is required.'
+			});
+			return;
+		}
+
 		this.setState({
 			activeStep : this.state.activeStep + 1
 		})
@@ -87,6 +161,7 @@ class RegisterRole extends Component{
 	handleBack = () =>
 	{
 		this.setState({
+			...this.state,
 			activeStep : this.state.activeStep - 1
 		})
 	};
@@ -124,7 +199,7 @@ render()
                         </React.Fragment>
 					) : (
     <React.Fragment>
-        {this.state.activeStep === 0 ? <RegisterRoleDetails onTextChange={ this.onTextChange } data={ this.state }/> : <PermissionLevels /> }
+        {this.state.activeStep === 0 ? <RegisterRoleDetails onTextChange={ this.onTextChange } data={ this.state }/> : <PermissionLevels onSwitchChanged={ this.onSwitchChanged } data={ this.state }/> }
         <div className={ classes.buttons }>
             {this.state.activeStep !== 0 && (
             <Button onClick={ this.handleBack } className={ classes.button }>
@@ -137,7 +212,7 @@ render()
 									onClick={ this.handleNext }
 									className={ classes.button }
 								>
-                {this.state.activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                {this.state.activeStep === steps.length - 1 ? 'Save' : 'Next'}
             </Button>
         </div>
     </React.Fragment>
@@ -146,8 +221,8 @@ render()
             </Paper>
             <Typography variant="body2" color="textSecondary" align="center">
                 {'Copyright © '}
-                <Link color="inherit" href="https://material-ui.com/">
-					Your Website
+                <Link color="inherit" href="#">
+					A-PLus
                 </Link>{' '}
                 {new Date().getFullYear()}
                 {'.'}
@@ -163,4 +238,8 @@ RegisterRole.propTypes = {
 	classes : PropTypes.object.isRequired
 };
 
-export default withStyles(useStyles)(RegisterRole);
+const mapStateToProps = (state) => ({
+	roleList : state.role
+})
+
+export default connect(mapStateToProps, { updateRoleDetails })(withStyles(useStyles)(RegisterRole));

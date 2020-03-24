@@ -64,5 +64,6 @@ namespace Portal.API.Infrastructure.DAL.Seeders.Default
                 }
             }
         }
+
     }
 }
