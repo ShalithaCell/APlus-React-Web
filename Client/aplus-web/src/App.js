@@ -10,6 +10,11 @@ import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
+import Attendance from './component/Attendance'
+import EmployeeRequest from './component/EmployeeRequest'
+import AddRequest from './component/AddRequest'
+import UpdateRequest from './component/UpdateRequest'
+import request from './component/request'
 import customeradd from './component/customeradd'
 import storeAdd from './component/storeAdd'
 import storeChart from './component/storeChart'
@@ -40,6 +45,10 @@ class App extends Component {
 					<Route exact path='/register' component={ register }/>
 					<Route exact path='/registerRole' component={ RegisterRole }/>
           <Route path='/customeradd' component={ customeradd } />
+          <Route path='/EmployeeRequest' component={ EmployeeRequest } />
+          <Route path='/AddRequest' component={ AddRequest } />
+          <Route path='/UpdateRequest' component={ UpdateRequest } />
+          <Route path='/request' component={ request } />
 				</Switch>
 				:
 				<Switch>
