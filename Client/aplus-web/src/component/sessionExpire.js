@@ -6,6 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { doLogOut } from '../redux/userActions';
 import { DestroySession } from '../services/sessionManagement';
 import { SetSessionExpiredStatus } from '../redux/systemActions';
@@ -19,7 +20,7 @@ class SessionExpire extends Component {
 
 		this.props.SetSessionExpiredStatus(false);
 
-		this.props.history.push("/");
+		this.props.history.push('/');
 		window.location.reload();
 	}
 	
@@ -55,4 +56,4 @@ const mapStateToProps = (state) => ({
 	sessionExpired : state.system.sessionExpired
 })
 
-export default connect(mapStateToProps, { doLogOut, SetSessionExpiredStatus } )(SessionExpire);
+export default connect(mapStateToProps, { doLogOut, SetSessionExpiredStatus } )(withRouter(SessionExpire));

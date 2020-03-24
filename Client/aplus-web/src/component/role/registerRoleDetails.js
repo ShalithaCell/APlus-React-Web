@@ -37,6 +37,7 @@ export default class RegisterRoleDetails extends Component
 							name="roleDisplay"
 							label="Display name"
 							fullWidth
+							onChange={ this.props.onTextChange }
 							error={ this.props.data.roleDisplayWarning.length !== 0 }
 							helperText={ this.props.data.roleDisplayWarning }
 							/>

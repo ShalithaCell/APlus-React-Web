@@ -20,7 +20,10 @@ export const updateRoleDetails = (roles)  => async (dispatch) =>
 	})
 		.then(function(response)
 		{
-			console.log(response);
+			dispatch({
+				type    : UPDATE_ROLE_LIST,
+				payload : response.data
+			});
 		})
 		.catch(function(error)
 		{

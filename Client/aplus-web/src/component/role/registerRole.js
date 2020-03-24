@@ -69,23 +69,77 @@ class RegisterRole extends Component{
 		}
 	}
 
-	componentDidMount()
+	async componentDidMount()
 	{
 		this.props.updateRoleDetails('a');
 	}
 
 	onTextChange = (e) => {
 
+		//identified the textbox
 		if (e.target.id === 'role'){
+			//remove all special characters
 			e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
+
+			//check role is already Exists
+			let roleExists = this.props.roleList.roleList.some((item) => item.roleName === e.target.value);
+
+			if(roleExists){
+				this.setState({
+					roleWarning : 'Role name is already exists'
+				});
+			}else{
+				this.setState({
+					roleWarning : ''
+				});
+			}
+
 			this.setState({
 				role : e.target.value
+			});
+		}else if (e.target.id === 'roleDisplay'){
+			//check role is already Exists
+			let roleExists = this.props.roleList.roleList.some((item) => item.roleDisplayName === e.target.value);
+
+			if(roleExists){
+				this.setState({
+					roleDisplayWarning : 'Display name is already exists'
+				});
+			}else{
+				this.setState({
+					roleDisplayWarning : ''
+				});
+			}
+
+			this.setState({
+				roleDisplay : e.target.value
 			});
 		}
 	}
 
 	handleNext = () =>
 	{
+
+		//check role details are filled
+		if(this.state.roleWarning.length !== 0 && this.state.roleDisplayWarning.length !== 0){
+			return;
+		}
+
+		if(this.state.role.length === 0)
+		{
+			this.setState({
+				roleWarning : 'Role is required.'
+			});
+			return;
+		}
+
+		if(this.state.roleDisplay.length === 0){
+			this.setState({
+				roleDisplayWarning : 'Display name is required.'
+			});
+			return;
+		}
+
 		this.setState({
 			activeStep : this.state.activeStep + 1
 		})
@@ -153,8 +207,8 @@ render()
             </Paper>
             <Typography variant="body2" color="textSecondary" align="center">
                 {'Copyright © '}
-                <Link color="inherit" href="https://material-ui.com/">
-					Your Website
+                <Link color="inherit" href="#">
+					A-PLus
                 </Link>{' '}
                 {new Date().getFullYear()}
                 {'.'}

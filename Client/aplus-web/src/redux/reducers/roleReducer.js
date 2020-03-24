@@ -1,7 +1,7 @@
 import { UPDATE_ROLE_LIST } from '../actionTypes';
 
 const initialState = {
-	roleList : {}
+	roleList : []
 }
 
 export default function(state = initialState, action)
