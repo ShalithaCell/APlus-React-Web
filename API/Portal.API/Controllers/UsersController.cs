@@ -170,5 +170,19 @@ namespace Portal.API.Controllers
                                                     }).ToList();
             return Ok(roleList);
         }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("registerRole")]
+        public async Task<IActionResult> RegisterNewRole([FromBody] NewRoleModel dataModel)
+        {
+            AppRole newRole = new AppRole()
+            {
+                Name = dataModel.Name,
+                DisplayName = dataModel.DisplayName,
+                OrganizationID = dataModel.OrgID
+            };
+
+            return Ok();
+        }
     }
 }
