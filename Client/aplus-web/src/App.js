@@ -9,6 +9,9 @@ import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
+import addSupplier from './component/addSupplier'
+import informSupplier from './component/informSupplier'
+import sales_homes from './component/sales_home'
 import Attendance from './component/Attendance'
 import EmployeeRequest from './component/EmployeeRequest'
 import AddRequest from './component/AddRequest'
@@ -34,18 +37,6 @@ class App extends Component {
 		return (
     <BrowserRouter>
         <div className="App">
-            { IsAuthenticated(this.props.setUserState) ?
-                <Switch>
-                    <Route exact path='/login' component={ login } />
-                    <Route exact path= '/storeAdd' component={ storeAdd }/>
-                    <Route exact path= '/storeChart' component={ storeChart }/>
-                    <Route exact path= '/storeUpdate' component={ storeUpdate } />
-                    <Route exact path='/' component={ home } />
-                    <Route exact path='/home' component={ home }/>
-                    <Route exact path='/register' component={ register }/>
-                    <Route exact path='/registerRole' component={ RegisterRole }/>
-                    <Route exact path='/addinventory' component={ addinventory } />
-                </Switch>
 			{ IsAuthenticated(this.props.setUserState) ?
 				<Switch>
 					<Route exact path='/login' component={ login } />
@@ -61,6 +52,10 @@ class App extends Component {
           <Route path='/AddRequest' component={ AddRequest } />
           <Route path='/UpdateRequest' component={ UpdateRequest } />
           <Route path='/request' component={ request } />
+          <Route exact path='/addinventory' component={ addinventory } />
+                    <Route exact path='/addSupplier' component={ addSupplier } />
+                    <Route exact path='/informSupplier' component={ informSupplier } />
+                    <Route exact path='/sales_homes' component={ sales_homes } />
 				</Switch>
 				:
                 <Switch>
