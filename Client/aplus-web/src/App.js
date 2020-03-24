@@ -37,26 +37,26 @@ class App extends Component {
 		return (
     <BrowserRouter>
         <div className="App">
-			{ IsAuthenticated(this.props.setUserState) ?
-				<Switch>
-					<Route exact path='/login' component={ login } />
-					<Route exact path= '/storeAdd' component={ storeAdd }/>
-					<Route exact path= '/storeChart' component={ storeChart }/>
-					<Route exact path= '/storeUpdate' component={ storeUpdate } />
-					<Route exact path='/' component={ home } />
-					<Route exact path='/home' component={ home }/>
-					<Route exact path='/register' component={ register }/>
-					<Route exact path='/registerRole' component={ RegisterRole }/>
-          <Route path='/customeradd' component={ customeradd } />
-          <Route path='/EmployeeRequest' component={ EmployeeRequest } />
-          <Route path='/AddRequest' component={ AddRequest } />
-          <Route path='/UpdateRequest' component={ UpdateRequest } />
-          <Route path='/request' component={ request } />
-          <Route exact path='/addinventory' component={ addinventory } />
+            { IsAuthenticated(this.props.setUserState) ?
+                <Switch>
+                    <Route exact path='/login' component={ login } />
+                    <Route exact path= '/storeAdd' component={ storeAdd }/>
+                    <Route exact path= '/storeChart' component={ storeChart }/>
+                    <Route exact path= '/storeUpdate' component={ storeUpdate } />
+                    <Route exact path='/' component={ home } />
+                    <Route exact path='/home' component={ home }/>
+                    <Route exact path='/register' component={ register }/>
+                    <Route exact path='/registerRole' component={ RegisterRole }/>
+                    <Route exact path='/customeradd' component={ customeradd } />
+                    <Route exact path='/EmployeeRequest' component={ EmployeeRequest } />
+                    <Route exact path='/AddRequest' component={ AddRequest } />
+                    <Route exact path='/UpdateRequest' component={ UpdateRequest } />
+                    <Route exact path='/request' component={ request } />
+                    <Route exact path='/addinventory' component={ addinventory } />
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
                     <Route exact path='/sales_homes' component={ sales_homes } />
-				</Switch>
+                </Switch>
 				:
                 <Switch>
                     <Route path='/' component={ login } />
