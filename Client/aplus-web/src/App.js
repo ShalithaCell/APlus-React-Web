@@ -9,6 +9,12 @@ import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
+import Attendance from './component/Attendance'
+import EmployeeRequest from './component/EmployeeRequest'
+import AddRequest from './component/AddRequest'
+import UpdateRequest from './component/UpdateRequest'
+import request from './component/request'
+import customeradd from './component/customeradd'
 import storeAdd from './component/storeAdd'
 import storeChart from './component/storeChart'
 import storeUpdate from './component/storeUpdate';
@@ -28,7 +34,6 @@ class App extends Component {
 		return (
     <BrowserRouter>
         <div className="App">
-            <Route exact path='/addinventory' component={ addinventory } />
             { IsAuthenticated(this.props.setUserState) ?
                 <Switch>
                     <Route exact path='/login' component={ login } />
@@ -39,7 +44,24 @@ class App extends Component {
                     <Route exact path='/home' component={ home }/>
                     <Route exact path='/register' component={ register }/>
                     <Route exact path='/registerRole' component={ RegisterRole }/>
+                    <Route exact path='/addinventory' component={ addinventory } />
                 </Switch>
+			{ IsAuthenticated(this.props.setUserState) ?
+				<Switch>
+					<Route exact path='/login' component={ login } />
+					<Route exact path= '/storeAdd' component={ storeAdd }/>
+					<Route exact path= '/storeChart' component={ storeChart }/>
+					<Route exact path= '/storeUpdate' component={ storeUpdate } />
+					<Route exact path='/' component={ home } />
+					<Route exact path='/home' component={ home }/>
+					<Route exact path='/register' component={ register }/>
+					<Route exact path='/registerRole' component={ RegisterRole }/>
+          <Route path='/customeradd' component={ customeradd } />
+          <Route path='/EmployeeRequest' component={ EmployeeRequest } />
+          <Route path='/AddRequest' component={ AddRequest } />
+          <Route path='/UpdateRequest' component={ UpdateRequest } />
+          <Route path='/request' component={ request } />
+				</Switch>
 				:
                 <Switch>
                     <Route path='/' component={ login } />
