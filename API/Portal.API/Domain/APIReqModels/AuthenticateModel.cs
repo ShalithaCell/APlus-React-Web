@@ -14,4 +14,10 @@ namespace Portal.API.Domain.APIReqModels
         [Required]
         public string Password { get; set; }
     }
+
+    public class ForgotPasswordReq
+    {
+        [Required]
+        public string Email { get; set; }
+    }
 }

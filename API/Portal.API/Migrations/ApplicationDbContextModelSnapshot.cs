@@ -120,6 +120,123 @@ namespace Portal.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.CustomPermission", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Permission")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PermissionCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RegistedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("customPermissions");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            IsActive = true,
+                            Permission = "Report",
+                            PermissionCode = "RE",
+                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 303, DateTimeKind.Local).AddTicks(8217)
+                        },
+                        new
+                        {
+                            ID = 2,
+                            IsActive = true,
+                            Permission = "Sales",
+                            PermissionCode = "SE",
+                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1094)
+                        },
+                        new
+                        {
+                            ID = 3,
+                            IsActive = true,
+                            Permission = "Inventory View",
+                            PermissionCode = "IV",
+                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1138)
+                        },
+                        new
+                        {
+                            ID = 4,
+                            IsActive = true,
+                            Permission = "Inventory Add",
+                            PermissionCode = "IA",
+                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1141)
+                        },
+                        new
+                        {
+                            ID = 5,
+                            IsActive = true,
+                            Permission = "Inventory Update",
+                            PermissionCode = "IU",
+                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1143)
+                        },
+                        new
+                        {
+                            ID = 6,
+                            IsActive = true,
+                            Permission = "Inventory Delete",
+                            PermissionCode = "ID",
+                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1145)
+                        },
+                        new
+                        {
+                            ID = 7,
+                            IsActive = true,
+                            Permission = "Customer Handling",
+                            PermissionCode = "CH",
+                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1147)
+                        });
+                });
+
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.PasswordResetToken", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime>("RegistedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("passwordResetTokens");
+                });
+
             modelBuilder.Entity("Portal.API.Domain.IdentityModel.AppRole", b =>
                 {
                     b.Property<int>("Id")
@@ -274,6 +391,15 @@ namespace Portal.API.Migrations
                     b.HasOne("Portal.API.Domain.IdentityModel.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.PasswordResetToken", b =>
+                {
+                    b.HasOne("Portal.API.Domain.IdentityModel.AppUser", null)
+                        .WithMany("passwordResetTokens")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
