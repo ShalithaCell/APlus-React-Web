@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import logo from './logo.svg';
@@ -16,6 +15,7 @@ import storeUpdate from './component/storeUpdate';
 import register from './component/register';
 import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
+import addinventory from './component/addinventory'
 
 class App extends Component {
 
@@ -28,21 +28,22 @@ class App extends Component {
 		return (
     <BrowserRouter>
         <div className="App">
-			{ IsAuthenticated(this.props.setUserState) ?
-				<Switch>
-					<Route exact path='/login' component={ login } />
-					<Route exact path= '/storeAdd' component={ storeAdd }/>
-					<Route exact path= '/storeChart' component={ storeChart }/>
-					<Route exact path= '/storeUpdate' component={ storeUpdate } />
-					<Route exact path='/' component={ home } />
-					<Route exact path='/home' component={ home }/>
-					<Route exact path='/register' component={ register }/>
-					<Route exact path='/registerRole' component={ RegisterRole }/>
-				</Switch>
+            <Route exact path='/addinventory' component={ addinventory } />
+            { IsAuthenticated(this.props.setUserState) ?
+                <Switch>
+                    <Route exact path='/login' component={ login } />
+                    <Route exact path= '/storeAdd' component={ storeAdd }/>
+                    <Route exact path= '/storeChart' component={ storeChart }/>
+                    <Route exact path= '/storeUpdate' component={ storeUpdate } />
+                    <Route exact path='/' component={ home } />
+                    <Route exact path='/home' component={ home }/>
+                    <Route exact path='/register' component={ register }/>
+                    <Route exact path='/registerRole' component={ RegisterRole }/>
+                </Switch>
 				:
-				<Switch>
-					<Route path='/' component={ login } />
-				</Switch>
+                <Switch>
+                    <Route path='/' component={ login } />
+                </Switch>
 			}
             {this.props.loader ?
                 <div className="to-center">
@@ -57,7 +58,7 @@ class App extends Component {
 				:
                 <div></div>
 			}
-			<SessionExpire />
+            <SessionExpire />
         </div>
     </BrowserRouter>
 		);
