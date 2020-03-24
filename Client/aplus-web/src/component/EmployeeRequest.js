@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function reques() {
+export default function request() {
   const classes = useStyles()
 
   return (
@@ -28,15 +28,7 @@ export default function reques() {
                       <TableCell align="right">lastName</TableCell>
                       <TableCell align="right">email</TableCell>
                       <TableCell align="right">Address</TableCell>
-                      <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={ classes.submit }
-          >
-            ADD
-                      </Button>
+                      
                   </TableRow>
                   <TableRow>
                       <TableCell></TableCell>
@@ -46,12 +38,12 @@ export default function reques() {
                       <TableCell align="right">Address</TableCell>
                       <Button
             type="submit"
-            fullWidth
+          
             variant="contained"
             color="primary"
             className={ classes.submit }
           >
-            ADD
+         EDIT
                       </Button>
                   </TableRow>
               </TableHead>
