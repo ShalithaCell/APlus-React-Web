@@ -1,15 +1,25 @@
 import React, { Component, Fragment } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { NavbarBrand } from 'reactstrap';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
 import NavItem from 'reactstrap/es/NavItem';
+import { connect } from 'react-redux';
+import { doLogOut } from '../redux/userActions';
+import { DestroySession } from '../services/sessionManagement';
+import { withRouter } from "react-router-dom";
 
-library.add(faCheckSquare, faCoffee);
-
-export default  class Navbar extends Component
+class Navbar extends Component
 {
+
+    logout = (e) => {
+        e.preventDefault();
+
+        this.props.doLogOut();
+        DestroySession();
+
+        this.props.history.push("/");
+        window.location.reload();
+    }
+
 	render()
 	{
 		return (
@@ -44,10 +54,10 @@ export default  class Navbar extends Component
             </li>
             <Fragment>
                 <NavItem>
-                    <NavLink tag={ Link } className="text-dark" to={ '/' } >Register</NavLink>
+                    <NavLink tag={ Link } className="text-dark" to={ '/' } >Hello { this.props.items.userName }</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink tag={ Link } className="text-dark" to={ '/' } >Login</NavLink>
+                    <a className="text-dark" onClick={ this.logout } >Logout</a>
                 </NavItem>
             </Fragment>
         </ul>
@@ -55,3 +65,9 @@ export default  class Navbar extends Component
 		);
 	}
 }
+
+const mapStateToProps = (state) => ({
+    items : state.user
+})
+
+export default connect(mapStateToProps, { doLogOut })(withRouter(Navbar));

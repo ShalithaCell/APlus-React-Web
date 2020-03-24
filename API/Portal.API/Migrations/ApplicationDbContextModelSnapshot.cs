@@ -120,6 +120,127 @@ namespace Portal.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.CustomPermission", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("Permission")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PermissionCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RegistedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("customPermissions");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            IsActive = true,
+                            Permission = "Report",
+                            PermissionCode = "RE",
+                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 649, DateTimeKind.Local).AddTicks(7470)
+                        },
+                        new
+                        {
+                            ID = 2,
+                            IsActive = true,
+                            Permission = "Sales",
+                            PermissionCode = "SE",
+                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2593)
+                        },
+                        new
+                        {
+                            ID = 3,
+                            IsActive = true,
+                            Permission = "Inventory View",
+                            PermissionCode = "IV",
+                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2637)
+                        },
+                        new
+                        {
+                            ID = 4,
+                            IsActive = true,
+                            Permission = "Inventory Add",
+                            PermissionCode = "IA",
+                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2640)
+                        },
+                        new
+                        {
+                            ID = 5,
+                            IsActive = true,
+                            Permission = "Inventory Update",
+                            PermissionCode = "IU",
+                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2642)
+                        },
+                        new
+                        {
+                            ID = 6,
+                            IsActive = true,
+                            Permission = "Inventory Delete",
+                            PermissionCode = "ID",
+                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2644)
+                        },
+                        new
+                        {
+                            ID = 7,
+                            IsActive = true,
+                            Permission = "Customer Handling",
+                            PermissionCode = "CH",
+                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2646)
+                        });
+                });
+
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.CustomRolePermissionLevelc", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Allowed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("FK_CustomPermisson")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FK_RoleID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<DateTime>("RegistedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("FK_CustomPermisson");
+
+                    b.HasIndex("FK_RoleID");
+
+                    b.ToTable("customRolePermissionLevels");
+                });
+
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.PasswordResetToken", b =>
                 {
                     b.Property<int>("ID")
@@ -305,6 +426,21 @@ namespace Portal.API.Migrations
                     b.HasOne("Portal.API.Domain.IdentityModel.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.CustomRolePermissionLevelc", b =>
+                {
+                    b.HasOne("Portal.API.Domain.DataBaseModels.CustomPermission", null)
+                        .WithMany("customRolePermissionLevels")
+                        .HasForeignKey("FK_CustomPermisson")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Portal.API.Domain.IdentityModel.AppRole", null)
+                        .WithMany("customRolePermissionLevels")
+                        .HasForeignKey("FK_RoleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

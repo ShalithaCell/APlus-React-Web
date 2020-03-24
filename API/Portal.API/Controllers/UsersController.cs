@@ -12,6 +12,7 @@ using Portal.API.Domain.DataTransactionModels;
 using Portal.API.Domain.IdentityModel;
 using Portal.API.Domain.ResultModels;
 using Portal.API.Domain.SystemModels;
+using Portal.API.Infrastructure;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
 using Portal.API.Infrastructure.Interfaces;
 using System;
@@ -155,6 +156,33 @@ namespace Portal.API.Controllers
                 throw ex;
             }
             
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("getRoles")]
+        public async Task<IActionResult> GetAllRoleList()
+        {
+            var roleList = _context.Roles.Select(o => new
+                                                    {
+                                                        ID = o.Id,
+                                                        roleName = o.Name,
+                                                        roleDisplayName = o.DisplayName
+                                                    }).ToList();
+            return Ok(roleList);
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("registerRole")]
+        public async Task<IActionResult> RegisterNewRole([FromBody] NewRoleModel dataModel)
+        {
+            AppRole newRole = new AppRole()
+            {
+                Name = dataModel.Name,
+                DisplayName = dataModel.DisplayName,
+                OrganizationID = dataModel.OrgID
+            };
+
+            return Ok();
         }
     }
 }

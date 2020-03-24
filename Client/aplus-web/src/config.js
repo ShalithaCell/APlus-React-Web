@@ -10,3 +10,4 @@ export const IDENTIFICATION_STORAGE = '27761234452352463563452566';
 //API end-points
 export const LOGIN_ENDPOINT = API_TARGET +'users/authenticate';
 export const PASSWORD_RESET_ENDPOINT = API_TARGET +'users/resetPassword';
+export const GET_ROLE_LIST_ENDPOINT = API_TARGET +'users/getRoles';
