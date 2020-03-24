@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Portal.API.Domain.BaseModels;
 using Portal.API.Domain.DataBaseModels;
 using Portal.API.Domain.IdentityModel;
+using Portal.API.Infrastructure.DAL.Seeders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
         }
 
         public DbSet<PasswordResetToken> passwordResetTokens { get; set; }
+        public DbSet<CustomPermission> customPermissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -40,7 +42,7 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
             }
 
             //table configuration and data seeding
-            //builder.ApplyConfiguration(new OrganizationConfiguration());
+            builder.ApplyConfiguration(new CustomPermissionDataSet());
         }
     }
 

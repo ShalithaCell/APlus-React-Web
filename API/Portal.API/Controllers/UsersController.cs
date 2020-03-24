@@ -158,7 +158,7 @@ namespace Portal.API.Controllers
             
         }
 
-        [Authorize(Roles = Const.RoleSuperAdmin)]
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
         [HttpGet("getRoles")]
         public async Task<IActionResult> GetAllRoleList()
         {

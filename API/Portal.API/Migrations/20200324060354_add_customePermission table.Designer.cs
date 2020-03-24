@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
 
 namespace Portal.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200324060354_add_customePermission table")]
+    partial class add_customePermissiontable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,64 +148,6 @@ namespace Portal.API.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("customPermissions");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            IsActive = true,
-                            Permission = "Report",
-                            PermissionCode = "RE",
-                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 303, DateTimeKind.Local).AddTicks(8217)
-                        },
-                        new
-                        {
-                            ID = 2,
-                            IsActive = true,
-                            Permission = "Sales",
-                            PermissionCode = "SE",
-                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1094)
-                        },
-                        new
-                        {
-                            ID = 3,
-                            IsActive = true,
-                            Permission = "Inventory View",
-                            PermissionCode = "IV",
-                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1138)
-                        },
-                        new
-                        {
-                            ID = 4,
-                            IsActive = true,
-                            Permission = "Inventory Add",
-                            PermissionCode = "IA",
-                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1141)
-                        },
-                        new
-                        {
-                            ID = 5,
-                            IsActive = true,
-                            Permission = "Inventory Update",
-                            PermissionCode = "IU",
-                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1143)
-                        },
-                        new
-                        {
-                            ID = 6,
-                            IsActive = true,
-                            Permission = "Inventory Delete",
-                            PermissionCode = "ID",
-                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1145)
-                        },
-                        new
-                        {
-                            ID = 7,
-                            IsActive = true,
-                            Permission = "Customer Handling",
-                            PermissionCode = "CH",
-                            RegistedDate = new DateTime(2020, 3, 24, 12, 19, 5, 306, DateTimeKind.Local).AddTicks(1147)
-                        });
                 });
 
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.PasswordResetToken", b =>

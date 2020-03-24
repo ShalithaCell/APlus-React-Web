@@ -60,12 +60,19 @@ class RegisterRole extends Component{
 	{
 		super(props);
 		this.state = {
-			activeStep         : 0,
-			roleWarning        : '',
-			role               : '',
-			roleDisplay        : '',
-			roleDisplayWarning : '',
-			test               : ''
+			activeStep              : 0,
+			roleWarning             : '',
+			role                    : '',
+			roleDisplay             : '',
+			roleDisplayWarning      : '',
+			test                    : '',
+			reportAllowed           : false,
+			salesAllowed            : false,
+			inventoryViewAllowed    : false,
+			inventoryAddAllowed     : false,
+			inventoryUpdateAllowed  : false,
+			inventoryDeleteAllowed  : false,
+			customerHandlingAllowed : false
 		}
 	}
 
@@ -82,7 +89,7 @@ class RegisterRole extends Component{
 			e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '');
 
 			//check role is already Exists
-			let roleExists = this.props.roleList.roleList.some((item) => item.roleName === e.target.value);
+			const roleExists = this.props.roleList.roleList.some((item) => item.roleName === e.target.value);
 
 			if(roleExists){
 				this.setState({
@@ -99,7 +106,7 @@ class RegisterRole extends Component{
 			});
 		}else if (e.target.id === 'roleDisplay'){
 			//check role is already Exists
-			let roleExists = this.props.roleList.roleList.some((item) => item.roleDisplayName === e.target.value);
+			const roleExists = this.props.roleList.roleList.some((item) => item.roleDisplayName === e.target.value);
 
 			if(roleExists){
 				this.setState({
@@ -115,6 +122,12 @@ class RegisterRole extends Component{
 				roleDisplay : e.target.value
 			});
 		}
+	}
+
+	onSwitchChanged = (e) => {
+		this.setState({
+			[ e.target.id ] : e.target.checked
+		})
 	}
 
 	handleNext = () =>
@@ -148,6 +161,7 @@ class RegisterRole extends Component{
 	handleBack = () =>
 	{
 		this.setState({
+			...this.state,
 			activeStep : this.state.activeStep - 1
 		})
 	};
@@ -185,7 +199,7 @@ render()
                         </React.Fragment>
 					) : (
     <React.Fragment>
-        {this.state.activeStep === 0 ? <RegisterRoleDetails onTextChange={ this.onTextChange } data={ this.state }/> : <PermissionLevels /> }
+        {this.state.activeStep === 0 ? <RegisterRoleDetails onTextChange={ this.onTextChange } data={ this.state }/> : <PermissionLevels onSwitchChanged={ this.onSwitchChanged } data={ this.state }/> }
         <div className={ classes.buttons }>
             {this.state.activeStep !== 0 && (
             <Button onClick={ this.handleBack } className={ classes.button }>
@@ -198,7 +212,7 @@ render()
 									onClick={ this.handleNext }
 									className={ classes.button }
 								>
-                {this.state.activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                {this.state.activeStep === steps.length - 1 ? 'Save' : 'Next'}
             </Button>
         </div>
     </React.Fragment>
