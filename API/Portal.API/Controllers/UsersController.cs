@@ -36,6 +36,7 @@ namespace Portal.API.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IAuthenticationServices _authenticationServices;
         private readonly IExtendedEmailSender _emailSender;
@@ -43,7 +44,7 @@ namespace Portal.API.Controllers
         private readonly IOptions<TemplateParams> _templateParams;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UsersController(ApplicationDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IAuthenticationServices authenticationServices
+        public UsersController(ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IAuthenticationServices authenticationServices
                                             ,IOptions<ConfigurationParams> config, IOptions<TemplateParams> templateParams, IHostingEnvironment hostingEnvironment, IExtendedEmailSender emailSender)
         {
             _context = context;
@@ -54,6 +55,7 @@ namespace Portal.API.Controllers
             _templateParams = templateParams;
             _hostingEnvironment = hostingEnvironment;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [AllowAnonymous]
@@ -172,15 +174,38 @@ namespace Portal.API.Controllers
         }
 
         [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        [HttpGet("registerRole")]
+        [HttpPost("registerRole")]
         public async Task<IActionResult> RegisterNewRole([FromBody] NewRoleModel dataModel)
         {
             AppRole newRole = new AppRole()
             {
                 Name = dataModel.Name,
                 DisplayName = dataModel.DisplayName,
-                OrganizationID = dataModel.OrgID
+                OrganizationID = dataModel.OrgID,
+                Editable = true
             };
+
+            _roleManager.CreateAsync(newRole).Wait();
+
+            AppRole role = _context.Roles.Where(o => o.Name == dataModel.Name).FirstOrDefault();
+
+            if(role == null)
+            {
+                return BadRequest("Something went wrong in the server side while registering a new role.");
+            }
+
+            List<CustomRolePermissionLevelc> customRolePermissions = dataModel.RolePermissionLevels.Select(o => new CustomRolePermissionLevelc
+            {
+                Allowed = o.Allowed,
+                FK_CustomPermisson = o.CustomPermissonID,
+                FK_RoleID = role.Id,
+                IsActive = true,
+                RegistedDate = DateTime.Now
+            }).ToList();
+
+            _context.customRolePermissionLevels.AddRange(customRolePermissions);
+            _context.SaveChanges(true);
+
 
             return Ok();
         }

@@ -1,11 +1,11 @@
 import { SET_SESSION_EXPIRED, UPDATE_ROLE_LIST } from './actionTypes';
 import axios from 'axios';
-import { GET_ROLE_LIST_ENDPOINT } from '../config';
+import { GET_ROLE_LIST_ENDPOINT, REGISTER_NEW_ROLE_ENDPOINT } from '../config';
 import { decrypt } from '../services/EncryptionService';
 import { GetSession } from '../services/sessionManagement';
 import { SetSessionExpiredStatus } from './systemActions';
 
-export const updateRoleDetails = (roles)  => async (dispatch) =>
+export const updateRoleDetails = ()  => async (dispatch) =>
 {
 
 	const localData = JSON.parse(GetSession());
@@ -16,7 +16,7 @@ export const updateRoleDetails = (roles)  => async (dispatch) =>
 	axios({
 		method  : 'get',
 		url     : GET_ROLE_LIST_ENDPOINT,
-		headers : { Authorization: "Bearer " + token }
+		headers : { Authorization: 'Bearer ' + token }
 	})
 		.then(function(response)
 		{
@@ -37,4 +37,35 @@ export const updateRoleDetails = (roles)  => async (dispatch) =>
 			}
 			throw error;
 		});
+}
+
+export const addNewRole = (roleData) => async (dispatch) => {
+	
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	//API call
+	await axios({
+		method  : 'post',
+		url     : REGISTER_NEW_ROLE_ENDPOINT,
+		headers : { Authorization: 'Bearer ' + token },
+		data    : roleData
+	})
+		.then(function(response)
+		{
+			return true;
+		})
+		.catch(function(error)
+		{
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}
+			throw error;
+		});
+	
 }

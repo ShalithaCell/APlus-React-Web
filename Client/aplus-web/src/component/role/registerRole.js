@@ -11,11 +11,13 @@ import Typography from '@material-ui/core/Typography';
 import RegisterRoleDetails from './registerRoleDetails';
 import PermissionLevels from './permissionLevel';
 import Navbar from '../navbar';
+import imgOk from '../../resources/images/ok_img.png';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import '../../resources/styles/common.css';
 import { updateRoleDetails } from '../../redux/roleActions';
 import { connect } from 'react-redux';
+import { addNewRole } from '../../redux/roleActions';
 
 const useStyles  = (theme) =>  ({
 	appBar : {
@@ -78,7 +80,7 @@ class RegisterRole extends Component{
 
 	async componentDidMount()
 	{
-		this.props.updateRoleDetails('a');
+		this.props.updateRoleDetails();
 	}
 
 	onTextChange = (e) => {
@@ -130,15 +132,59 @@ class RegisterRole extends Component{
 		})
 	}
 
-	handleNext = () =>
+	ButtonOnClickListner = async () =>
 	{
 
-		//check role details are filled
-		if(this.state.roleWarning.length !== 0 && this.state.roleDisplayWarning.length !== 0){
+		if (this.state.activeStep === 1)
+		{
+			if (this.state.role.length === 0)
+			{
+				this.setState({
+					roleWarning : 'Role name is already exists'
+				});
+				return;
+				;
+			}
+
+			if (this.state.roleDisplay.length === 0)
+			{
+				this.setState({
+					roleDisplayWarning : 'Display name is required.'
+				});
+				return;
+			}
+
+			const objRoleData = {
+				'Name'                 : this.state.role,
+				'DisplayName'          : this.state.roleDisplay,
+				'OrgID'                : 1,
+				'RolePermissionLevels' : [
+					{ 'CustomPermissonID': 1, 'Allowed': this.state.reportAllowed },
+					{ 'CustomPermissonID': 2, 'Allowed': this.state.salesAllowed },
+					{ 'CustomPermissonID': 3, 'Allowed': this.state.inventoryViewAllowed },
+					{ 'CustomPermissonID': 4, 'Allowed': this.state.inventoryAddAllowed },
+					{ 'CustomPermissonID': 5, 'Allowed': this.state.inventoryUpdateAllowed },
+					{ 'CustomPermissonID': 6, 'Allowed': this.state.inventoryDeleteAllowed },
+					{ 'CustomPermissonID': 7, 'Allowed': this.state.customerHandlingAllowed }
+				]
+			}
+
+			const result = await this.props.addNewRole(objRoleData);
+
+			this.setState({
+				activeStep : this.state.activeStep + 1
+			});
+
 			return;
 		}
 
-		if(this.state.role.length === 0)
+		//check role details are filled
+		if (this.state.roleWarning.length !== 0 && this.state.roleDisplayWarning.length !== 0)
+		{
+			return;
+		}
+
+		if (this.state.role.length === 0)
 		{
 			this.setState({
 				roleWarning : 'Role is required.'
@@ -146,7 +192,8 @@ class RegisterRole extends Component{
 			return;
 		}
 
-		if(this.state.roleDisplay.length === 0){
+		if (this.state.roleDisplay.length === 0)
+		{
 			this.setState({
 				roleDisplayWarning : 'Display name is required.'
 			});
@@ -190,11 +237,10 @@ render()
                     {this.state.activeStep === steps.length ? (
                         <React.Fragment>
                             <Typography variant="h5" gutterBottom>
-								Thank you for your order.
+								New role is successfully saved.
                             </Typography>
                             <Typography variant="subtitle1">
-								Your order number is #2001539. We have emailed your order confirmation, and will
-								send you an update when your order has shipped.
+                                <img src={ imgOk } alt="ok.png" />
                             </Typography>
                         </React.Fragment>
 					) : (
@@ -209,7 +255,7 @@ render()
             <Button
 									variant="contained"
 									color="primary"
-									onClick={ this.handleNext }
+									onClick={ this.ButtonOnClickListner }
 									className={ classes.button }
 								>
                 {this.state.activeStep === steps.length - 1 ? 'Save' : 'Next'}
@@ -242,4 +288,4 @@ const mapStateToProps = (state) => ({
 	roleList : state.role
 })
 
-export default connect(mapStateToProps, { updateRoleDetails })(withStyles(useStyles)(RegisterRole));
+export default connect(mapStateToProps, { updateRoleDetails, addNewRole })(withStyles(useStyles)(RegisterRole));
