@@ -24,7 +24,8 @@ import storeUpdate from './component/storeUpdate';
 import register from './component/register';
 import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
-import addinventory from './component/addinventory'
+import addinventory from './component/addinventory';
+import listOfRoles from './component/role/listOfRoles';
 
 class App extends Component {
 
@@ -47,6 +48,7 @@ class App extends Component {
                     <Route exact path='/home' component={ home }/>
                     <Route exact path='/register' component={ register }/>
                     <Route exact path='/registerRole' component={ RegisterRole }/>
+                    <Route exact path='/roles' component={ listOfRoles }/>
                     <Route exact path='/customeradd' component={ customeradd } />
                     <Route exact path='/EmployeeRequest' component={ EmployeeRequest } />
                     <Route exact path='/AddRequest' component={ AddRequest } />

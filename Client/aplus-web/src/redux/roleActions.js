@@ -24,6 +24,8 @@ export const updateRoleDetails = ()  => async (dispatch) =>
 				type    : UPDATE_ROLE_LIST,
 				payload : response.data
 			});
+
+			return response.data;
 		})
 		.catch(function(error)
 		{
