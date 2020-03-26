@@ -67,20 +67,24 @@ class ListOfRoles extends Component
 							data={ this.props.roleList.roleList  }
 							actions={ [
 								{
-									icon    : 'save',
-									tooltip : 'Save User',
-									onClick : (event, rowData) => alert('You saved ' + rowData.name)
+									icon    : 'edit',
+									tooltip : 'Edit role',
+									onClick : (event, rowData) => alert('You saved ' + rowData.id)
 								},
 								(rowData) => ({
 									icon     : 'delete',
-									tooltip  : 'Delete User',
-									onClick  : (event, rowData) => confirm('You want to delete ' + rowData.name),
+									tooltip  : 'Delete role',
+									onClick  : (event, rowData) => confirm('You want to delete ' + rowData.id),
 									disabled : rowData.birthYear < 2000
 								})
 							] }
 							options={ {
 								actionsColumnIndex : -1,
-								search             : true
+								search             : true,
+								headerStyle        : {
+									backgroundColor : '#01579b',
+									color           : '#FFF'
+								}
 							} }
 						/>
 

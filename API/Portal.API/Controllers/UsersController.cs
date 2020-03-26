@@ -168,8 +168,9 @@ namespace Portal.API.Controllers
                                                     {
                                                         ID = o.Id,
                                                         roleName = o.Name,
-                                                        roleDisplayName = o.DisplayName
-                                                    }).ToList();
+                                                        roleDisplayName = o.DisplayName,
+                                                        Editable = o.Editable
+                                                    }).OrderBy(o=> o.ID).ToList();
             return Ok(roleList);
         }
 
