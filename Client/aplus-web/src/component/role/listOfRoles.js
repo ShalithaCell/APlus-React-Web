@@ -11,6 +11,14 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import { AddCircle } from '@material-ui/icons';
+import Dialog from '@material-ui/core/Dialog/Dialog';
+import DialogContent from '@material-ui/core/DialogContent/DialogContent';
+import RegisterRole from './registerRole';
+import useMediaQuery from '@material-ui/core/useMediaQuery/useMediaQuery';
+import useTheme from '@material-ui/core/styles/useTheme';
+import CloseIcon from '@material-ui/icons/Close';
+import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
+import IconButton from '@material-ui/core/IconButton/IconButton';
 
 const useStyles  = (theme) =>  ({
 	root : {
@@ -31,15 +39,47 @@ const useStyles  = (theme) =>  ({
 
 class ListOfRoles extends Component
 {
+	constructor(props)
+	{
+		super(props);
+		this.state = {
+			showNewRoleDialog : false,
+			editable          : false,
+			editRole          : 0
+		}
+	}
 
 	componentDidMount()
 	{
 		this.props.updateRoleDetails();
 	}
 
+	onClickListner = (e) => {
+		if (e.currentTarget.id === 'btnNewRole')
+		{
+			this.setState({
+				showNewRoleDialog : true,
+				editable          : false
+			});
+		}
+		else if( e.currentTarget.id === 'btnClose'){
+			this.setState({
+				showNewRoleDialog : false
+			});
+		}
+	}
+
+	onRoleEditClick = (roleID) => {
+		this.setState({
+			editable          : true,
+			editRole          : roleID,
+			showNewRoleDialog : true
+		});
+	}
+
 	render()
 	{
-		const { classes } = this.props;
+		const { classes  } = this.props;
 		
 		return (
     <div>
@@ -51,7 +91,7 @@ class ListOfRoles extends Component
 			title="List of Roles"
 			className={ 'text-left' }
 			action={
-    <Button variant="outlined" color="primary" startIcon={ <AddCircle /> }>
+    <Button variant="outlined" color="primary" startIcon={ <AddCircle /> } id="btnNewRole" onClick={ this.onClickListner.bind(this) }>
 					Add Role
     </Button>
 			}
@@ -66,16 +106,17 @@ class ListOfRoles extends Component
 							] }
 							data={ this.props.roleList.roleList  }
 							actions={ [
-								{
-									icon    : 'edit',
-									tooltip : 'Edit role',
-									onClick : (event, rowData) => alert('You saved ' + rowData.id)
-								},
+								(rowData) => ({
+									icon     : 'edit',
+									tooltip  : rowData.editable ? 'Click here to edit role' : 'Cannot edit default roles',
+									onClick  : (event, rowData) => this.onRoleEditClick( rowData.id),
+									disabled : !rowData.editable
+								}),
 								(rowData) => ({
 									icon     : 'delete',
-									tooltip  : 'Delete role',
+									tooltip  : rowData.editable ? 'Click here to remove role' : 'Cannot remove default roles',
 									onClick  : (event, rowData) => confirm('You want to delete ' + rowData.id),
-									disabled : rowData.birthYear < 2000
+									disabled : !rowData.editable
 								})
 							] }
 							options={ {
@@ -93,6 +134,16 @@ class ListOfRoles extends Component
                 </Card>
             </Container>
         </div>
+        <Dialog open={ this.state.showNewRoleDialog } aria-labelledby="form-dialog-title" fullWidth={ true } maxWidth={ 'md' }>
+            <DialogTitle disableTypography >
+                <IconButton id="btnClose" onClick={ this.onClickListner.bind(this) } className={ 'pull-right' }>
+                    <CloseIcon />
+                </IconButton>
+            </DialogTitle>
+            <DialogContent>
+                <RegisterRole editable={ this.state.editable } editRole={ this.state.editRole }/>
+            </DialogContent>
+        </Dialog>
     </div>
 		)
 	}

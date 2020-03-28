@@ -210,5 +210,33 @@ namespace Portal.API.Controllers
 
             return Ok();
         }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("getRoleInfomation")]
+        public async Task<IActionResult> GetRoleInformation([FromBody] RoleInfoReqData roleInfoReq)
+        {
+            NewRoleModel outputModel = new NewRoleModel();
+
+            AppRole role = _context.Roles.Where(o => o.Id == roleInfoReq.RoleID).FirstOrDefault();
+
+            if(role == null)
+            {
+                return BadRequest("RoleID id not valid !");
+            }
+
+            List<CustomRolePermissionLevelc> customRolePermissions = _context.customRolePermissionLevels.Where(o => o.FK_RoleID == roleInfoReq.RoleID).ToList();
+
+            outputModel.DisplayName = role.DisplayName;
+            outputModel.Name = role.Name;
+            outputModel.OrgID = role.OrganizationID;
+            outputModel.RolePermissionLevels = customRolePermissions.Select(o => new RolePermissionLevel
+            {
+                CustomPermissonID = o.FK_CustomPermisson,
+                Allowed = o.Allowed
+            }).ToList();
+
+            return Ok(outputModel);
+
+        }
     }
 }
