@@ -31,7 +31,7 @@ namespace Portal.API.Controllers
     /// </developer>
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -160,83 +160,6 @@ namespace Portal.API.Controllers
             
         }
 
-        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        [HttpGet("getRoles")]
-        public async Task<IActionResult> GetAllRoleList()
-        {
-            var roleList = _context.Roles.Select(o => new
-                                                    {
-                                                        ID = o.Id,
-                                                        roleName = o.Name,
-                                                        roleDisplayName = o.DisplayName,
-                                                        Editable = o.Editable
-                                                    }).OrderBy(o=> o.ID).ToList();
-            return Ok(roleList);
-        }
-
-        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        [HttpPost("registerRole")]
-        public async Task<IActionResult> RegisterNewRole([FromBody] NewRoleModel dataModel)
-        {
-            AppRole newRole = new AppRole()
-            {
-                Name = dataModel.Name,
-                DisplayName = dataModel.DisplayName,
-                OrganizationID = dataModel.OrgID,
-                Editable = true
-            };
-
-            _roleManager.CreateAsync(newRole).Wait();
-
-            AppRole role = _context.Roles.Where(o => o.Name == dataModel.Name).FirstOrDefault();
-
-            if(role == null)
-            {
-                return BadRequest("Something went wrong in the server side while registering a new role.");
-            }
-
-            List<CustomRolePermissionLevelc> customRolePermissions = dataModel.RolePermissionLevels.Select(o => new CustomRolePermissionLevelc
-            {
-                Allowed = o.Allowed,
-                FK_CustomPermisson = o.CustomPermissonID,
-                FK_RoleID = role.Id,
-                IsActive = true,
-                RegistedDate = DateTime.Now
-            }).ToList();
-
-            _context.customRolePermissionLevels.AddRange(customRolePermissions);
-            _context.SaveChanges(true);
-
-
-            return Ok();
-        }
-
-        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        [HttpPost("getRoleInfomation")]
-        public async Task<IActionResult> GetRoleInformation([FromBody] RoleInfoReqData roleInfoReq)
-        {
-            NewRoleModel outputModel = new NewRoleModel();
-
-            AppRole role = _context.Roles.Where(o => o.Id == roleInfoReq.RoleID).FirstOrDefault();
-
-            if(role == null)
-            {
-                return BadRequest("RoleID id not valid !");
-            }
-
-            List<CustomRolePermissionLevelc> customRolePermissions = _context.customRolePermissionLevels.Where(o => o.FK_RoleID == roleInfoReq.RoleID).ToList();
-
-            outputModel.DisplayName = role.DisplayName;
-            outputModel.Name = role.Name;
-            outputModel.OrgID = role.OrganizationID;
-            outputModel.RolePermissionLevels = customRolePermissions.Select(o => new RolePermissionLevel
-            {
-                CustomPermissonID = o.FK_CustomPermisson,
-                Allowed = o.Allowed
-            }).ToList();
-
-            return Ok(outputModel);
-
-        }
+        
     }
 }

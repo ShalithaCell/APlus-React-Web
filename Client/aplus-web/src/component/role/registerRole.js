@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import '../../resources/styles/common.css';
 import { updateRoleDetails, getRoleInformation } from '../../redux/roleActions';
 import { connect } from 'react-redux';
-import { addNewRole } from '../../redux/roleActions';
+import { addNewRole, updateRole } from '../../redux/roleActions';
 
 const useStyles  = (theme) =>  ({
 	appBar : {
@@ -212,7 +212,6 @@ class RegisterRole extends Component{
 					roleWarning : 'Role name is already exists'
 				});
 				return;
-				;
 			}
 
 			if (this.state.roleDisplay.length === 0)
@@ -237,8 +236,12 @@ class RegisterRole extends Component{
 					{ 'CustomPermissonID': 7, 'Allowed': this.state.customerHandlingAllowed }
 				]
 			}
-
-			const result = await this.props.addNewRole(objRoleData);
+			let result;
+			if(this.props.editable){
+				result = await this.props.updateRole(objRoleData);
+			}else{
+				result = await this.props.addNewRole(objRoleData);
+			}
 
 			this.setState({
 				activeStep : this.state.activeStep + 1
@@ -324,7 +327,7 @@ render()
                     {this.state.activeStep === steps.length ? (
                         <React.Fragment>
                             <Typography variant="h5" gutterBottom>
-								New role is successfully saved.
+                                { this.state.editable ? 'Role is updated successfully.' : 'Role Saved Successfully.'}
                             </Typography>
                             <Typography variant="subtitle1">
                                 <img src={ imgOk } alt="ok.png" />
@@ -332,7 +335,7 @@ render()
                         </React.Fragment>
 					) : (
     <React.Fragment>
-        {this.state.activeStep === 0 ? <RegisterRoleDetails onTextChange={ this.onTextChange } data={ this.state }/> : <PermissionLevels onSwitchChanged={ this.onSwitchChanged } data={ this.state }/> }
+        {this.state.activeStep === 0 ? <RegisterRoleDetails onTextChange={ this.onTextChange } data={ this.state } editable={ this.props.editable }/> : <PermissionLevels onSwitchChanged={ this.onSwitchChanged } data={ this.state }/> }
         <div className={ classes.buttons }>
             {this.state.activeStep !== 0 && (
             <Button onClick={ this.handleBack } className={ classes.button }>
@@ -377,4 +380,4 @@ const mapStateToProps = (state) => ({
 	roleList : state.role
 })
 
-export default connect(mapStateToProps, { updateRoleDetails, addNewRole, getRoleInformation })(withStyles(useStyles)(RegisterRole));
+export default connect(mapStateToProps, { updateRoleDetails, addNewRole, getRoleInformation, updateRole })(withStyles(useStyles)(RegisterRole));

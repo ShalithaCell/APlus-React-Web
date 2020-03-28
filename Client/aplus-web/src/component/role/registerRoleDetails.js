@@ -25,6 +25,7 @@ export default class RegisterRoleDetails extends Component
 							name="RoleName"
 							label="Role"
 							fullWidth
+							disabled={ this.props.editable }
 							value={ this.props.data.role }
 							onChange={ this.props.onTextChange }
 							error={ this.props.data.roleWarning.length !== 0 }

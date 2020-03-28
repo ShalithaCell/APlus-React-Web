@@ -19,6 +19,7 @@ import useTheme from '@material-ui/core/styles/useTheme';
 import CloseIcon from '@material-ui/icons/Close';
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import IconButton from '@material-ui/core/IconButton/IconButton';
+import RemoveConfirmDialog from '../removeConfirmDialog';
 
 const useStyles  = (theme) =>  ({
 	root : {
@@ -45,7 +46,8 @@ class ListOfRoles extends Component
 		this.state = {
 			showNewRoleDialog : false,
 			editable          : false,
-			editRole          : 0
+			editRole          : 0,
+			popupDelete       : false
 		}
 	}
 
@@ -74,6 +76,12 @@ class ListOfRoles extends Component
 			editable          : true,
 			editRole          : roleID,
 			showNewRoleDialog : true
+		});
+	}
+
+	onRoleDeleteClick = (roleID) => {
+		this.setState({
+			popupDelete : true
 		});
 	}
 
@@ -115,7 +123,7 @@ class ListOfRoles extends Component
 								(rowData) => ({
 									icon     : 'delete',
 									tooltip  : rowData.editable ? 'Click here to remove role' : 'Cannot remove default roles',
-									onClick  : (event, rowData) => confirm('You want to delete ' + rowData.id),
+									onClick  : (event, rowData) => this.onRoleDeleteClick(rowData.id),
 									disabled : !rowData.editable
 								})
 							] }
@@ -144,6 +152,7 @@ class ListOfRoles extends Component
                 <RegisterRole editable={ this.state.editable } editRole={ this.state.editRole }/>
             </DialogContent>
         </Dialog>
+        <RemoveConfirmDialog popupDelete={ this.state.popupDelete } onRemoveClick={ this.onClickListner }/>
     </div>
 		)
 	}
