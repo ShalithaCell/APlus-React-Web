@@ -98,18 +98,18 @@ export default function SignInSide() {
                   />
                                       <CardContent className={ classes.cardContent }>
                                           <Typography gutterBottom variant="h5" component="h2">
-                                            Coca cola
+                                              Coca cola
                                           </Typography>
                                           <Typography>
-                                             This is a Coca cola You can buy it using debit card.
+                                              This is a Coca cola You can buy it using debit card.
                                           </Typography>
                                       </CardContent>
                                       <CardActions>
                                           <Button size="small" color="primary">
-                                            Buy
+                                              Buy
                                           </Button>
                                           <Button size="small" color="primary">
-                                            Ignore
+                                              Ignore
                                           </Button>
                                       </CardActions>
                                   </Card>
