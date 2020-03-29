@@ -22,21 +22,24 @@ namespace Portal.API.Infrastructure.DAL.Seeders.Default
             {
                 Name = "SuperAdministrator",
                 DisplayName = "Super Administrator",
-                OrganizationID = 1
+                OrganizationID = 1,
+                Editable = false
             };
 
             AppRole appRoleAdmin = new AppRole()
             {
                 Name = "Administrator",
                 DisplayName = "Administrator",
-                OrganizationID = 1
+                OrganizationID = 1,
+                Editable = false
             };
 
             AppRole appRoleAuthenticatedUser = new AppRole()
             {
                 Name = "AuthenticatedUser",
                 DisplayName = "Authenticated User",
-                OrganizationID = 1
+                OrganizationID = 1,
+                Editable = false
             };
 
             roleManager.CreateAsync(appRoleSuperAdmin).Wait();

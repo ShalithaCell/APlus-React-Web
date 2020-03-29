@@ -11,11 +11,13 @@ import Typography from '@material-ui/core/Typography';
 import RegisterRoleDetails from './registerRoleDetails';
 import PermissionLevels from './permissionLevel';
 import Navbar from '../navbar';
+import imgOk from '../../resources/images/ok_img.png';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import '../../resources/styles/common.css';
-import { updateRoleDetails } from '../../redux/roleActions';
+import { updateRoleDetails, getRoleInformation } from '../../redux/roleActions';
 import { connect } from 'react-redux';
+import { addNewRole, updateRole } from '../../redux/roleActions';
 
 const useStyles  = (theme) =>  ({
 	appBar : {
@@ -32,7 +34,7 @@ const useStyles  = (theme) =>  ({
 		}
 	},
 	paper : {
-		marginTop                                            : theme.spacing(3),
+		marginTop                                            : theme.spacing(1),
 		marginBottom                                         : theme.spacing(3),
 		padding                                              : theme.spacing(2),
 		[ theme.breakpoints.up(600 + theme.spacing(3) * 2) ] : {
@@ -78,7 +80,76 @@ class RegisterRole extends Component{
 
 	async componentDidMount()
 	{
-		this.props.updateRoleDetails('a');
+		this.props.updateRoleDetails();
+
+		if(this.props.editable){
+			console.log('editable');
+
+			const response = await this.props.getRoleInformation(this.props.editRole);
+
+			if(response == null){
+				return ;
+			}
+
+			this.setState({
+				...this.state,
+				role        : response.name,
+				roleDisplay : response.displayName
+			});
+
+			Object.keys(response.rolePermissionLevels).forEach(function(key) {
+				const item = (response.rolePermissionLevels[ key ]);
+				if(item == null)
+					return;
+
+				switch (item.customPermissonID)
+				{
+					case 1:
+						this.setState({
+							...this.state,
+							reportAllowed : item.allowed
+						});
+						break;
+					case 2:
+						this.setState({
+							...this.state,
+							salesAllowed : item.allowed
+						});
+						break;
+					case 3:
+						this.setState({
+							...this.state,
+							inventoryViewAllowed : item.allowed
+						});
+						break;
+					case 4:
+						this.setState({
+							...this.state,
+							inventoryAddAllowed : item.allowed
+						});
+						break;
+					case 5:
+						this.setState({
+							...this.state,
+							inventoryUpdateAllowed : item.allowed
+						});
+						break;
+					case 6:
+						this.setState({
+							...this.state,
+							inventoryDeleteAllowed : item.allowed
+						});
+						break;
+					case 7:
+						this.setState({
+							...this.state,
+							customerHandlingAllowed : item.allowed
+						});
+						break;
+				}
+			}.bind(this));
+
+		}
 	}
 
 	onTextChange = (e) => {
@@ -130,15 +201,81 @@ class RegisterRole extends Component{
 		})
 	}
 
-	handleNext = () =>
+	ButtonOnClickListner = async () =>
 	{
 
-		//check role details are filled
-		if(this.state.roleWarning.length !== 0 && this.state.roleDisplayWarning.length !== 0){
+		if (this.state.activeStep === 1)
+		{
+			if (this.state.role.length === 0)
+			{
+				this.setState({
+					roleWarning : 'Role name is already exists'
+				});
+				return;
+			}
+
+			if (this.state.roleDisplay.length === 0)
+			{
+				this.setState({
+					roleDisplayWarning : 'Display name is required.'
+				});
+				return;
+			}
+
+			const objRoleData = {
+				'Name'                 : this.state.role,
+				'DisplayName'          : this.state.roleDisplay,
+				'OrgID'                : 1,
+				'RolePermissionLevels' : [
+					{ 'CustomPermissonID': 1, 'Allowed': this.state.reportAllowed },
+					{ 'CustomPermissonID': 2, 'Allowed': this.state.salesAllowed },
+					{ 'CustomPermissonID': 3, 'Allowed': this.state.inventoryViewAllowed },
+					{ 'CustomPermissonID': 4, 'Allowed': this.state.inventoryAddAllowed },
+					{ 'CustomPermissonID': 5, 'Allowed': this.state.inventoryUpdateAllowed },
+					{ 'CustomPermissonID': 6, 'Allowed': this.state.inventoryDeleteAllowed },
+					{ 'CustomPermissonID': 7, 'Allowed': this.state.customerHandlingAllowed }
+				]
+			}
+			let result;
+			if(this.props.editable){
+				result = await this.props.updateRole(objRoleData);
+			}else{
+				result = await this.props.addNewRole(objRoleData);
+			}
+
+			this.setState({
+				activeStep : this.state.activeStep + 1
+			});
+
+			this.props.updateRoleDetails(); //fetch roles from the server
+
+			//again set to default
+			this.setState({
+				...this.state,
+				roleWarning             : '',
+				role                    : '',
+				roleDisplay             : '',
+				roleDisplayWarning      : '',
+				test                    : '',
+				reportAllowed           : false,
+				salesAllowed            : false,
+				inventoryViewAllowed    : false,
+				inventoryAddAllowed     : false,
+				inventoryUpdateAllowed  : false,
+				inventoryDeleteAllowed  : false,
+				customerHandlingAllowed : false
+			});
+
 			return;
 		}
 
-		if(this.state.role.length === 0)
+		//check role details are filled
+		if (this.state.roleWarning.length !== 0 && this.state.roleDisplayWarning.length !== 0)
+		{
+			return;
+		}
+
+		if (this.state.role.length === 0)
 		{
 			this.setState({
 				roleWarning : 'Role is required.'
@@ -146,7 +283,8 @@ class RegisterRole extends Component{
 			return;
 		}
 
-		if(this.state.roleDisplay.length === 0){
+		if (this.state.roleDisplay.length === 0)
+		{
 			this.setState({
 				roleDisplayWarning : 'Display name is required.'
 			});
@@ -173,8 +311,7 @@ render()
 	return(
     <React.Fragment>
         <CssBaseline/>
-        <Navbar/>
-        <main className={ classes.layout + ' top-margin' }>
+        <main className={ classes.layout }>
             <Paper className={ classes.paper }>
                 <Typography component="h1" variant="h4" align="center">
 					New Role
@@ -190,16 +327,15 @@ render()
                     {this.state.activeStep === steps.length ? (
                         <React.Fragment>
                             <Typography variant="h5" gutterBottom>
-								Thank you for your order.
+                                { this.state.editable ? 'Role is updated successfully.' : 'Role Saved Successfully.'}
                             </Typography>
                             <Typography variant="subtitle1">
-								Your order number is #2001539. We have emailed your order confirmation, and will
-								send you an update when your order has shipped.
+                                <img src={ imgOk } alt="ok.png" />
                             </Typography>
                         </React.Fragment>
 					) : (
     <React.Fragment>
-        {this.state.activeStep === 0 ? <RegisterRoleDetails onTextChange={ this.onTextChange } data={ this.state }/> : <PermissionLevels onSwitchChanged={ this.onSwitchChanged } data={ this.state }/> }
+        {this.state.activeStep === 0 ? <RegisterRoleDetails onTextChange={ this.onTextChange } data={ this.state } editable={ this.props.editable }/> : <PermissionLevels onSwitchChanged={ this.onSwitchChanged } data={ this.state }/> }
         <div className={ classes.buttons }>
             {this.state.activeStep !== 0 && (
             <Button onClick={ this.handleBack } className={ classes.button }>
@@ -209,7 +345,7 @@ render()
             <Button
 									variant="contained"
 									color="primary"
-									onClick={ this.handleNext }
+									onClick={ this.ButtonOnClickListner }
 									className={ classes.button }
 								>
                 {this.state.activeStep === steps.length - 1 ? 'Save' : 'Next'}
@@ -219,14 +355,16 @@ render()
 					)}
                 </React.Fragment>
             </Paper>
-            <Typography variant="body2" color="textSecondary" align="center">
-                {'Copyright © '}
-                <Link color="inherit" href="#">
-					A-PLus
-                </Link>{' '}
-                {new Date().getFullYear()}
-                {'.'}
-            </Typography>
+            { /*
+				<Typography variant="body2" color="textSecondary" align="center">
+					{'Copyright © '}
+					<Link color="inherit" href="#">
+						A-PLus
+					</Link>{' '}
+					{new Date().getFullYear()}
+					{'.'}
+				</Typography> */
+			}
         </main>
     </React.Fragment>
 )
@@ -242,4 +380,4 @@ const mapStateToProps = (state) => ({
 	roleList : state.role
 })
 
-export default connect(mapStateToProps, { updateRoleDetails })(withStyles(useStyles)(RegisterRole));
+export default connect(mapStateToProps, { updateRoleDetails, addNewRole, getRoleInformation, updateRole })(withStyles(useStyles)(RegisterRole));
