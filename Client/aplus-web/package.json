@@ -4,6 +4,10 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.8.4",
+    "@devexpress/dx-react-chart": "^2.6.0",
+    "@devexpress/dx-react-chart-material-ui": "2.6.0",
+    "@devexpress/dx-react-core": "2.6.0",
+    "@devexpress/dx-react-scheduler": "^2.6.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
@@ -23,6 +27,7 @@
     "babel-preset-react-app": "^9.1.1",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
+    "clsx": "latest",
     "crypto-js": "^4.0.0",
     "css-loader": "3.4.2",
     "dotenv": "8.2.0",
@@ -69,6 +74,7 @@
     "semver": "6.3.0",
     "style-loader": "0.23.1",
     "terser-webpack-plugin": "2.3.4",
+    "theme": "^0.1.0",
     "ts-pnp": "1.1.5",
     "url-loader": "2.3.0",
     "webpack": "4.41.5",
@@ -153,10 +159,13 @@
     ]
   },
   "devDependencies": {
+    "@devexpress/dx-react-chart-material-ui": "^2.6.0",
+    "@devexpress/dx-react-scheduler-material-ui": "^2.6.0",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "eslint": "^6.8.0",
     "eslint-loader": "^3.0.3",
-    "eslint-plugin-react": "^7.18.0"
+    "eslint-plugin-react": "^7.18.0",
+    "google-map-react": "^1.1.7"
   }
 }
