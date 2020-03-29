@@ -25,16 +25,20 @@ class RemoveConfirmDialog extends Component
 					aria-describedby="alert-dialog-description">
             <DialogTitle id="alert-dialog-title">{'Confirm to Delete'}</DialogTitle>
             <DialogContent>
-                <div>
-                    <img src={ deleteImage } alt={ 'remove.png' } align={ 'center' }/>
+                <div className="text-center">
+                    <img src={ deleteImage } alt={ 'remove.png' } align={ 'center' } className={ 'delete-img' }/>
+                </div>
+                <div className="row">
+                    <br/>
+                    <h6>Are you sure want to remove ' { this.props.item } ' ? </h6>
                 </div>
 
             </DialogContent>
             <DialogActions>
-                <Button id={ 'btnYes' } onClick={ this.props.onRemoveClick } color="danger">
+                <Button id={ 'btnYes' } onClick={ this.props.onRemoveClick } color="secondary">
 							Yes
                 </Button>
-                <Button id={ 'btnNo' } onClick={ this.props.onRemoveClick } color="success" autoFocus>
+                <Button id={ 'btnNo' } onClick={ this.props.onRemoveClick } color="primary" autoFocus>
 							No
                 </Button>
             </DialogActions>

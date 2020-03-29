@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
 using Portal.API.Domain.IdentityModel;
@@ -119,7 +120,7 @@ namespace Portal.API.Controllers
 
             List<CustomRolePermissionLevelc> exisingPermisson = _context.customRolePermissionLevels.Where(o => o.FK_RoleID == role.Id).ToList();
 
-            if(exisingPermisson.Count == 0)
+            if (exisingPermisson.Count == 0)
             {
                 exisingPermisson = dataModel.RolePermissionLevels.Select(o => new CustomRolePermissionLevelc
                 {
@@ -132,13 +133,13 @@ namespace Portal.API.Controllers
             }
             else
             {
-                for(int i = 0; i< dataModel.RolePermissionLevels.Count; i++)
+                for (int i = 0; i < dataModel.RolePermissionLevels.Count; i++)
                 {
                     var match = exisingPermisson.Where(o => o.FK_CustomPermisson == dataModel.RolePermissionLevels[i].CustomPermissonID).FirstOrDefault();
 
-                    if(match != null)
+                    if (match != null)
                     {
-                        exisingPermisson.Where(o=> o.FK_CustomPermisson == dataModel.RolePermissionLevels[i].CustomPermissonID).Select(c => { c.Allowed = dataModel.RolePermissionLevels[i].Allowed; return c; }).ToList();
+                        exisingPermisson.Where(o => o.FK_CustomPermisson == dataModel.RolePermissionLevels[i].CustomPermissonID).Select(c => { c.Allowed = dataModel.RolePermissionLevels[i].Allowed; return c; }).ToList();
                     }
                 }
             }
@@ -148,6 +149,29 @@ namespace Portal.API.Controllers
 
             return Ok();
 
+
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("removeRole")]
+        public async Task<IActionResult> RemoveRole([FromBody] JObject roleRes)
+        {
+
+            AppRole role = await _roleManager.FindByIdAsync(roleRes["roleId"].ToString());
+
+            if(role == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await _roleManager.DeleteAsync(role);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return Conflict(result.Errors.First().ToString());
 
         }
     }

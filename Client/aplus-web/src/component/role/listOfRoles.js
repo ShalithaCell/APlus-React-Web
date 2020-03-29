@@ -4,7 +4,7 @@ import Navbar from '../navbar';
 import MaterialTable from 'material-table';
 import Container from '@material-ui/core/Container';
 import PropTypes from 'prop-types';
-import { updateRoleDetails } from '../../redux/roleActions';
+import { updateRoleDetails, removeRole } from '../../redux/roleActions';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -20,6 +20,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import RemoveConfirmDialog from '../removeConfirmDialog';
+import { ToastContainer } from '../dialogs/ToastContainer';
+import { TOAST_SUCCESS, TOAST_ERROR } from '../../config';
 
 const useStyles  = (theme) =>  ({
 	root : {
@@ -47,7 +49,9 @@ class ListOfRoles extends Component
 			showNewRoleDialog : false,
 			editable          : false,
 			editRole          : 0,
-			popupDelete       : false
+			popupDelete       : false,
+			removeItem        : '',
+			removeID          : null
 		}
 	}
 
@@ -56,7 +60,8 @@ class ListOfRoles extends Component
 		this.props.updateRoleDetails();
 	}
 
-	onClickListner = (e) => {
+	onClickListner = async (e) =>
+	{
 		if (e.currentTarget.id === 'btnNewRole')
 		{
 			this.setState({
@@ -64,10 +69,41 @@ class ListOfRoles extends Component
 				editable          : false
 			});
 		}
-		else if( e.currentTarget.id === 'btnClose'){
+		else if (e.currentTarget.id === 'btnClose')
+		{
 			this.setState({
 				showNewRoleDialog : false
 			});
+		}
+		else if (e.currentTarget.id === 'btnYes')
+		{
+
+			const response = await this.props.removeRole(this.state.removeID);
+
+			if(response){
+				this.setState({
+					...this.state,
+					popupDelete : false,
+					removeID    : null,
+					removeItem  : ''
+				});
+
+				ToastContainer(TOAST_SUCCESS, 'Successfully Role is removed !');
+
+				this.props.updateRoleDetails();//refresh role list
+			}else{
+				ToastContainer(TOAST_ERROR, 'Role cannot removed !. Its reference by the user.');
+			}
+		}
+		else if (e.currentTarget.id === 'btnNo')
+		{
+			this.setState({
+				...this.state,
+				popupDelete : false,
+				removeID    : null,
+				removeItem  : ''
+			});
+
 		}
 	}
 
@@ -79,16 +115,19 @@ class ListOfRoles extends Component
 		});
 	}
 
-	onRoleDeleteClick = (roleID) => {
+	onRoleDeleteClick = (roleID, roleName) => {
 		this.setState({
-			popupDelete : true
+			...this.state,
+			popupDelete : true,
+			removeID    : roleID,
+			removeItem  : roleName
 		});
 	}
 
 	render()
 	{
 		const { classes  } = this.props;
-		
+
 		return (
     <div>
         <Navbar/>
@@ -123,7 +162,7 @@ class ListOfRoles extends Component
 								(rowData) => ({
 									icon     : 'delete',
 									tooltip  : rowData.editable ? 'Click here to remove role' : 'Cannot remove default roles',
-									onClick  : (event, rowData) => this.onRoleDeleteClick(rowData.id),
+									onClick  : (event, rowData) => this.onRoleDeleteClick(rowData.id, rowData.roleName ),
 									disabled : !rowData.editable
 								})
 							] }
@@ -138,7 +177,7 @@ class ListOfRoles extends Component
 						/>
 
                     </CardContent>
-			
+
                 </Card>
             </Container>
         </div>
@@ -152,7 +191,7 @@ class ListOfRoles extends Component
                 <RegisterRole editable={ this.state.editable } editRole={ this.state.editRole }/>
             </DialogContent>
         </Dialog>
-        <RemoveConfirmDialog popupDelete={ this.state.popupDelete } onRemoveClick={ this.onClickListner }/>
+        <RemoveConfirmDialog popupDelete={ this.state.popupDelete } item={ this.state.removeItem }  onRemoveClick={ this.onClickListner }/>
     </div>
 		)
 	}
@@ -166,4 +205,4 @@ const mapStateToProps = (state) => ({
 	roleList : state.role
 })
 
-export default connect(mapStateToProps, { updateRoleDetails })(withStyles(useStyles)(ListOfRoles));
+export default connect(mapStateToProps, { updateRoleDetails, removeRole })(withStyles(useStyles)(ListOfRoles));

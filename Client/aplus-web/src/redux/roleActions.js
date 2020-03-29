@@ -1,6 +1,6 @@
 import { POPUP_SPINNER, SET_SESSION_EXPIRED, UPDATE_ROLE_LIST } from './actionTypes';
 import axios from 'axios';
-import { GET_ROLE_LIST_ENDPOINT, REGISTER_NEW_ROLE_ENDPOINT, GET_ROLE_ENDPOINT, UPDATE_ROLE_ENDPOINT } from '../config';
+import { GET_ROLE_LIST_ENDPOINT, REGISTER_NEW_ROLE_ENDPOINT, GET_ROLE_ENDPOINT, UPDATE_ROLE_ENDPOINT, REMOVE_ROLE_ENDPOINT } from '../config';
 import { decrypt } from '../services/EncryptionService';
 import { GetSession } from '../services/sessionManagement';
 import { SetSessionExpiredStatus } from './systemActions';
@@ -151,6 +151,45 @@ export const getRoleInformation = (roleId) => async (dispatch) => {
 					payload : true
 				});
 
+			}
+			throw error;
+		});
+
+	return responseData;
+
+}
+
+export const removeRole = (roleId) => async (dispatch) => {
+
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	let responseData;
+
+	//API call
+	await axios({
+		method  : 'post',
+		url     : REMOVE_ROLE_ENDPOINT,
+		headers : {
+			Authorization : 'Bearer ' + token
+		},
+		data : { roleId }
+	})
+		.then(function(response)
+		{
+			responseData = true;
+		})
+		.catch(function(error)
+		{
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}else if(error.response.status === 409){
+				responseData = false;
 			}
 			throw error;
 		});

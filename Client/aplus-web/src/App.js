@@ -26,6 +26,7 @@ import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
 import addinventory from './component/addinventory';
 import listOfRoles from './component/role/listOfRoles';
+import { ToastContainer } from 'react-toastify';
 
 class App extends Component {
 
@@ -78,6 +79,7 @@ class App extends Component {
                 <div></div>
 			}
             <SessionExpire />
+            <ToastContainer />
         </div>
     </BrowserRouter>
 		);
