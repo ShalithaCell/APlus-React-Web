@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.8.4",
+    "@devexpress/dx-react-core": "^2.6.0",
+    "@devexpress/dx-react-grid": "^2.6.0",
+    "@devexpress/dx-react-grid-material-ui": "^2.6.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
