@@ -111,7 +111,7 @@ export default function SpanningTable() {
                   <Toolbar>
 
                       <Typography className={ classes.title } variant="h6" noWrap>
-                      Transactions Details
+                          Transactions Details
 
                       </Typography>
                       <div className={ classes.search }>
@@ -135,7 +135,7 @@ export default function SpanningTable() {
                   <TableHead>
                       <TableRow>
                           <TableCell align="center" colSpan={ 5 }>
-              Details
+                              Details
                           </TableCell>
                           <TableCell align="right" colSpan={ 5 }>Price</TableCell>
                       </TableRow>

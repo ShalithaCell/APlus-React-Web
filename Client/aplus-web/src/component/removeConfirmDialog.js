@@ -36,10 +36,10 @@ class RemoveConfirmDialog extends Component
             </DialogContent>
             <DialogActions>
                 <Button id={ 'btnYes' } onClick={ this.props.onRemoveClick } color="secondary">
-							Yes
+                    Yes
                 </Button>
                 <Button id={ 'btnNo' } onClick={ this.props.onRemoveClick } color="primary" autoFocus>
-							No
+                    No
                 </Button>
             </DialogActions>
         </Dialog>

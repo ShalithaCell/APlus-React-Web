@@ -125,7 +125,7 @@ export default function MaterialTableDemo() {
                   </div>
                   <Toolbar>
                       <Typography className={ classes.title } variant="h6" noWrap>
-                      Salary Management Details
+                          Salary Management Details
                       </Typography>
                   </Toolbar>
               </AppBar>

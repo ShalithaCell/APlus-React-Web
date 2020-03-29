@@ -96,7 +96,7 @@ export default function Checkout() {
             <AppBar position="absolute" color="default" className={ classes.appBar }>
                 <Toolbar>
                     <Typography variant="h6" color="inherit" noWrap>
-                         Aplus
+                        Aplus
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -129,7 +129,7 @@ export default function Checkout() {
                                 <div className={ classes.buttons }>
                                     {activeStep !== 0 && (
                                         <Button onClick={ handleBack } className={ classes.button }>
-                                                Back
+                                            Back
                                             </Button>
                                         )}
                                     <Button

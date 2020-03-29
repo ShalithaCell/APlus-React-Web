@@ -314,7 +314,7 @@ render()
         <main className={ classes.layout }>
             <Paper className={ classes.paper }>
                 <Typography component="h1" variant="h4" align="center">
-					New Role
+                    New Role
                 </Typography>
                 <Stepper activeStep={ this.state.activeStep } className={ classes.stepper }>
                     {steps.map((label) => (
@@ -339,7 +339,7 @@ render()
         <div className={ classes.buttons }>
             {this.state.activeStep !== 0 && (
             <Button onClick={ this.handleBack } className={ classes.button }>
-										Back
+                Back
             </Button>
 								)}
             <Button

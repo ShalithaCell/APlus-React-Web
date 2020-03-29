@@ -18,7 +18,7 @@ function Copyright() {
       <Typography variant ="body2" color ="textSecondary" align="center">
           {'Copyright © '}
           <Link color="inherit" href="">
-          A Plus
+              A Plus
           </Link>{' '}
           {new Date().getFullYear()}
           {'.'}
@@ -62,7 +62,7 @@ export default function SignUp() {
                   <PersonAddIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-          Add Supplier
+                  Add Supplier
               </Typography>
               <form className={ classes.form } noValidate>
                   <Grid container spacing={ 2 }>
@@ -141,7 +141,7 @@ export default function SignUp() {
             color="primary"
             className={ classes.submit }
           >
-           Add
+                      Add
                   </Button>
                   <Grid container justify="flex-end">
                       <Grid item>

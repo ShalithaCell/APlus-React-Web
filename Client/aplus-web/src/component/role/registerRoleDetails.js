@@ -15,7 +15,7 @@ export default class RegisterRoleDetails extends Component
 		return(
     <React.Fragment>
         <Typography variant="h6" gutterBottom>
-					Role information
+            Role information
         </Typography>
         <Grid container spacing={ 3 }>
             <Grid item xs={ 12 }>

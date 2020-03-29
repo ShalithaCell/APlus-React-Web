@@ -139,7 +139,7 @@ class ListOfRoles extends Component
 			className={ 'text-left' }
 			action={
     <Button variant="outlined" color="primary" startIcon={ <AddCircle /> } id="btnNewRole" onClick={ this.onClickListner.bind(this) }>
-					Add Role
+        Add Role
     </Button>
 			}
 			/>
