@@ -25,11 +25,15 @@ import UpdateRequest from './component/UpdateRequest'
 import request from './component/request'
 import customeradd from './component/customeradd'
 import storeAdd from './component/storeAdd'
-import storeChart from './component/storeChart'
+import storeChart from './component/store/storeChart'
 import storeUpdate from './component/storeUpdate';
 import register from './component/register';
 import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
+import addinventory from './component/addinventory'
+import storeDashboard from './component/storeDashboard';
+import map from './component/store/map';
+import storePlan from './component/storePlan';
 import addinventory from './component/addinventory';
 import listOfRoles from './component/role/listOfRoles';
 import { ToastContainer } from 'react-toastify';
@@ -65,6 +69,8 @@ class App extends Component {
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
                     <Route exact path='/sales_homes' component={ sales_homes } />
+                    <Route exact path= '/storeDashboard' component={ storeDashboard } />
+                    <Route exact path= '/storePlan' component={ map } />
                     <Route exact path='/checkout' component={ checkout } />
                     <Route exact path='/payment_form' component={ payment_form } />
                     <Route exact path='/review' component={ review } />
