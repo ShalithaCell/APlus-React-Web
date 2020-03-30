@@ -61,7 +61,7 @@ export default function Deposits() {
         </Table>
 
         <Typography component="p" variant="h4">
-				5
+            5
         </Typography>
 
         <div>

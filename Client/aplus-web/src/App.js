@@ -30,7 +30,6 @@ import storeUpdate from './component/storeUpdate';
 import register from './component/register';
 import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
-import addinventory from './component/addinventory'
 import storeDashboard from './component/storeDashboard';
 import map from './component/store/map';
 import storePlan from './component/storePlan';

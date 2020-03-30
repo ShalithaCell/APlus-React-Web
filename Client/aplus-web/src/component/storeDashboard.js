@@ -32,7 +32,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}
         <Link color="inherit" href="http://localhost:3000/storeDashboard">
-				Aplus Web
+            Aplus Web
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
@@ -147,7 +147,7 @@ export default function Dashboard() {
                     <MenuIcon />
                 </IconButton>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={ classes.title }>
-						Organization 1
+                    Organization 1
                 </Typography>
                 <IconButton color="inherit">
                     <Button href="http://localhost:3000/home"
