@@ -25,6 +25,8 @@ import register from './component/register';
 import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
 import addinventory from './component/addinventory'
+import updateinventory from './component/updateinventory';
+import dashboard from './component/dashboard'
 
 class App extends Component {
 
@@ -56,6 +58,8 @@ class App extends Component {
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
                     <Route exact path='/sales_homes' component={ sales_homes } />
+                    <Route exact path='/updateinventory' component={ updateinventory } />
+                    <Route exact path='/dash' component={ dashboard } />
                 </Switch>
 				:
                 <Switch>
