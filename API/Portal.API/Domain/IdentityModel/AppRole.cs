@@ -22,5 +22,6 @@ namespace Portal.API.Domain.IdentityModel
 
         [ForeignKey("FK_RoleID")]
         public ICollection<CustomRolePermissionLevelc> customRolePermissionLevels { get; set; }
+
     }
 }

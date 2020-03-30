@@ -16,6 +16,7 @@ export const TOAST_INFO = 'Info';
 //API end-points
 export const LOGIN_ENDPOINT = API_TARGET +'users/authenticate';
 export const PASSWORD_RESET_ENDPOINT = API_TARGET +'users/resetPassword';
+export const SYNC_USER_LIST_ENDPOINT = API_TARGET +'users/getAllUsers';
 export const GET_ROLE_LIST_ENDPOINT = API_TARGET +'roles/getRoles';
 export const REGISTER_NEW_ROLE_ENDPOINT = API_TARGET +'roles/registerRole';
 export const GET_ROLE_ENDPOINT = API_TARGET +'roles/getRoleInfomation';

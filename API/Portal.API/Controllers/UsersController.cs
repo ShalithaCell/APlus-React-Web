@@ -167,8 +167,35 @@ namespace Portal.API.Controllers
         [HttpPost("getAllUsers")]
         public async Task<IActionResult> GetAllUsers([FromBody] JObject role)
         {
-            int roleID = Convert.ToInt32(role["roleId"].ToString());
-            List<AppUser> users = _context.Users
+            int RoleID = Convert.ToInt32(role["roleId"].ToString());
+
+            List<UserListResult> usersResult = new List<UserListResult>();
+            List<AppUser> users = _userManager.Users.ToList();
+
+            UserListResult userResult;
+            AppRole roleForUser;
+            foreach (AppUser user in users)
+            {
+                userResult = new UserListResult();
+
+                roleForUser = new AppRole();
+
+                var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
+                var RoleDetails = _context.Roles.Where(o => o.Name == roleList[0]).FirstOrDefault();
+
+                userResult.ID = user.Id;
+                userResult.RoleID = RoleDetails.Id;
+                userResult.RoleName = RoleDetails.Name;
+                userResult.UserName = user.UserName;
+                userResult.Email = user.Email;
+                userResult.Locked = user.LockoutEnabled ? "YES" : "NO";
+
+                userResult.modifyAllowed = userResult.RoleID >= RoleID;
+
+                usersResult.Add(userResult);
+            }
+
+            return Ok(usersResult);
         }
 
 
