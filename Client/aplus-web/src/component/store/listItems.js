@@ -14,18 +14,23 @@ import Tooltip from '@material-ui/core/Tooltip';
 export const mainListItems = (
     <div>
         <ListItem button>
-            <ListItemIcon>
-                <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Organization" />
+            <Tooltip title="Organization">
+                <ListItemIcon>
+                    <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Organization" />
+            </Tooltip>
         </ListItem>
         <ListItem button>
-            <ListItemIcon>
-                <ShoppingCartIcon />
-            </ListItemIcon>
+            <Tooltip title="Add Branch">
+                <ListItemIcon>
+                    <ShoppingCartIcon />
+                </ListItemIcon>
+            </Tooltip>
             <ListItemText primary="Add Branch" />
         </ListItem>
         <ListItem button>
+            
             <Tooltip title="Manage Branch">
                 <ListItemIcon>
                     <PeopleIcon />
@@ -35,17 +40,20 @@ export const mainListItems = (
             
         </ListItem>
         <ListItem button>
-
-            <ListItemIcon>
-                <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Month Plan" />
+            <Tooltip title="Month Plan">
+                <ListItemIcon>
+                    <BarChartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Month Plan" />
+            </Tooltip>
         </ListItem>
         <ListItem button>
-            <ListItemIcon>
-                <LayersIcon />
-            </ListItemIcon>
-            <ListItemText primary="Edit Orgaization" />
+            <Tooltip title="Edit Organization">
+                <ListItemIcon>
+                    <LayersIcon />
+                </ListItemIcon>
+                <ListItemText primary="Edit Organization" />
+            </Tooltip>
         </ListItem>
     </div>
 );
@@ -54,34 +62,44 @@ export const secondaryListItems = (
     <div>
         <ListSubheader inset>Comparing Profit</ListSubheader>
         <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Best Branch" />
+            <Tooltip title="Best Branch">
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Best Branch" />
+            </Tooltip>
         </ListItem>
         <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Last week" />
+            <Tooltip title="Last week">
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Last week" />
+            </Tooltip>
         </ListItem>
         <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Current month" />
+            <Tooltip title="Current month">
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Current month" />
+            </Tooltip>
         </ListItem>
         <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Last 6 months" />
+            <Tooltip title="Last 6 months">
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Last 6 months" />
+            </Tooltip>
         </ListItem>
         <ListItem button>
-            <ListItemIcon>
-                <AssignmentIcon />
-            </ListItemIcon>
-            <ListItemText primary="Year end sale" />
+            <Tooltip title="Year end sale">
+                <ListItemIcon>
+                    <AssignmentIcon />
+                </ListItemIcon>
+                <ListItemText primary="Year end sale" />
+            </Tooltip>
         </ListItem>
     </div>
 );
