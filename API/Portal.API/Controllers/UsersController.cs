@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using Portal.API.ApplicationCore.service.CommonServices;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
@@ -160,6 +162,16 @@ namespace Portal.API.Controllers
             
         }
 
-        
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("getAllUsers")]
+        public async Task<IActionResult> GetAllUsers([FromBody] JObject role)
+        {
+            int roleID = Convert.ToInt32(role["roleId"].ToString());
+            List<AppUser> users = _context.Users
+        }
+
+
+
     }
 }
