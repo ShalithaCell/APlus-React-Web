@@ -31,11 +31,12 @@ namespace Portal.API.Controllers
     /// </developer>
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : ApiController
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IAuthenticationServices _authenticationServices;
         private readonly IExtendedEmailSender _emailSender;
@@ -43,7 +44,7 @@ namespace Portal.API.Controllers
         private readonly IOptions<TemplateParams> _templateParams;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UsersController(ApplicationDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IAuthenticationServices authenticationServices
+        public UsersController(ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IAuthenticationServices authenticationServices
                                             ,IOptions<ConfigurationParams> config, IOptions<TemplateParams> templateParams, IHostingEnvironment hostingEnvironment, IExtendedEmailSender emailSender)
         {
             _context = context;
@@ -54,6 +55,7 @@ namespace Portal.API.Controllers
             _templateParams = templateParams;
             _hostingEnvironment = hostingEnvironment;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [AllowAnonymous]
@@ -158,31 +160,6 @@ namespace Portal.API.Controllers
             
         }
 
-        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        [HttpGet("getRoles")]
-        public async Task<IActionResult> GetAllRoleList()
-        {
-            var roleList = _context.Roles.Select(o => new
-                                                    {
-                                                        ID = o.Id,
-                                                        roleName = o.Name,
-                                                        roleDisplayName = o.DisplayName
-                                                    }).ToList();
-            return Ok(roleList);
-        }
-
-        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        [HttpGet("registerRole")]
-        public async Task<IActionResult> RegisterNewRole([FromBody] NewRoleModel dataModel)
-        {
-            AppRole newRole = new AppRole()
-            {
-                Name = dataModel.Name,
-                DisplayName = dataModel.DisplayName,
-                OrganizationID = dataModel.OrgID
-            };
-
-            return Ok();
-        }
+        
     }
 }

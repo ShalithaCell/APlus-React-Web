@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { doLogin } from '../redux/userActions';
@@ -84,9 +85,9 @@ class login extends Component
         </div>
         <div className="form-group">
             <label htmlFor="password" className="left-c">
-												Password
+                Password
                 <a id="forgot-password" className="float-right" href="#" onClick={ this.OnClickListner }>Forgot
-													Password?</a>
+                    Password?</a>
             </label>
             <Field name="password" type="Password" className={ 'form-control' + (errors.password && touched.password ? ' is-invalid' : '') } />
             <ErrorMessage name="password" component="div" className="invalid-feedback left-c" />
@@ -95,7 +96,7 @@ class login extends Component
             <div className="custom-checkbox custom-control">
                 <input type="checkbox" className="custom-control-input"/>
                 <label htmlFor="RememberMe" className="custom-control-label left-c">
-													RememberMe
+                    RememberMe
                 </label>
             </div>
         </div>
@@ -114,8 +115,8 @@ class login extends Component
                             </div>
                         </div>
                         <div className="footer">
-										Copyright &copy; {(new Date().getFullYear())} &mdash; <a href="#" target="_blank">NVIVID
-										Technologies</a>
+                            Copyright &copy; {(new Date().getFullYear())} &mdash; <a href="#" target="_blank">NVIVID
+                                Technologies</a>
                         </div>
                     </div>
                 </div>

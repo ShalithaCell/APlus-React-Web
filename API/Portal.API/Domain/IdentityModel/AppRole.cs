@@ -17,6 +17,9 @@ namespace Portal.API.Domain.IdentityModel
         [MaxLength(100, ErrorMessage = "Please enter Display name less than 100 characters.")]
         public string DisplayName { get; set; }
 
+        [Required(ErrorMessage = "Editable flag is Required.")]
+        public bool Editable { get; set; }
+
         [ForeignKey("FK_RoleID")]
         public ICollection<CustomRolePermissionLevelc> customRolePermissionLevels { get; set; }
     }
