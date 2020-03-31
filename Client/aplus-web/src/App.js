@@ -24,14 +24,21 @@ import AddRequest from './component/AddRequest'
 import UpdateRequest from './component/UpdateRequest'
 import request from './component/request'
 import customeradd from './component/customeradd'
+import customer_list from './component/customer_list'
 import storeAdd from './component/storeAdd'
-import storeChart from './component/storeChart'
+import storeChart from './component/store/storeChart'
 import storeUpdate from './component/storeUpdate';
-import register from './component/register';
+import Register from './component/user/register';
 import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
+import updateinventory from './component/updateinventory';
+import dashboard from './component/dashboard'
+import storeDashboard from './component/storeDashboard';
+import map from './component/store/map';
+import storePlan from './component/storePlan';
 import addinventory from './component/addinventory';
 import listOfRoles from './component/role/listOfRoles';
+import listOfUsers from './component/user/listOfUsers';
 import { ToastContainer } from 'react-toastify';
 
 class App extends Component {
@@ -53,7 +60,7 @@ class App extends Component {
                     <Route exact path= '/storeUpdate' component={ storeUpdate } />
                     <Route exact path='/' component={ home } />
                     <Route exact path='/home' component={ home }/>
-                    <Route exact path='/register' component={ register }/>
+                    <Route exact path='/register' component={ Register }/>
                     <Route exact path='/registerRole' component={ RegisterRole }/>
                     <Route exact path='/roles' component={ listOfRoles }/>
                     <Route exact path='/customeradd' component={ customeradd } />
@@ -65,11 +72,18 @@ class App extends Component {
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
                     <Route exact path='/sales_homes' component={ sales_homes } />
+                    <Route exact path='/updateinventory' component={ updateinventory } />
+                    <Route exact path='/dash' component={ dashboard } />
+                    <Route exact path= '/storeDashboard' component={ storeDashboard } />
+                    <Route exact path= '/storePlan' component={ map } />
                     <Route exact path='/checkout' component={ checkout } />
                     <Route exact path='/payment_form' component={ payment_form } />
                     <Route exact path='/review' component={ review } />
                     <Route exact path='/transactions' component={ transactions } />
                     <Route exact path='/salary_management' component={ salary_management } />
+                    <Route exact path='/users' component={ listOfUsers } />
+                    <Route exact path='/customeradd' component={ customeradd } />
+                    <Route exact path='/customer_list' component={ customer_list } />
                 </Switch>
 				:
                 <Switch>
