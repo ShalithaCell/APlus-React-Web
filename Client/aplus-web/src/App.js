@@ -17,7 +17,6 @@ import review from './component/review'
 import salary_management from './component/salary_management'
 import addSupplier from './component/addSupplier'
 import informSupplier from './component/informSupplier'
-import sales_homes from './component/sales_home'
 import Attendance from './component/Attendance'
 import EmployeeRequest from './component/EmployeeRequest'
 import AddRequest from './component/AddRequest'
@@ -64,7 +63,6 @@ class App extends Component {
                     <Route exact path='/addinventory' component={ addinventory } />
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
-                    <Route exact path='/sales_homes' component={ sales_homes } />
                     <Route exact path='/checkout' component={ checkout } />
                     <Route exact path='/payment_form' component={ payment_form } />
                     <Route exact path='/review' component={ review } />
