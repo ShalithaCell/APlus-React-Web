@@ -112,7 +112,7 @@ export default function Dashboard() {
         <AppBar position="absolute" className={ clsx(classes.appBar, open && classes.appBarShift) }>
             <Toolbar className={ classes.toolbar }>
                 <Typography component="h1" variant="h5" color="inherit" noWrap className={ classes.title }>
-						Inventory
+                    Inventory
                 </Typography>
                 <IconButton color="inherit">
                     <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
@@ -158,14 +158,14 @@ export default function Dashboard() {
                     <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
                         <Paper className={ fixedHeightPaper } >
                             <Button variant="contained" color="secondary">
-								REPORTS
+                                REPORTS
                             </Button>
                         </Paper>
                     </Grid>
                     <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
                         <Paper className={ fixedHeightPaper } >
                             <Button variant="contained" color="secondary">
-								DETAILS
+                                DETAILS
                             </Button>
                         </Paper>
                     </Grid>

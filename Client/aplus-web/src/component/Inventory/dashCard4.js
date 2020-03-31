@@ -19,7 +19,7 @@ export default function Deposits() {
     <React.Fragment>
         <Title>Zero Stock Products</Title>
         <Typography component="p" variant="h4">
-			___
+            ___
         </Typography>
     </React.Fragment>
 	);

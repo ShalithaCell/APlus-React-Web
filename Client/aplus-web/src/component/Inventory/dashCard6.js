@@ -19,10 +19,10 @@ export default function Deposits() {
     <React.Fragment>
         <Title>Product of the Month</Title>
         <Typography component="p" variant="h4">
-			___
+            ___
         </Typography>
         <Typography component="p" variant="h6">
-			Month
+            Month
         </Typography>
     </React.Fragment>
 	);
