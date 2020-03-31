@@ -5,6 +5,7 @@ import './App.css';
 import home from './component/home'
 import login from './component/login'
 import customeradd from './component/customeradd'
+import customer_list from './component/customer_list'
 
 class App extends Component {
 	render(){
@@ -15,6 +16,7 @@ class App extends Component {
                 <Route path='/home' component={ home } />
                 <Route path='/login' component={ login } />
                 <Route path='/customeradd' component={ customeradd } />
+                <Route path='/customer_list' component={ customer_list } />
             </Switch>
         </div>
     </BrowserRouter>
