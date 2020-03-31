@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { doLogin } from '../redux/userActions';
@@ -5,14 +6,28 @@ import { popupPasswordResetDialog } from '../redux/systemActions'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import '../resources/styles/login.css'
+import PasswordResetDialog from './dialog_password_reset';
+import { SetSession } from '../services/sessionManagement';
 
 class login extends Component
 {
+
+	OnClickListner = (e) => {
+		e.preventDefault();
+
+		switch (e.target.id)
+		{
+			case 'forgot-password':
+				this.props.popupPasswordResetDialog(true);
+				break;
+		}
+	}
 
 	render()
 	{
 		return (
     <div className="my-login-page">
+        <PasswordResetDialog/>
         <section className="h-100">
             <div className="container h-100">
                 <div className="row justify-content-md-center h-100">
@@ -39,14 +54,24 @@ class login extends Component
 										const result = await this.props.doLogin(username, password);
 
 										if(result.success && !result.error){ //success login
-											const { from } = this.props.location.state || { from: { pathname: "/home" } };
+											
+											//set session
+											const sessionObj = { 
+												'sessionData' : this.props.items
+											};
+											console.log(sessionObj);
+											SetSession(sessionObj);
+
+											const { from } = this.props.location.state || { from: { pathname: '/home' } };
 											this.props.history.push(from);
+
+											window.location.reload();
 										}else if( !result.success && !result.error ){ //failed login
 											setSubmitting(false);
 											setStatus(result.data.errorMessages);
 										}else{ //error
 											setSubmitting(false);
-											setStatus("Something went wrong please contact with our support hub.");
+											setStatus('Something went wrong please contact with our support hub.');
 										}
 
 									} }
@@ -60,9 +85,9 @@ class login extends Component
         </div>
         <div className="form-group">
             <label htmlFor="password" className="left-c">
-												Password
-                <a id="forgot-password" className="float-right" href="#" onClick={ this.props.popupPasswordResetDialog(true) }>Forgot
-													Password?</a>
+                Password
+                <a id="forgot-password" className="float-right" href="#" onClick={ this.OnClickListner }>Forgot
+                    Password?</a>
             </label>
             <Field name="password" type="Password" className={ 'form-control' + (errors.password && touched.password ? ' is-invalid' : '') } />
             <ErrorMessage name="password" component="div" className="invalid-feedback left-c" />
@@ -71,7 +96,7 @@ class login extends Component
             <div className="custom-checkbox custom-control">
                 <input type="checkbox" className="custom-control-input"/>
                 <label htmlFor="RememberMe" className="custom-control-label left-c">
-													RememberMe
+                    RememberMe
                 </label>
             </div>
         </div>
@@ -90,8 +115,8 @@ class login extends Component
                             </div>
                         </div>
                         <div className="footer">
-										Copyright &copy; {(new Date().getFullYear())} &mdash; <a href="#" target="_blank">NVIVID
-										Technologies</a>
+                            Copyright &copy; {(new Date().getFullYear())} &mdash; <a href="#" target="_blank">NVIVID
+                                Technologies</a>
                         </div>
                     </div>
                 </div>

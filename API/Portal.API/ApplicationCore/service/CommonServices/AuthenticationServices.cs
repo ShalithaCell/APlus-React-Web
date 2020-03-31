@@ -31,7 +31,7 @@ namespace Portal.API.ApplicationCore.service.CommonServices
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, authenticatedResult.UserID.ToString()),
-                    new Claim(ClaimTypes.Role, authenticatedResult.Role)
+                    new Claim(ClaimTypes.Role, authenticatedResult.RoleID.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
