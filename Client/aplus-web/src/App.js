@@ -30,6 +30,9 @@ import storeUpdate from './component/storeUpdate';
 import register from './component/register';
 import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
+import addinventory from './component/addinventory'
+import updateinventory from './component/updateinventory';
+import dashboard from './component/dashboard'
 import storeDashboard from './component/storeDashboard';
 import map from './component/store/map';
 import storePlan from './component/storePlan';
@@ -68,6 +71,8 @@ class App extends Component {
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
                     <Route exact path='/sales_homes' component={ sales_homes } />
+                    <Route exact path='/updateinventory' component={ updateinventory } />
+                    <Route exact path='/dash' component={ dashboard } />
                     <Route exact path= '/storeDashboard' component={ storeDashboard } />
                     <Route exact path= '/storePlan' component={ map } />
                     <Route exact path='/checkout' component={ checkout } />
