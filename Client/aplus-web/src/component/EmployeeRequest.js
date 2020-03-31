@@ -29,8 +29,8 @@ function createData(name, lastName, email, Address, PhoneNumber, Role, Action) {
 }
 
 const rows = [
-  createData('Ron', "wisly", "rw@gmail.com", "116/5 1st Cross Street,Colombo", "0771230030", "Sales Manager"),
-  createData('Harry', "Potter", "hp@gmail.com", "116/5 1st Cross Street,Colombo", "0712835663", "Inventory Manager")
+  createData('Ron', 'wisly', 'rw@gmail.com', '116/5 1st Cross Street,Colombo', '0771230030', 'Sales Manager'),
+  createData('Harry', 'Potter', 'hp@gmail.com', '116/5 1st Cross Street,Colombo', '0712835663', 'Inventory Manager')
  
 ];
 
@@ -78,10 +78,10 @@ export default function SimpleTable() {
                                   <TableCell align="right">{row.PhoneNumber}</TableCell>
                                   <TableCell align="right">{row.Role} </TableCell>
                                   <Button variant="contained" color="primary" size="small" >
- ADD
+                                      ADD
                                   </Button>
                                   <Button variant="contained" color="primary" size="small" onClick={ handleClickOpen } >
- DELETE
+                                      DELETE
                                   </Button>
                                   <Dialog
         open={ open }
@@ -89,7 +89,7 @@ export default function SimpleTable() {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-                                      <DialogTitle id="alert-dialog-title">{"DO YOU WANT TO DELETE THIS?"}</DialogTitle>
+                                      <DialogTitle id="alert-dialog-title">{'DO YOU WANT TO DELETE THIS?'}</DialogTitle>
                                       <DialogContent>
                                           <DialogContentText id="alert-dialog-description">
            
@@ -97,10 +97,10 @@ export default function SimpleTable() {
                                       </DialogContent>
                                       <DialogActions>
                                           <Button onClick={ handleClose } color="primary">
-           Yes
+                                              Yes
                                           </Button>
                                           <Button onClick={ handleClose } color="primary" autoFocus>
-           No
+                                              No
                                           </Button>
                                       </DialogActions>
                                   </Dialog>

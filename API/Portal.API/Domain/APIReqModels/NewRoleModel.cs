@@ -26,4 +26,10 @@ namespace Portal.API.Domain.APIReqModels
         public bool Allowed { get; set; }
 
     }
+
+    public class RoleInfoReqData
+    {
+        [Required(ErrorMessage = "Role ID is required.")]
+        public int RoleID { get; set; }
+    }
 }

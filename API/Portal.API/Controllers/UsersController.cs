@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using Portal.API.ApplicationCore.service.CommonServices;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
@@ -31,11 +33,12 @@ namespace Portal.API.Controllers
     /// </developer>
     [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : ApiController
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IAuthenticationServices _authenticationServices;
         private readonly IExtendedEmailSender _emailSender;
@@ -43,8 +46,8 @@ namespace Portal.API.Controllers
         private readonly IOptions<TemplateParams> _templateParams;
         private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UsersController(ApplicationDbContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IAuthenticationServices authenticationServices
-                                            ,IOptions<ConfigurationParams> config, IOptions<TemplateParams> templateParams, IHostingEnvironment hostingEnvironment, IExtendedEmailSender emailSender)
+        public UsersController(ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IAuthenticationServices authenticationServices
+                                            , IOptions<ConfigurationParams> config, IOptions<TemplateParams> templateParams, IHostingEnvironment hostingEnvironment, IExtendedEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
@@ -54,6 +57,7 @@ namespace Portal.API.Controllers
             _templateParams = templateParams;
             _hostingEnvironment = hostingEnvironment;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [AllowAnonymous]
@@ -85,7 +89,7 @@ namespace Portal.API.Controllers
 
                 return Ok(authenticatedResult);
             }
-            else if(result.RequiresTwoFactor)
+            else if (result.RequiresTwoFactor)
             {
                 authenticatedResult.Authenticated = false;
                 authenticatedResult.StatusCode = StatusCodes.Status203NonAuthoritative;
@@ -107,7 +111,7 @@ namespace Portal.API.Controllers
                 return Ok(authenticatedResult);
             }
 
-            
+
         }
 
         [AllowAnonymous]
@@ -155,34 +159,52 @@ namespace Portal.API.Controllers
             {
                 throw ex;
             }
-            
+
         }
 
-        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        [HttpGet("getRoles")]
-        public async Task<IActionResult> GetAllRoleList()
-        {
-            var roleList = _context.Roles.Select(o => new
-                                                    {
-                                                        ID = o.Id,
-                                                        roleName = o.Name,
-                                                        roleDisplayName = o.DisplayName
-                                                    }).ToList();
-            return Ok(roleList);
-        }
 
         [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        [HttpGet("registerRole")]
-        public async Task<IActionResult> RegisterNewRole([FromBody] NewRoleModel dataModel)
+        [HttpPost("getAllUsers")]
+        public async Task<IActionResult> GetAllUsers([FromBody] JObject role)
         {
-            AppRole newRole = new AppRole()
+            int RoleID = Convert.ToInt32(role["roleId"].ToString());
+
+            List<UserListResult> usersResult = new List<UserListResult>();
+            List<AppUser> users = _userManager.Users.ToList();
+
+            UserListResult userResult;
+            AppRole roleForUser;
+            foreach (AppUser user in users)
             {
-                Name = dataModel.Name,
-                DisplayName = dataModel.DisplayName,
-                OrganizationID = dataModel.OrgID
-            };
+                userResult = new UserListResult();
 
-            return Ok();
+                roleForUser = new AppRole();
+
+                var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
+                var RoleDetails = _context.Roles.Where(o => o.Name == roleList[0]).FirstOrDefault();
+
+                userResult.ID = user.Id;
+                userResult.RoleID = RoleDetails.Id;
+                userResult.RoleName = RoleDetails.Name;
+                userResult.UserName = user.UserName;
+                userResult.Email = user.Email;
+                userResult.Locked = user.LockoutEnabled ? "YES" : "NO";
+
+                userResult.modifyAllowed = userResult.RoleID >= RoleID;
+
+                usersResult.Add(userResult);
+            }
+
+            return Ok(usersResult);
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdminOrAuthUser)]
+        [HttpGet("getUserNames")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var userNames = _context.Users.Select(o => o.UserName).ToList();
+
+            return Ok(userNames);
         }
     }
 }

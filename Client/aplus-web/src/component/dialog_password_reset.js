@@ -26,7 +26,7 @@ class PasswordResetDialog extends Component
 		//loader start
 		this.props.popupSpinner(true);
 
-		let valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(this.state.txtvalue);
+		const valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(this.state.txtvalue);
 		if (!valid)
 		{
 			this.setState({ errorText: 'Invalid email format' })
@@ -46,7 +46,7 @@ class PasswordResetDialog extends Component
 	}
 
 	onChange = (e) => {
-		let valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(e.target.value);
+		const valid = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g).test(e.target.value);
 		if (valid) {
 			this.setState({ errorText: '' })
 		} else {
@@ -64,8 +64,8 @@ class PasswordResetDialog extends Component
             <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-					Please enter the email address for your account. A password reset link will be sent to you. Once you have received the password reset link.
-					You will be able to choose a new password for your account.
+                    Please enter the email address for your account. A password reset link will be sent to you. Once you have received the password reset link.
+                    You will be able to choose a new password for your account.
                 </DialogContentText>
                 <TextField
 							autoFocus
@@ -82,10 +82,10 @@ class PasswordResetDialog extends Component
             </DialogContent>
             <DialogActions>
                 <Button id="btnClose" onClick={ this.formClose } color="primary">
-							Cancel
+                    Cancel
                 </Button>
                 <Button onClick={ this.formSubmit } color="primary">
-							Send
+                    Send
                 </Button>
             </DialogActions>
         </Dialog>

@@ -15,7 +15,7 @@ export default class RegisterRoleDetails extends Component
 		return(
     <React.Fragment>
         <Typography variant="h6" gutterBottom>
-					Role information
+            Role information
         </Typography>
         <Grid container spacing={ 3 }>
             <Grid item xs={ 12 }>
@@ -25,6 +25,8 @@ export default class RegisterRoleDetails extends Component
 							name="RoleName"
 							label="Role"
 							fullWidth
+							disabled={ this.props.editable }
+							value={ this.props.data.role }
 							onChange={ this.props.onTextChange }
 							error={ this.props.data.roleWarning.length !== 0 }
 							helperText={ this.props.data.roleWarning }
@@ -37,6 +39,7 @@ export default class RegisterRoleDetails extends Component
 							name="roleDisplay"
 							label="Display name"
 							fullWidth
+							value={ this.props.data.roleDisplay }
 							onChange={ this.props.onTextChange }
 							error={ this.props.data.roleDisplayWarning.length !== 0 }
 							helperText={ this.props.data.roleDisplayWarning }

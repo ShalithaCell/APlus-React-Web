@@ -38,12 +38,12 @@ class SessionExpire extends Component {
                 <DialogContentText id="alert-dialog-description">
                     <img src={ imgExpire } alt="session_expired.png" className="session-expire-cls"/>
                     <br/>
-					Your session has expired please login again.
+                    Your session has expired please login again.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button onClick={ this.redirectTologin } color="primary" autoFocus>
-							LOGIN
+                    LOGIN
                 </Button>
             </DialogActions>
         </Dialog>

@@ -3,23 +3,19 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import DvrIcon from '@material-ui/icons/Dvr';
+import Navbar from './navbar';
 
 function Copyright() {
   return (
       <Typography variant="body2" color="textSecondary" align="center">
           {'Copyright © '}
           <Link color="inherit" href="">
-        Your Website
+              Your Website
           </Link>{' '}
           {new Date().getFullYear()}
           {'.'}
@@ -52,13 +48,13 @@ export default function SignUp() {
 
   return (
       <Container component="main" maxWidth="xs">
+          <Navbar/>
           <CssBaseline />
           <div className={ classes.paper } >
               <Avatar className={ classes.avatar }>
                   <DvrIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-          Add Inventory
               </Typography>
               <form className={ classes.form } noValidate>
                   <Grid container spacing={ 2 }>
@@ -133,30 +129,6 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                name="saddress"
-                label="Supplire Address"
-                type="saddress"
-                id="saddress"
-                autoComplete="current-saddress"
-              />
-                      </Grid>
-                      <Grid item xs={ 12 }>
-                          <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="sphone"
-                label="Supplie Contanct"
-                type="sphone"
-                id="saddrsphoneess"
-                autoComplete="current-sphone"
-              />
-                      </Grid>
-                      <Grid item xs={ 12 }>
-                          <TextField
-                variant="outlined"
-                required
-                fullWidth
                 name="semail"
                 label="Supplire Email"
                 type="semail"
@@ -172,15 +144,12 @@ export default function SignUp() {
             color="primary"
             className={ classes.submit }
           >
-            Submit
+                      Submit
                   </Button>
                   <Grid container justify="flex-end">
                   </Grid>
               </form>
           </div>
-          <Box mt={ 5 }>
-              <Copyright />
-          </Box>
       </Container>
   );
 }
