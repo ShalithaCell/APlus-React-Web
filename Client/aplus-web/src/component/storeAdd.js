@@ -11,6 +11,7 @@ import HouseTwoToneIcon from '@material-ui/icons/HouseTwoTone';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Copyright } from '@material-ui/icons';
+import Navbar from './navbar';
 
 const useStyles = makeStyles((theme) => ({
 	root : {
@@ -48,6 +49,7 @@ export default function SignInSide() {
 
 	return (
     <Grid container component="main" className={ classes.root }>
+		<Navbar/>
         <CssBaseline />
         <Grid item xs={ false } sm={ 10 } md={ 7 } className={ classes.image } />
         <Grid item xs={ 15 } sm={ 10 } md={ 5} component={ Paper } elevation={ 20 } square>

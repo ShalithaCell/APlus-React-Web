@@ -17,7 +17,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
-import navbar from './navbar';
+import MaterialTable from 'material-table';
+
 
 // Generate Order Data
 function createData(id, BranchName, Location, PhoneNo, NoofEmployees, Update,Delete) {
@@ -55,11 +56,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	root: {
 		flexGrow: 5,
+
 	},
 	paper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
-		color: theme.palette.text.secondary,
+		color: '#95a5a6'
 	},
 	menuButton: {
 		marginRight: theme.spacing(2),
@@ -95,8 +97,10 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 	},
 	inputRoot: {
-		color: 'inherit',
+		color: '#95a5a6',
+
 	},
+
 	inputInput: {
 		padding: theme.spacing(1, 1, 1, 0),
 		// vertical padding + font size from searchIcon
@@ -121,10 +125,8 @@ export default function Branches() {
 			<React.Fragment>
 
 			<div className={classes.root}>
-				<AppBar position="relative">
-					<div>
-					<navbar/>
-					</div>
+				<AppBar color="primary" position="relative">
+
 					<Toolbar>
 
 						<Typography className={classes.title} variant="h6" noWrap>
@@ -133,6 +135,7 @@ export default function Branches() {
 						</Typography>
 						<div className={classes.search}>
 							<div className={classes.searchIcon}>
+
 								<SearchIcon />
 							</div>
 							<InputBase
@@ -194,10 +197,6 @@ export default function Branches() {
 				</TableBody>
 			</Table>
 
-			<Box pt={4}>
-				<Copyright />
-			</Box>
-
-		</React.Fragment>
+			</React.Fragment>
 	);
 }
