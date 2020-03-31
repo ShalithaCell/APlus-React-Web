@@ -16,7 +16,6 @@ import Attendance from './component/Attendance'
 import EmployeeRequest from './component/EmployeeRequest'
 import AddRequest from './component/AddRequest'
 import UpdateRequest from './component/UpdateRequest'
-import request from './component/request'
 import customeradd from './component/customeradd'
 import storeAdd from './component/storeAdd'
 import storeChart from './component/storeChart'
@@ -51,7 +50,7 @@ class App extends Component {
                     <Route exact path='/EmployeeRequest' component={ EmployeeRequest } />
                     <Route exact path='/AddRequest' component={ AddRequest } />
                     <Route exact path='/UpdateRequest' component={ UpdateRequest } />
-                    <Route exact path='/request' component={ request } />
+                    <Route exact path='/Attendance' component={ Attendance } />
                     <Route exact path='/addinventory' component={ addinventory } />
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
