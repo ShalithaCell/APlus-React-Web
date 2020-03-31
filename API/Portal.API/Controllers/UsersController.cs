@@ -47,7 +47,7 @@ namespace Portal.API.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
 
         public UsersController(ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IAuthenticationServices authenticationServices
-                                            ,IOptions<ConfigurationParams> config, IOptions<TemplateParams> templateParams, IHostingEnvironment hostingEnvironment, IExtendedEmailSender emailSender)
+                                            , IOptions<ConfigurationParams> config, IOptions<TemplateParams> templateParams, IHostingEnvironment hostingEnvironment, IExtendedEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
@@ -89,7 +89,7 @@ namespace Portal.API.Controllers
 
                 return Ok(authenticatedResult);
             }
-            else if(result.RequiresTwoFactor)
+            else if (result.RequiresTwoFactor)
             {
                 authenticatedResult.Authenticated = false;
                 authenticatedResult.StatusCode = StatusCodes.Status203NonAuthoritative;
@@ -111,7 +111,7 @@ namespace Portal.API.Controllers
                 return Ok(authenticatedResult);
             }
 
-            
+
         }
 
         [AllowAnonymous]
@@ -159,7 +159,7 @@ namespace Portal.API.Controllers
             {
                 throw ex;
             }
-            
+
         }
 
 
@@ -198,7 +198,13 @@ namespace Portal.API.Controllers
             return Ok(usersResult);
         }
 
+        [Authorize(Roles = Const.RoleAdminOrSuperAdminOrAuthUser)]
+        [HttpGet("getUserNames")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var userNames = _context.Users.Select(o => o.UserName).ToList();
 
-
+            return Ok(userNames);
+        }
     }
 }

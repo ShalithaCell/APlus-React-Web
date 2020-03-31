@@ -27,7 +27,7 @@ import customeradd from './component/customeradd'
 import storeAdd from './component/storeAdd'
 import storeChart from './component/storeChart'
 import storeUpdate from './component/storeUpdate';
-import register from './component/register';
+import Register from './component/user/register';
 import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
 import addinventory from './component/addinventory';
@@ -54,7 +54,7 @@ class App extends Component {
                     <Route exact path= '/storeUpdate' component={ storeUpdate } />
                     <Route exact path='/' component={ home } />
                     <Route exact path='/home' component={ home }/>
-                    <Route exact path='/register' component={ register }/>
+                    <Route exact path='/register' component={ Register }/>
                     <Route exact path='/registerRole' component={ RegisterRole }/>
                     <Route exact path='/roles' component={ listOfRoles }/>
                     <Route exact path='/customeradd' component={ customeradd } />

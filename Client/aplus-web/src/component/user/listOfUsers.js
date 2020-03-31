@@ -19,6 +19,7 @@ import RemoveConfirmDialog from '../removeConfirmDialog';
 import { ToastContainer } from '../dialogs/ToastContainer';
 import { TOAST_SUCCESS, TOAST_ERROR } from '../../config';
 import { updateUserList } from '../../redux/userActions';
+import Register from './register';
 
 const useStyles  = (theme) =>  ({
 	root : {
@@ -43,7 +44,7 @@ class ListOfUsers extends Component
 	{
 		super(props);
 		this.state = {
-			showNewRoleDialog : false,
+			showNewUserDialog : false,
 			editable          : false,
 			editRole          : 0,
 			popupDelete       : false,
@@ -59,13 +60,19 @@ class ListOfUsers extends Component
 
 	onClickListner = async (e) =>
 	{
-		if (e.currentTarget.id === 'btnNewRole')
+		if (e.currentTarget.id === 'btnAddUser')
 		{
-
+			this.setState({
+				...this.state,
+				showNewUserDialog : true
+			})
 		}
 		else if (e.currentTarget.id === 'btnClose')
 		{
-			t
+			this.setState({
+				...this.state,
+				showNewUserDialog : false
+			})
 		}
 		else if (e.currentTarget.id === 'btnYes')
 		{
@@ -99,7 +106,7 @@ class ListOfUsers extends Component
 								title="List of Roles"
 								className={ 'text-left' }
 								action={
-    <Button variant="outlined" color="primary" startIcon={ <AddCircle /> } id="btnNewRole" onClick={ this.onClickListner.bind(this) }>
+    <Button variant="outlined" color="primary" startIcon={ <AddCircle /> } id="btnAddUser" onClick={ this.onClickListner.bind(this) }>
         Add User
     </Button>
 								}
@@ -144,14 +151,14 @@ class ListOfUsers extends Component
                 </Card>
             </Container>
         </div>
-        <Dialog open={ this.state.showNewRoleDialog } aria-labelledby="form-dialog-title" fullWidth={ true } maxWidth={ 'md' }>
+        <Dialog open={ this.state.showNewUserDialog } aria-labelledby="form-dialog-title" fullWidth={ true } maxWidth={ 'md' }>
             <DialogTitle disableTypography >
                 <IconButton id="btnClose" onClick={ this.onClickListner.bind(this) } className={ 'pull-right' }>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                { /*<RegisterRole editable={ this.state.editable } editRole={ this.state.editRole }/>*/ }
+                { <Register editable={ this.state.editable } editRole={ this.state.editRole }/> }
             </DialogContent>
         </Dialog>
         <RemoveConfirmDialog popupDelete={ this.state.popupDelete } item={ this.state.removeItem }  onRemoveClick={ this.onClickListner }/>
