@@ -7,6 +7,11 @@
   pointer-events: none;
 }
 
+.delete-img {
+  height: 30%;
+  width: 30%;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -45,6 +50,20 @@
 
 .top-3pres{
   padding-top: 3%;
+}
+
+.top-5pres{
+  padding-top: 5%;
+}
+
+.width-30{
+  width: 30%;
+}
+
+.MTableToolbar-searchField-129 {
+  min-width: 150px;
+  padding-left: 16px;
+  width: 30% !important;
 }
 
 @keyframes App-logo-spin {

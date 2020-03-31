@@ -154,7 +154,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Report",
                             PermissionCode = "RE",
-                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 649, DateTimeKind.Local).AddTicks(7470)
+                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 444, DateTimeKind.Local).AddTicks(6402)
                         },
                         new
                         {
@@ -162,7 +162,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Sales",
                             PermissionCode = "SE",
-                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2593)
+                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(3998)
                         },
                         new
                         {
@@ -170,7 +170,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory View",
                             PermissionCode = "IV",
-                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2637)
+                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4045)
                         },
                         new
                         {
@@ -178,7 +178,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Add",
                             PermissionCode = "IA",
-                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2640)
+                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4048)
                         },
                         new
                         {
@@ -186,7 +186,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Update",
                             PermissionCode = "IU",
-                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2642)
+                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4049)
                         },
                         new
                         {
@@ -194,7 +194,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Delete",
                             PermissionCode = "ID",
-                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2644)
+                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4051)
                         },
                         new
                         {
@@ -202,7 +202,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Customer Handling",
                             PermissionCode = "CH",
-                            RegistedDate = new DateTime(2020, 3, 24, 19, 11, 41, 652, DateTimeKind.Local).AddTicks(2646)
+                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4053)
                         });
                 });
 
@@ -287,6 +287,9 @@ namespace Portal.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
+
+                    b.Property<bool>("Editable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(256)")

@@ -20,7 +20,7 @@ function Copyright() {
           {new Date().getFullYear()}
           {'-'}
           <Link color="inherit" href="https://google.com/">
-          NVIDID Techonologies
+              NVIDID Techonologies
           </Link>{' '}
       </Typography>
   );
@@ -62,7 +62,7 @@ export default function customeradd() {
                   <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-               Customer add
+                  Customer add
               </Typography>
               <form className={ classes.form } noValidate>
                   <Grid container spacing={ 2 }>
@@ -136,7 +136,7 @@ export default function customeradd() {
                     color="primary"
                     className={ classes.submit }
                     >
-                    Add Customer
+                      Add Customer
                   </Button>
                   <Grid container justify="flex-end">
                   </Grid>

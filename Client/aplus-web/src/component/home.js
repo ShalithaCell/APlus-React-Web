@@ -10,7 +10,7 @@ class home extends Component {
 		return (
     <div>
         <Navbar />
-		Shalitha
+        Shalitha
     </div>
 		)
 

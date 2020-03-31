@@ -18,7 +18,7 @@ function Copyright() {
       <Typography variant="body2" color="textSecondary" align="center">
           {'Copyright © '}
           <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+              Your Website
           </Link>{' '}
           {new Date().getFullYear()}
           {'.'}
@@ -57,7 +57,7 @@ export default function AddRequest() {
                   <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-          New Employee
+                  New Employee
               </Typography>
               <form className={ classes.form } noValidate>
                   <Grid container spacing={ 2 }>
@@ -154,7 +154,7 @@ export default function AddRequest() {
             color="primary"
             className={ classes.submit }
           >
-            UPDATE
+                      UPDATE
                   </Button>
                  
                   <Button
@@ -164,7 +164,7 @@ export default function AddRequest() {
             color="primary"
             className={ classes.submit }
           >
-                DELETE
+                      DELETE
                   </Button>
                  
               </form>
