@@ -24,6 +24,7 @@ import AddRequest from './component/AddRequest'
 import UpdateRequest from './component/UpdateRequest'
 import request from './component/request'
 import customeradd from './component/customeradd'
+import customer_list from './component/customer_list'
 import storeAdd from './component/storeAdd'
 import storeChart from './component/store/storeChart'
 import storeUpdate from './component/storeUpdate';
@@ -79,6 +80,8 @@ class App extends Component {
                     <Route exact path='/review' component={ review } />
                     <Route exact path='/transactions' component={ transactions } />
                     <Route exact path='/salary_management' component={ salary_management } />
+                    <Route exact path='/customeradd' component={ customeradd } />
+                    <Route exact path='/customer_list' component={ customer_list } />
                 </Switch>
 				:
                 <Switch>
