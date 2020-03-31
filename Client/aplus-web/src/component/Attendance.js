@@ -1,16 +1,20 @@
 import React from 'react';
 import MaterialTable from 'material-table';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import Navbar from './navbar';
 
 export default function MaterialTableDemo() {
   const [ state, setState ] = React.useState({
     columns : [
       { title: 'Name', field: 'name' },
       { title: 'Clock on Time', field: 'ClockonTime' },
-      { title: 'Clock out Time', field: 'ClockoutTime', type: 'numeric' },
+      { title: 'Clock out Time', field: 'ClockoutTime' },
       {
-        title  : 'Hours',
-        field  : 'hours',
-        lookup : { 34: 'İstanbul', 63: 'Şanlıurfa' }
+        title : 'Hours',
+        field : 'hours'
+       
       }
     ],
     data : [
@@ -25,7 +29,12 @@ export default function MaterialTableDemo() {
   });
 
   return (
-      <MaterialTable
+      <Container component="main" maxWidth="sx">
+          <Navbar/> 
+    
+          <Container  maxWidth="s">
+              <Typography component="div" style={ {   height: '15vh' } } />
+              <MaterialTable
       title="Attendance Sheet"
       columns={ state.columns }
       data={ state.data }
@@ -67,5 +76,7 @@ export default function MaterialTableDemo() {
           })
       } }
     />
+          </Container>
+      </Container>
   );
 }
