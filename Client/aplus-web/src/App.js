@@ -17,7 +17,6 @@ import review from './component/review'
 import salary_management from './component/salary_management'
 import addSupplier from './component/addSupplier'
 import informSupplier from './component/informSupplier'
-import sales_homes from './component/sales_home'
 import Attendance from './component/Attendance'
 import EmployeeRequest from './component/EmployeeRequest'
 import AddRequest from './component/AddRequest'
@@ -39,6 +38,10 @@ import addinventory from './component/addinventory';
 import listOfRoles from './component/role/listOfRoles';
 import listOfUsers from './component/user/listOfUsers';
 import { ToastContainer } from 'react-toastify';
+import attendance_Dashbord from './component/attendance_Dashbord';
+import Absent_Attendance from './component/Absent_Attendance';
+import Latecomers_Attendance from './component/Latecomers_Attendance';
+import EarlyLevers_Attendance from './component/EarlyLevers_Attendance';
 
 class App extends Component {
 
@@ -83,6 +86,10 @@ class App extends Component {
                     <Route exact path='/users' component={ listOfUsers } />
                     <Route exact path='/customeradd' component={ customeradd } />
                     <Route exact path='/customer_list' component={ customer_list } />
+                    <Route exact path='/attendance_Dashbord' component={ attendance_Dashbord } />
+                    <Route exact path='/Absent_Attendance' component={ Absent_Attendance } />
+                    <Route exact path='./Latecomers_Attendance' component={ Latecomers_Attendance } />
+                    <Route exact path='./EarlyLevers_Attendance' component={ EarlyLevers_Attendance } />
                 </Switch>
 				:
                 <Switch>

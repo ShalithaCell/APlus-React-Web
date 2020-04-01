@@ -14,7 +14,7 @@ export default function MaterialTableDemo() {
       { title: 'Clock out Time', field: 'ClockoutTime' },
       {
         title : ' Working Hours',
-        field : 'hours'
+        field : 'WorkingHours'
        
       }
     ]
