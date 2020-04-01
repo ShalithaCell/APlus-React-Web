@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using Portal.API.ApplicationCore.service.CommonServices;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
@@ -45,7 +47,7 @@ namespace Portal.API.Controllers
         private readonly IHostingEnvironment _hostingEnvironment;
 
         public UsersController(ApplicationDbContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, SignInManager<AppUser> signInManager, IAuthenticationServices authenticationServices
-                                            ,IOptions<ConfigurationParams> config, IOptions<TemplateParams> templateParams, IHostingEnvironment hostingEnvironment, IExtendedEmailSender emailSender)
+                                            , IOptions<ConfigurationParams> config, IOptions<TemplateParams> templateParams, IHostingEnvironment hostingEnvironment, IExtendedEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
@@ -87,7 +89,7 @@ namespace Portal.API.Controllers
 
                 return Ok(authenticatedResult);
             }
-            else if(result.RequiresTwoFactor)
+            else if (result.RequiresTwoFactor)
             {
                 authenticatedResult.Authenticated = false;
                 authenticatedResult.StatusCode = StatusCodes.Status203NonAuthoritative;
@@ -109,7 +111,7 @@ namespace Portal.API.Controllers
                 return Ok(authenticatedResult);
             }
 
-            
+
         }
 
         [AllowAnonymous]
@@ -157,9 +159,52 @@ namespace Portal.API.Controllers
             {
                 throw ex;
             }
-            
+
         }
 
-        
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("getAllUsers")]
+        public async Task<IActionResult> GetAllUsers([FromBody] JObject role)
+        {
+            int RoleID = Convert.ToInt32(role["roleId"].ToString());
+
+            List<UserListResult> usersResult = new List<UserListResult>();
+            List<AppUser> users = _userManager.Users.ToList();
+
+            UserListResult userResult;
+            AppRole roleForUser;
+            foreach (AppUser user in users)
+            {
+                userResult = new UserListResult();
+
+                roleForUser = new AppRole();
+
+                var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
+                var RoleDetails = _context.Roles.Where(o => o.Name == roleList[0]).FirstOrDefault();
+
+                userResult.ID = user.Id;
+                userResult.RoleID = RoleDetails.Id;
+                userResult.RoleName = RoleDetails.Name;
+                userResult.UserName = user.UserName;
+                userResult.Email = user.Email;
+                userResult.Locked = user.LockoutEnabled ? "YES" : "NO";
+
+                userResult.modifyAllowed = userResult.RoleID >= RoleID;
+
+                usersResult.Add(userResult);
+            }
+
+            return Ok(usersResult);
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdminOrAuthUser)]
+        [HttpGet("getUserNames")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var userNames = _context.Users.Select(o => o.UserName).ToList();
+
+            return Ok(userNames);
+        }
     }
 }

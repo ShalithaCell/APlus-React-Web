@@ -14,5 +14,6 @@ namespace Portal.API.Domain.IdentityModel
 
         [ForeignKey("UserID")]
         public ICollection<PasswordResetToken> passwordResetTokens { get; set; }
+
     }
 }

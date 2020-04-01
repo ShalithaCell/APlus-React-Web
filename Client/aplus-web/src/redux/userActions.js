@@ -1,6 +1,8 @@
-import { DO_LOGIN, DO_LOGOUT } from './actionTypes';
+import { DO_LOGIN, DO_LOGOUT, POPUP_SPINNER, SET_SESSION_EXPIRED, UPDATE_USER_LIST } from './actionTypes';
 import axios from 'axios';
-import { LOGIN_ENDPOINT, PASSWORD_RESET_ENDPOINT } from '../config';
+import { LOGIN_ENDPOINT, PASSWORD_RESET_ENDPOINT, SYNC_USER_LIST_ENDPOINT } from '../config';
+import { GetSession } from '../services/sessionManagement';
+import { decrypt } from '../services/EncryptionService';
 
 export const doLogin = (email, password) => async (dispatch) =>
 {
@@ -71,4 +73,49 @@ export const resetUserPassword = (email) => async (dispatch) => {
 		});
 	
 	return { 'success': success, 'message': message };
+}
+
+export const updateUserList = (currentUserRole) => async (dispatch) => {
+
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	//spinner
+	dispatch({
+		type    : POPUP_SPINNER,
+		payload : true
+	});
+
+	//API call
+	await axios({
+		method  : 'post',
+		url     : SYNC_USER_LIST_ENDPOINT,
+		headers : { Authorization: 'Bearer ' + token },
+		data    : { 'roleId': currentUserRole }
+	})
+		.then(function(response)
+		{
+			dispatch({
+				type    : UPDATE_USER_LIST,
+				payload : response.data
+			});
+
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+		})
+		.catch(function(error)
+		{
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}
+			throw error;
+		});
 }

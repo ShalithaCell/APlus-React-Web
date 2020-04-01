@@ -154,7 +154,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Report",
                             PermissionCode = "RE",
-                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 444, DateTimeKind.Local).AddTicks(6402)
+                            RegistedDate = new DateTime(2020, 3, 30, 17, 2, 51, 927, DateTimeKind.Local).AddTicks(899)
                         },
                         new
                         {
@@ -162,7 +162,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Sales",
                             PermissionCode = "SE",
-                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(3998)
+                            RegistedDate = new DateTime(2020, 3, 30, 17, 2, 51, 929, DateTimeKind.Local).AddTicks(5818)
                         },
                         new
                         {
@@ -170,7 +170,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory View",
                             PermissionCode = "IV",
-                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4045)
+                            RegistedDate = new DateTime(2020, 3, 30, 17, 2, 51, 929, DateTimeKind.Local).AddTicks(5864)
                         },
                         new
                         {
@@ -178,7 +178,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Add",
                             PermissionCode = "IA",
-                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4048)
+                            RegistedDate = new DateTime(2020, 3, 30, 17, 2, 51, 929, DateTimeKind.Local).AddTicks(5867)
                         },
                         new
                         {
@@ -186,7 +186,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Update",
                             PermissionCode = "IU",
-                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4049)
+                            RegistedDate = new DateTime(2020, 3, 30, 17, 2, 51, 929, DateTimeKind.Local).AddTicks(5869)
                         },
                         new
                         {
@@ -194,7 +194,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Delete",
                             PermissionCode = "ID",
-                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4051)
+                            RegistedDate = new DateTime(2020, 3, 30, 17, 2, 51, 929, DateTimeKind.Local).AddTicks(5870)
                         },
                         new
                         {
@@ -202,7 +202,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Customer Handling",
                             PermissionCode = "CH",
-                            RegistedDate = new DateTime(2020, 3, 28, 22, 43, 14, 447, DateTimeKind.Local).AddTicks(4053)
+                            RegistedDate = new DateTime(2020, 3, 30, 17, 2, 51, 929, DateTimeKind.Local).AddTicks(5872)
                         });
                 });
 

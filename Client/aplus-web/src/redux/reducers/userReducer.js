@@ -1,4 +1,4 @@
-import { DO_LOGIN, DO_LOGOUT } from '../actionTypes';
+import { DO_LOGIN, DO_LOGOUT, UPDATE_USER_LIST } from '../actionTypes';
 import { encrypt } from '../../services/EncryptionService';
 
 const initialState = {
@@ -9,7 +9,8 @@ const initialState = {
 	role          : null,
 	email         : null,
 	orgID         : null,
-	token         : null
+	token         : null,
+	users         : []
 }
 
 export default function(state = initialState, action)
@@ -28,7 +29,6 @@ export default function(state = initialState, action)
 					orgID         : action.payload.orgID,
 					token         : encrypt(action.payload.token)
 				}
-				break;
 			case DO_LOGOUT :
 				return {
 					...state,
@@ -41,7 +41,11 @@ export default function(state = initialState, action)
 					orgID         : null,
 					token         : null
 				}
-				break;
+			case UPDATE_USER_LIST:
+				return {
+					...state,
+					users : action.payload
+				}
 			default :
 				return state;
 		}

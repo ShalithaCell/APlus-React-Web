@@ -42,6 +42,7 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
                         });
             }
 
+
             //table configuration and data seeding
             builder.ApplyConfiguration(new CustomPermissionDataSet());
         }
