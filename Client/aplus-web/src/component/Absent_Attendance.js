@@ -10,13 +10,8 @@ export default function MaterialTableDemo() {
     columns : [
       { title: 'Name', field: 'name' },
       { title: 'Date', field: 'date' },
-      { title: 'Clock on Time', field: 'ClockonTime' },
-      { title: 'Clock out Time', field: 'ClockoutTime' },
-      {
-        title : ' Working Hours',
-        field : 'hours'
-       
-      }
+      { title: 'Status', field: 'status' }
+      
     ]
     
   });
@@ -28,7 +23,7 @@ export default function MaterialTableDemo() {
           <Container  maxWidth="s">
               <Typography component="div" style={ {   height: '15vh' } } />
               <MaterialTable
-      title="Attendance Sheet"
+      title="Absent Sheet"
       columns={ state.columns }
       data={ state.data }
       editable={ {
