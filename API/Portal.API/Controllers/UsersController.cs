@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Portal.API.Controllers
 {
@@ -138,7 +139,7 @@ namespace Portal.API.Controllers
                     RegistedDate = DateTime.Now,
                     Token = code
                 };
-
+                
                 _context.passwordResetTokens.Add(passwordResetToken);
                 _ = _context.SaveChangesAsync();
 
@@ -202,9 +203,68 @@ namespace Portal.API.Controllers
         [HttpGet("getUserNames")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var userNames = _context.Users.Select(o => o.UserName).ToList();
+            var userNames = _context.Users.Select(o => new { o.UserName , o.Email}).ToList();
 
             return Ok(userNames);
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdminOrAuthUser)]
+        [HttpPost("registerUser")]
+        public async Task<IActionResult> RegisterUser([FromBody] NewUserInputModel model)
+        {
+            // search role
+            var role = _roleManager.FindByIdAsync(model.RoleID).Result;
+
+            var user = new AppUser
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                OrganizationID = model.OrgID,
+                EmailConfirmed = false,
+                PhoneNumber = model.PhoneNumber
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                // code for adding user to role
+                await _userManager.AddToRoleAsync(user, role.Name);
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                var uriBuilder = new UriBuilder(model.BaseUrl);
+                var parameters = HttpUtility.ParseQueryString(string.Empty);
+                parameters["userId"] = user.Id.ToString();
+                parameters["code"] = code;
+                uriBuilder.Query = parameters.ToString();
+
+                Uri finalUrl = uriBuilder.Uri;
+
+                AccountVerificationData verificationData = new AccountVerificationData
+                {
+                    UserName = model.UserName,
+                    SiteName = _config.Value.SolutionName,
+                    BaseUrl = finalUrl.AbsoluteUri,
+                    Title = "APlus Account Verification",
+                    SiteUrl = _config.Value.BaseURL
+
+                };
+
+                await _emailSender.SendEmailAsync(model.Email, "APlus Account Verification", DataFormatManager.GetFormatedAccountVerificationEmailTemplate(verificationData, _hostingEnvironment.ContentRootPath + _templateParams.Value.AccountVerificationTemplate));
+                return Ok("true");
+            }
+            else
+            {
+                List<string> list = new List<string>();
+                foreach (var error in result.Errors)
+                {
+                    list.Add(error.Description);
+                }
+                return Ok(list);
+            }
+
         }
     }
 }
