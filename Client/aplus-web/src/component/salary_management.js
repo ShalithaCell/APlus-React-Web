@@ -14,7 +14,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import { fade } from '@material-ui/core';
+import { fade, Container } from '@material-ui/core';
+import Navbar from './navbar'
 
 const useStyles =  makeStyles((theme) => ({
   table : {
@@ -26,7 +27,9 @@ const useStyles =  makeStyles((theme) => ({
     align : 'left'
   },
   root : {
-		flexGrow : 5
+    flexGrow  : 5,
+    marginTop : theme.spacing ( -15 )
+
   },
   search : {
 		position        : 'relative',
@@ -116,63 +119,69 @@ export default function MaterialTableDemo() {
   const classes = useStyles();
   
   return (
-      <React.Fragment>
+      <Container component="main" maxWidth="sx">
+          <Navbar/>
+          <Container maxWidth="s" >
+              // eslint-disable-next-line react/jsx-indent
+              <Typography component="div" className={ classes.table } />
+              <React.Fragment>
 
-          <div className={ classes.root }>
-              <AppBar position="relative">
-                  <div>
-                      <navbar/>
+                  <div className={ classes.root }>
+                      <AppBar position="relative">
+                          <div>
+                              <navbar/>
+                          </div>
+                          <Toolbar>
+                              <Typography className={ classes.title } variant="h6" noWrap>
+                                  Salary Management Details
+                              </Typography>
+                          </Toolbar>
+                      </AppBar>
                   </div>
-                  <Toolbar>
-                      <Typography className={ classes.title } variant="h6" noWrap>
-                          Salary Management Details
-                      </Typography>
-                  </Toolbar>
-              </AppBar>
-          </div>
-          <MaterialTable color="primary"
-      title="Employee Salary"
-      columns={ state.columns }
-      data={ state.data }
-      editable={ {
-        onRowAdd : (newData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [ ...prevState.data ];
-                data.push(newData);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
-        onRowUpdate : (newData, oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
-                setState((prevState) => {
-                  const data = [ ...prevState.data ];
-                  data[ data.indexOf(oldData) ] = newData;
-                  return { ...prevState, data };
-                });
-              }
-            }, 600);
-          }),
-        onRowDelete : (oldData) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve();
-              setState((prevState) => {
-                const data = [ ...prevState.data ];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          })
-      } }
-    />
-      </React.Fragment>
-
+                  <MaterialTable color="primary"
+              title="Employeesalla"
+              columns={ state.columns }
+              data={ state.data }
+              editable={ {
+                onRowAdd : (newData) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve();
+                      setState((prevState) => {
+                        const data = [ ...prevState.data ];
+                        data.push(newData);
+                        return { ...prevState, data };
+                      });
+                    }, 600);
+                  }),
+                onRowUpdate : (newData, oldData) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve();
+                      if (oldData) {
+                        setState((prevState) => {
+                          const data = [ ...prevState.data ];
+                          data[ data.indexOf(oldData) ] = newData;
+                          return { ...prevState, data };
+                        });
+                      }
+                    }, 600);
+                  }),
+                onRowDelete : (oldData) =>
+                  new Promise((resolve) => {
+                    setTimeout(() => {
+                      resolve();
+                      setState((prevState) => {
+                        const data = [ ...prevState.data ];
+                        data.splice(data.indexOf(oldData), 1);
+                        return { ...prevState, data };
+                      });
+                    }, 600);
+                  })
+              } }
+            />
+              </React.Fragment>
+          </Container>
+      </Container> 
   );
 }

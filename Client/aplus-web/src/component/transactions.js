@@ -13,21 +13,24 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import { fade } from '@material-ui/core';
+import { fade, Container } from '@material-ui/core';
+import Navbar from './navbar'
 
 const TAX_RATE = 0.07;
 
 const useStyles =  makeStyles((theme) => ({
   table : {
-    width     : '100%',
-    marginTop : '2%',
-    padding   : '5%' 
+    width      : '100%',
+    paddingTop : '2%',
+    padding    : '5%' 
   },
   title : {
     align : 'left'
   },
   root : {
-		flexGrow : 5
+        flexGrow  : 5,
+        marginTop : theme.spacing ( -5 )
+
   },
   search : {
 		position        : 'relative',
@@ -101,24 +104,29 @@ export default function SpanningTable() {
   const classes = useStyles();
 
   return (
-      <React.Fragment>
-
-          <div className={ classes.root }>
-              <AppBar position="relative">
-                  <div>
-                      <navbar/>
-                  </div>
-                  <Toolbar>
-
-                      <Typography className={ classes.title } variant="h6" noWrap>
-                          Transactions Details
-
-                      </Typography>
-                      <div className={ classes.search }>
-                          <div className={ classes.searchIcon }>
-                              <SearchIcon />
+            
+      <Container component="main" maxWidth="sx">
+          <Navbar/>
+          <Container maxWidth="$" >
+              // eslint-disable-next-line react/jsx-indent
+              <Typography component="div" className={ classes.table } />
+              <React.Fragment>
+                  <div className={ classes.root }>
+                      <AppBar position="relative">
+                          <div>
+                              <navbar/>             
                           </div>
-                          <InputBase
+                          <Toolbar>
+
+                              <Typography className={ classes.title } variant="h6" noWrap>
+                                  Transactions Details
+
+                              </Typography>
+                              <div className={ classes.search }>
+                                  <div className={ classes.searchIcon }>
+                                      <SearchIcon />
+                                  </div>
+                                  <InputBase
                     placeholder="Search…"
                     classes={ {
                         root  : classes.inputRoot,
@@ -126,64 +134,65 @@ export default function SpanningTable() {
                     } }
                     inputProps={ { 'aria-label': 'search' } }
                 />
-                      </div>
-                  </Toolbar>
-              </AppBar>
-          </div>
-          <TableContainer component={ Paper }>
-              <Table className={ classes.table } aria-label="spanning table">
-                  <TableHead>
-                      <TableRow>
-                          <TableCell align="center" colSpan={ 5 }>
-                              Details
-                          </TableCell>
-                          <TableCell align="right" colSpan={ 5 }>Price</TableCell>
-                      </TableRow>
-                      <TableRow>
-                          <TableCell>Trans_ID</TableCell>
-                          <TableCell>Des</TableCell>
-                          <TableCell>User ID</TableCell>
-                          <TableCell>Date</TableCell>
-                          <TableCell>Time</TableCell>
-                          <TableCell align="right">Qty.</TableCell>
-                          <TableCell align="right">Unit</TableCell>
-                          <TableCell align="right">Sum</TableCell>
+                              </div>
+                          </Toolbar>
+                      </AppBar>
+                  </div>
+                  <TableContainer component={ Paper }>
+                      <Table className={ classes.table } aria-label="spanning table">
+                          <TableHead>
+                              <TableRow>
+                                  <TableCell align="center" colSpan={ 5 }>
+                                      Details
+                                  </TableCell>
+                                  <TableCell align="right" colSpan={ 5 }>Price</TableCell>
+                              </TableRow>
+                              <TableRow>
+                                  <TableCell>Trans_ID</TableCell>
+                                  <TableCell>Des</TableCell>
+                                  <TableCell>User ID</TableCell>
+                                  <TableCell>Date</TableCell>
+                                  <TableCell>Time</TableCell>
+                                  <TableCell align="right">Qty.</TableCell>
+                                  <TableCell align="right">Unit</TableCell>
+                                  <TableCell align="right">Sum</TableCell>
 
-                      </TableRow>
-                  </TableHead>
-                  <TableBody>
-                      {rows.map((row) => (
+                              </TableRow>
+                          </TableHead>
+                          <TableBody>
+                              {rows.map((row) => (
                       // eslint-disable-next-line camelcase
-                          <TableRow key={ row.transid }>
-                              <TableCell>{row.transid}</TableCell>
-                              <TableCell>{row.desc}</TableCell>
-                              <TableCell>{row.userid}</TableCell>
-                              <TableCell>{row.date}</TableCell>
-                              <TableCell>{row.time}</TableCell>
-                              <TableCell align="right">{row.qty}</TableCell>
-                              <TableCell align="right">{row.unit}</TableCell>
-                              <TableCell align="right">{ccyFormat(row.price)}</TableCell>
-                          </TableRow>
+                                  <TableRow key={ row.transid }>
+                                      <TableCell>{row.transid}</TableCell>
+                                      <TableCell>{row.desc}</TableCell>
+                                      <TableCell>{row.userid}</TableCell>
+                                      <TableCell>{row.date}</TableCell>
+                                      <TableCell>{row.time}</TableCell>
+                                      <TableCell align="right">{row.qty}</TableCell>
+                                      <TableCell align="right">{row.unit}</TableCell>
+                                      <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+                                  </TableRow>
           ))}
 
-                      <TableRow align="right">
-                          <TableCell rowSpan={ 3 } />
-                          <TableCell colSpan={ 5 } align="right">Subtotal</TableCell>
-                          <TableCell colSpan={ 5 } align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
-                      </TableRow>
-                      <TableRow align="right">
-                          <TableCell colSpan={ 5 } align="right">Tax</TableCell>
-                          <TableCell colSpan={ 1 } align="right">{ `${ (TAX_RATE * 100).toFixed(0) } %` }</TableCell>
-                          <TableCell colSpan={ 3 } align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-                      </TableRow>
-                      <TableRow align="right">
-                          <TableCell colSpan={ 5 } align="right">Total</TableCell>
-                          <TableCell colSpan={ 5 } align="right" >{ ccyFormat(invoiceTotal) }</TableCell>
-                      </TableRow>
-                  </TableBody>
-              </Table>
-          </TableContainer>
-      </React.Fragment>
-
+                              <TableRow align="right">
+                                  <TableCell rowSpan={ 3 } />
+                                  <TableCell colSpan={ 5 } align="right">Subtotal</TableCell>
+                                  <TableCell colSpan={ 5 } align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
+                              </TableRow>
+                              <TableRow align="right">
+                                  <TableCell colSpan={ 5 } align="right">Tax</TableCell>
+                                  <TableCell colSpan={ 1 } align="right">{ `${ (TAX_RATE * 100).toFixed(0) } %` }</TableCell>
+                                  <TableCell colSpan={ 3 } align="right">{ccyFormat(invoiceTaxes)}</TableCell>
+                              </TableRow>
+                              <TableRow align="right">
+                                  <TableCell colSpan={ 5 } align="right">Total</TableCell>
+                                  <TableCell colSpan={ 5 } align="right" >{ ccyFormat(invoiceTotal) }</TableCell>
+                              </TableRow>
+                          </TableBody>
+                      </Table>
+                  </TableContainer>
+              </React.Fragment>
+          </Container>
+      </Container> 
   );
 }
