@@ -19,6 +19,9 @@ export const PASSWORD_RESET_ENDPOINT = API_TARGET +'users/resetPassword';
 export const SYNC_USER_LIST_ENDPOINT = API_TARGET +'users/getAllUsers';
 export const SYNC_USER_Name_LIST_ENDPOINT = API_TARGET +'users/getUserNames';
 export const REGISTER_USER_ENDPOINT = API_TARGET +'users/registerUser';
+export const GET_USER_ENDPOINT = API_TARGET +'users/getSpecificUser';
+export const UPDATE_USER_ENDPOINT = API_TARGET +'users/updateUser';
+export const REMOVE_USER_ENDPOINT = API_TARGET +'users/removeUser';
 
 export const GET_ROLE_LIST_ENDPOINT = API_TARGET +'roles/getRoles';
 export const REGISTER_NEW_ROLE_ENDPOINT = API_TARGET +'roles/registerRole';
