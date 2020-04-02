@@ -35,4 +35,22 @@ namespace Portal.API.Domain.APIReqModels
         [Required]
         public string BaseUrl { get; set; }
     }
+
+    public class UpdateUpdateModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+        public string Password { get; set; }
+
+
+        [Required]
+        [Display(Name = "Role")]
+        public string RoleID { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+
+    }
 }

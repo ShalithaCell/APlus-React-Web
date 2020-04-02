@@ -10,7 +10,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { updateRoleDetails } from '../../redux/roleActions';
 import { updateUsernameList } from '../../redux/systemActions';
-import { createNewUser } from '../../redux/userActions';
+import { createNewUser, getUser, updateUser } from '../../redux/userActions';
 import { ToastContainer } from '../dialogs/ToastContainer';
 import { TOAST_ERROR } from '../../config';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -42,14 +42,37 @@ class Register extends Component{
 			passwordWarning        : '',
 			passwordConfirmWarning : '',
 			popupDialog            : false,
-			checked                : false
+			checked                : false,
+			editData               : null
 		}
 	}
 
-	componentDidMount()
+	async componentDidMount()
 	{
 		this.props.updateRoleDetails(); //sync roles
 		this.props.updateUsernameList(); //sync user's names
+
+		if (this.props.editable)
+		{
+			const result = await this.props.getUser(this.props.userID);
+			this.setState({
+				...this.state,
+				editData : result
+			});
+
+			this.setState({
+				...this.state,
+				email           : this.state.editData.email,
+				emailWarning    : '',
+				username        : this.state.editData.userName,
+				usernameWarning : '',
+				role            : this.state.editData.roleID,
+				phone           : this.state.editData.phone,
+				password        : '',
+				passwordConfirm : ''
+			});
+		}
+
 	}
 
 	onTextChange = (e) => {
@@ -214,10 +237,18 @@ class Register extends Component{
 			return;
 		}
 
-		if (this.state.password.length === 0 || this.state.passwordConfirm.length === 0 || this.state.passwordWarning.length !== 0 || this.state.passwordConfirmWarning.length !== 0)
-		{
-			ToastContainer(TOAST_ERROR, 'Please enter valid password');
-			return;
+		if(this.props.editable ){
+			if ((this.state.password.length !== 0 || this.state.passwordConfirm.length !== 0) && (this.state.passwordWarning.length !== 0 || this.state.passwordConfirmWarning.length !== 0))
+			{
+				ToastContainer(TOAST_ERROR, 'Please enter valid password');
+				return;
+			}
+		}else{
+			if (this.state.password.length === 0 || this.state.passwordConfirm.length === 0 || this.state.passwordWarning.length !== 0 || this.state.passwordConfirmWarning.length !== 0)
+			{
+				ToastContainer(TOAST_ERROR, 'Please enter valid password');
+				return;
+			}
 		}
 
 		if(!this.state.checked){
@@ -230,29 +261,48 @@ class Register extends Component{
 		const slashes = protocol.concat('//');
 		const host = slashes.concat(window.location.host);
 
-		const userObj = {
-			Email       : this.state.email,
-			Password    : this.state.password,
-			RoleID      : this.state.role,
-			UserName    : this.state.username,
-			PhoneNumber : this.state.phone,
-			OrgID       : this.props.currentUser.orgID,
-			BaseUrl     : host
-		};
+		let result;
 
-		const result = await this.props.createNewUser(userObj);
+		if(!this.props.editable){
+			const userObj = {
+				Email       : this.state.email,
+				Password    : this.state.password,
+				RoleID      : this.state.role,
+				UserName    : this.state.username,
+				PhoneNumber : this.state.phone,
+				OrgID       : this.props.currentUser.orgID,
+				BaseUrl     : host
+			};
 
-		if(result === 'true'){
-			this.setState({
-				popupDialog : true
-			});
+			result = await this.props.createNewUser(userObj);
+		}else{
+			const userObj = {
+				Email       : this.state.email,
+				Password    : this.state.password,
+				RoleID      : this.state.role,
+				PhoneNumber : this.state.phone
+			};
+
+			result = await this.props.updateUser(userObj);
+		}
+
+		if(result.result === true){
+
+			if(!this.props.editable){
+				this.setState({
+					popupDialog : true
+				});
+			}
 
 			//update users
-			this.props.updateUserList();
+			this.props.updateUserList(this.props.currentUser.roleID);
+
+			//close the registration dialog
+			this.props.dialogClose();
+
 		}else {
 			//something went wrong
-			console.log(result);
-			ToastContainer(TOAST_ERROR, result.toString());
+			ToastContainer(TOAST_ERROR, result.message.toString());
 		}
 		
 	}
@@ -274,16 +324,18 @@ class Register extends Component{
         <section className="signup">
             <div className="container">
                 <div className="signup-content">
-                    <div className="signup-form"><h2 className="form-title">Sign up</h2>
+                    <div className="signup-form"><h2 className="form-title">{ !this.props.editable ? 'Sign up' : 'Edit User' }</h2>
                         <form method="POST" className="register-form" id="register-form">
                             <div className="form-group">
                                 <TextField type="email" id="email" label="E-mail" onChange={ this.onTextChange } value={ this.state.email } helperText={ this.state.emailWarning }
-										   error={ this.state.emailWarning.length !== 0 } required/>
+										   error={ this.state.emailWarning.length !== 0 } disabled={ this.props.editable } required/>
                             </div>
                             <div className="form-group">
                                 <TextField type="text" id="username" label="Username" value={ this.state.username } onChange={ this.onTextChange }
 										   error={ this.state.usernameWarning.length !== 0 }
 										   helperText={ this.state.usernameWarning }
+										   autoComplete={ false }
+										   disabled={ this.props.editable }
 										   required/>
                             </div>
                             <div className="form-group">
@@ -376,4 +428,4 @@ const mapStateToProps = (state) => ({
 	usernames   : state.system.userNameList
 })
 
-export default connect(mapStateToProps, { updateRoleDetails, updateUsernameList, createNewUser, updateUserList } )(Register);
+export default connect(mapStateToProps, { updateRoleDetails, updateUsernameList, createNewUser, updateUserList, getUser, updateUser } )(Register);

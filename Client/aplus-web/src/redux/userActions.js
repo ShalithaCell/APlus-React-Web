@@ -1,6 +1,12 @@
 import { DO_LOGIN, DO_LOGOUT, POPUP_SPINNER, SET_SESSION_EXPIRED, UPDATE_USER_LIST } from './actionTypes';
 import axios from 'axios';
-import { LOGIN_ENDPOINT, PASSWORD_RESET_ENDPOINT, REGISTER_USER_ENDPOINT, SYNC_USER_LIST_ENDPOINT } from '../config';
+import {
+	GET_USER_ENDPOINT,
+	LOGIN_ENDPOINT,
+	PASSWORD_RESET_ENDPOINT,
+	REGISTER_USER_ENDPOINT, REMOVE_USER_ENDPOINT,
+	SYNC_USER_LIST_ENDPOINT, UPDATE_USER_ENDPOINT
+} from '../config';
 import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 
@@ -86,7 +92,7 @@ export const updateUserList = (currentUserRole) => async (dispatch) => {
 		type    : POPUP_SPINNER,
 		payload : true
 	});
-
+	console.log('syncing');
 	//API call
 	axios({
 		method  : 'post',
@@ -109,6 +115,12 @@ export const updateUserList = (currentUserRole) => async (dispatch) => {
 		})
 		.catch(function(error)
 		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
 			if(error.response.status === 401){
 				dispatch({
 					type    : SET_SESSION_EXPIRED,
@@ -140,6 +152,162 @@ export const createNewUser = (userObj) => async (dispatch) => {
 		url     : REGISTER_USER_ENDPOINT,
 		headers : { Authorization: 'Bearer ' + token },
 		data    : userObj 
+	})
+		.then(function(response)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			result = response.data;
+		})
+		.catch(function(error)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}
+			throw error;
+		});
+
+	return result;
+}
+
+export const updateUser = (userObj) => async (dispatch) => {
+
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	//spinner
+	dispatch({
+		type    : POPUP_SPINNER,
+		payload : true
+	});
+
+	let result = false;
+
+	//API call
+	await axios({
+		method  : 'post',
+		url     : UPDATE_USER_ENDPOINT,
+		headers : { Authorization: 'Bearer ' + token },
+		data    : userObj
+	})
+		.then(function(response)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			result = response.data;
+		})
+		.catch(function(error)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}
+			throw error;
+		});
+
+	return result;
+}
+
+export const getUser = (userID) => async (dispatch) => {
+
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	//spinner
+	dispatch({
+		type    : POPUP_SPINNER,
+		payload : true
+	});
+
+	let result ;
+
+	//API call
+	await axios({
+		method  : 'post',
+		url     : GET_USER_ENDPOINT,
+		headers : { Authorization: 'Bearer ' + token },
+		data    : { userID }
+	})
+		.then(function(response)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			result = response.data;
+		})
+		.catch(function(error)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}
+			throw error;
+		});
+
+	return result;
+}
+
+export const removeUser = (userID) => async (dispatch) => {
+
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	//spinner
+	dispatch({
+		type    : POPUP_SPINNER,
+		payload : true
+	});
+
+	let result = false;
+
+	//API call
+	await axios({
+		method  : 'post',
+		url     : REMOVE_USER_ENDPOINT,
+		headers : { Authorization: 'Bearer ' + token },
+		data    : { userID }
 	})
 		.then(function(response)
 		{
