@@ -253,7 +253,12 @@ namespace Portal.API.Controllers
                 };
 
                 await _emailSender.SendEmailAsync(model.Email, "APlus Account Verification", DataFormatManager.GetFormatedAccountVerificationEmailTemplate(verificationData, _hostingEnvironment.ContentRootPath + _templateParams.Value.AccountVerificationTemplate));
-                return Ok("true");
+                
+                return Ok(new
+                {
+                    result = true,
+                    message = ""
+                });
             }
             else
             {
@@ -262,9 +267,95 @@ namespace Portal.API.Controllers
                 {
                     list.Add(error.Description);
                 }
-                return Ok(list);
+                return Ok(new
+                {
+                    result = false,
+                    message = list
+                });
             }
 
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdminOrAuthUser)]
+        [HttpPost("updateUser")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUpdateModel model)
+        {
+            // search role
+            var role = _roleManager.FindByIdAsync(model.RoleID).Result;
+
+            AppUser user = await _userManager.FindByEmailAsync(model.Email);
+
+            user.PhoneNumber = model.PhoneNumber;
+
+            await _userManager.UpdateAsync(user);
+            
+            //update password
+            if(model.Password.Length != 0)
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                var result = await _userManager.ResetPasswordAsync(user, token, model.Password);
+
+            }
+
+            //update role
+            var roleList = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
+            var RoleDetails = _context.Roles.Where(o => o.Name == roleList[0]).FirstOrDefault(); //current role
+
+            if(role.Name != RoleDetails.Name)
+            {
+                await _userManager.RemoveFromRoleAsync(user, RoleDetails.Name);
+                await _userManager.AddToRoleAsync(user, role.Name);
+            }
+
+            return Ok(new
+            {
+                result = true,
+                message = ""
+            });
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdminOrAuthUser)]
+        [HttpPost("removeUser")]
+        public async Task<IActionResult> RemoveUser([FromBody] JObject userID)
+        {
+            var user = await _userManager.FindByIdAsync(userID["userID"].ToString());
+            var result = await _userManager.DeleteAsync(user);
+
+            if (result.Succeeded)
+            {
+                return Ok(new
+                {
+                    result = true
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    result = false,
+                    message = result.Errors
+                }); ;
+            }
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdminOrAuthUser)]
+        [HttpPost("getSpecificUser")]
+        public async Task<IActionResult> GetUser([FromBody] JObject roleRes)
+        {
+            AppUser user = await _userManager.FindByIdAsync(roleRes["userID"].ToString());
+
+            var role = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
+            var RoleDetails = _context.Roles.Where(o => o.Name == role[0]).FirstOrDefault();
+
+            return Ok(new
+            {
+                UserID = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+                RoleID = RoleDetails.Id,
+                Phone = user.PhoneNumber
+            });
         }
     }
 }
