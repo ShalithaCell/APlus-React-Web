@@ -234,7 +234,7 @@ namespace Portal.API.Controllers
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                var uriBuilder = new UriBuilder(model.BaseUrl);
+                var uriBuilder = new UriBuilder(model.BaseUrl + "/confirm");
                 var parameters = HttpUtility.ParseQueryString(string.Empty);
                 parameters["userId"] = user.Id.ToString();
                 parameters["code"] = code;
@@ -357,5 +357,32 @@ namespace Portal.API.Controllers
                 Phone = user.PhoneNumber
             });
         }
+
+        [AllowAnonymous]
+        [HttpPost("confirmEmailAddress")]
+        public async Task<IActionResult> ConfirmEmailAddress([FromBody] JObject obj)
+        {
+            var user = await _userManager.FindByIdAsync(obj["userID"].ToString());
+
+            if (user == null)
+                return NotFound("User ID is not valid");
+
+            string code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(obj["code"].ToString()));
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { res = true } );
+            }
+            else
+            {
+                return Ok(new { res = false });
+            }
+
+
+        }
+
+
     }
 }

@@ -1,6 +1,7 @@
 import { DO_LOGIN, DO_LOGOUT, POPUP_SPINNER, SET_SESSION_EXPIRED, UPDATE_USER_LIST } from './actionTypes';
 import axios from 'axios';
 import {
+	CONFIRM_EMAIL_USER_ENDPOINT,
 	GET_USER_ENDPOINT,
 	LOGIN_ENDPOINT,
 	PASSWORD_RESET_ENDPOINT,
@@ -333,6 +334,55 @@ export const removeUser = (userID) => async (dispatch) => {
 					payload : true
 				});
 
+			}
+			throw error;
+		});
+
+	return result;
+}
+
+export const confirmUserEmail = (userID, code) => async (dispatch) => {
+
+	//spinner
+	dispatch({
+		type    : POPUP_SPINNER,
+		payload : true
+	});
+
+	let result = false;
+
+	//API call
+	await axios({
+		method : 'post',
+		url    : CONFIRM_EMAIL_USER_ENDPOINT,
+		data   : { userID, code }
+	})
+		.then(function(response)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			result = response.data;
+		})
+		.catch(function(error)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}else if(error.response.status === 404){
+				return 0;
 			}
 			throw error;
 		});

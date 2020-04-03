@@ -22,6 +22,7 @@ export const REGISTER_USER_ENDPOINT = API_TARGET +'users/registerUser';
 export const GET_USER_ENDPOINT = API_TARGET +'users/getSpecificUser';
 export const UPDATE_USER_ENDPOINT = API_TARGET +'users/updateUser';
 export const REMOVE_USER_ENDPOINT = API_TARGET +'users/removeUser';
+export const CONFIRM_EMAIL_USER_ENDPOINT = API_TARGET +'users/confirmEmailAddress';
 
 export const GET_ROLE_LIST_ENDPOINT = API_TARGET +'roles/getRoles';
 export const REGISTER_NEW_ROLE_ENDPOINT = API_TARGET +'roles/registerRole';
