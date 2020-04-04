@@ -1,11 +1,11 @@
 import { DO_LOGIN, DO_LOGOUT, POPUP_SPINNER, SET_SESSION_EXPIRED, UPDATE_USER_LIST } from './actionTypes';
 import axios from 'axios';
 import {
-	CONFIRM_EMAIL_USER_ENDPOINT,
+	CONFIRM_EMAIL_USER_ENDPOINT, CONFIRM_PASSWORD_RESET_TOKEN_ENDPOINT,
 	GET_USER_ENDPOINT,
 	LOGIN_ENDPOINT,
 	PASSWORD_RESET_ENDPOINT,
-	REGISTER_USER_ENDPOINT, REMOVE_USER_ENDPOINT,
+	REGISTER_USER_ENDPOINT, REMOVE_USER_ENDPOINT, RESET_USER_PASSWORD_ENDPOINT,
 	SYNC_USER_LIST_ENDPOINT, UPDATE_USER_ENDPOINT
 } from '../config';
 import { GetSession } from '../services/sessionManagement';
@@ -384,7 +384,88 @@ export const confirmUserEmail = (userID, code) => async (dispatch) => {
 			}else if(error.response.status === 404){
 				return 0;
 			}
-			throw error;
+			console.log(error);
+			return error;
+		});
+
+	return result;
+}
+
+export const checkPasswordResetToken = (token) => async (dispatch) => {
+
+	//spinner
+	dispatch({
+		type    : POPUP_SPINNER,
+		payload : true
+	});
+
+	let result = false;
+
+	//API call
+	await axios({
+		method : 'post',
+		url    : CONFIRM_PASSWORD_RESET_TOKEN_ENDPOINT,
+		data   : { token }
+	})
+		.then(function(response)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			result = response.data.valid;
+		})
+		.catch(function(error)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+			console.log(error);
+			return error;
+		});
+
+	return result;
+}
+
+export const resetPassword = (token, password) => async (dispatch) => {
+
+	//spinner
+	dispatch({
+		type    : POPUP_SPINNER,
+		payload : true
+	});
+
+	let result ;
+
+	//API call
+	await axios({
+		method : 'post',
+		url    : RESET_USER_PASSWORD_ENDPOINT,
+		data   : { token, password }
+	})
+		.then(function(response)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			result = response.data.status;
+		})
+		.catch(function(error)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+			console.log(error);
+			return error;
 		});
 
 	return result;
