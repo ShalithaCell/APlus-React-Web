@@ -16,7 +16,6 @@ import DashCard3 from './Inventory/dashCard3';
 import DashCard4 from './Inventory/dashCard4';
 import DashCard5 from './Inventory/dashCard5';
 import DashCard6 from './Inventory/dashCard6';
-import DashCard7 from './Inventory/dashCard7';
 import Orders from './Inventory/orders';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
@@ -98,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function Dashboard() {
+export default function DashboardInventory() {
 	const classes = useStyles();
 	const [ open, setOpen ] = React.useState(false);
 	const handleDrawerOpen = () => {
@@ -107,76 +106,80 @@ export default function Dashboard() {
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
 	return (
-    <div className={ classes.root }>
-        <CssBaseline />
-        <AppBar position="absolute" className={ clsx(classes.appBar, open && classes.appBarShift) }>
-            <Toolbar className={ classes.toolbar }>
-                <Typography component="h1" variant="h5" color="inherit" noWrap className={ classes.title }>
-                    Inventory
-                </Typography>
-                <IconButton color="inherit">
-                    <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
-                        <AddIcon />
-                    </Fab>
-                </IconButton>
-            </Toolbar>
-        </AppBar>
-        <main className={ classes.content }>
-            <div className={ classes.appBarSpacer } />
-            <Container maxWidth="lg" className={ classes.container }>
-                <Grid container spacing={ 3 }>
-                    <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
-                        <Paper className={ fixedHeightPaper }>
-                            <DashCard1 />
-                        </Paper>
+    <Container component="main" maxWidth="sx">
+        <Navbar/>
+        <div className={ classes.root }>
+            <CssBaseline />
+            <AppBar position="absolute" className={ clsx(classes.appBar, open && classes.appBarShift) }>
+                <Toolbar className={ classes.toolbar }>
+                    <Typography component="h1" variant="h5" color="inherit" noWrap className={ classes.title }>
+                        Inventory
+                    </Typography>
+                    <IconButton color="inherit">
+                        <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
+                            <AddIcon />
+                        </Fab>
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
+            <main className={ classes.content }>
+                <div className={ classes.appBarSpacer } />
+                <Container maxWidth="lg" className={ classes.container }>
+                    <Grid container spacing={ 3 }>
+                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
+                            <Paper className={ fixedHeightPaper }>
+                                <DashCard1 />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
+                            <Paper className={ fixedHeightPaper }>
+                                <DashCard2 />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
+                            <Paper className={ fixedHeightPaper }>
+                                <DashCard3 />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
+                            <Paper className={ fixedHeightPaper }>
+                                <DashCard4 />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
+                            <Paper className={ fixedHeightPaper }>
+                                <DashCard5 />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
+                            <Paper className={ fixedHeightPaper }>
+                                <DashCard6 />
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
+                            <Paper className={ fixedHeightPaper } >
+                                <Button variant="contained" color="secondary">
+                                    REPORTS
+                                </Button>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
+                            <Paper className={ fixedHeightPaper } >
+                                <Button variant="contained" color="secondary">
+                                    DETAILS
+                                </Button>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={ 12 }>
+                            <Paper className={ classes.paper }>
+                                <Orders />
+                            </Paper>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
-                        <Paper className={ fixedHeightPaper }>
-                            <DashCard2 />
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
-                        <Paper className={ fixedHeightPaper }>
-                            <DashCard3 />
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
-                        <Paper className={ fixedHeightPaper }>
-                            <DashCard4 />
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
-                        <Paper className={ fixedHeightPaper }>
-                            <DashCard5 />
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
-                        <Paper className={ fixedHeightPaper }>
-                            <DashCard6 />
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
-                        <Paper className={ fixedHeightPaper } >
-                            <Button variant="contained" color="secondary">
-                                REPORTS
-                            </Button>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
-                        <Paper className={ fixedHeightPaper } >
-                            <Button variant="contained" color="secondary">
-                                DETAILS
-                            </Button>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={ 12 }>
-                        <Paper className={ classes.paper }>
-                            <Orders />
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </Container>
-        </main>
-    </div>
+                </Container>
+            </main>
+        </div>
+    </Container>
+    
 	);
 }
