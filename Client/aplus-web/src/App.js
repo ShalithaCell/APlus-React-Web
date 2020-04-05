@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import logo from './logo.svg';
@@ -71,11 +70,11 @@ class App extends Component {
                     <Route exact path='/UpdateRequest' component={ UpdateRequest } />
                     <Route exact path='/Attendance' component={ Attendance } />
                     <Route exact path='/addinventory' component={ addinventory } />
+                    <Route exact path ='/storePlan' component={ storePlan }/>
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
-                    <Route exact path='/sales_homes' component={ sales_homes } />
                     <Route exact path='/updateinventory' component={ updateinventory } />
-                    <Route exact path='/dash' component={ dashboard } />
+                    <Route exact path='/dashboardInventory' component={ dashboard } />
                     <Route exact path= '/storeDashboard' component={ storeDashboard } />
                     <Route exact path= '/storePlan' component={ map } />
                     <Route exact path='/checkout' component={ checkout } />
