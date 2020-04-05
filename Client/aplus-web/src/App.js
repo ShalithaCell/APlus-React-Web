@@ -41,6 +41,7 @@ import attendance_Dashbord from './component/attendance_Dashbord';
 import Absent_Attendance from './component/Absent_Attendance';
 import Latecomers_Attendance from './component/Latecomers_Attendance';
 import EarlyLevers_Attendance from './component/EarlyLevers_Attendance';
+import ConfirmationDialogs from './component/dialogs/confirmationDialogs';
 
 class App extends Component {
 
@@ -89,10 +90,12 @@ class App extends Component {
                     <Route exact path='/Absent_Attendance' component={ Absent_Attendance } />
                     <Route exact path='./Latecomers_Attendance' component={ Latecomers_Attendance } />
                     <Route exact path='./EarlyLevers_Attendance' component={ EarlyLevers_Attendance } />
+                    <Route exact path='/confirm' component={ ConfirmationDialogs } />
                 </Switch>
 				:
                 <Switch>
-                    <Route path='/' component={ login } />
+                    <Route exact path='/confirm' component={ ConfirmationDialogs } />
+                    <Route component={ login } />
                 </Switch>
 			}
             {this.props.loader ?
