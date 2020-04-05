@@ -8,8 +8,10 @@
   },
   "plugins": [
     "react"
+
   ],
   "rules": {
+
     "space-in-parens": [ 0, "always" ],
     "template-curly-spacing": [ 2, "always" ],
     "array-bracket-spacing": [ 2, "always" ],

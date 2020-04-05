@@ -4,7 +4,7 @@ import { GetSession, DestroySession, SetSession } from './sessionManagement';
 
 export function IsAuthenticated( setUserState )
 {
-	const state = store.getState(); //access to the redux store
+	const state = store.getState(); //access to the redux branchActions
 
 	const localData = JSON.parse(GetSession()) //get the localstorage
 
@@ -44,7 +44,7 @@ export function IsAuthenticated( setUserState )
 		}
 	}
 
-	let authToken = state.user; //get redux store user
+	let authToken = state.user; //get redux branchActions user
 
 	if(authToken.authenticated == false ||  authToken.userID == null || authToken.userName == null || authToken.roleID == null || authToken.email == null || authToken.token == null){
 		return false;
