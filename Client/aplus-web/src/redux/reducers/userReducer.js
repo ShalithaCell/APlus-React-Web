@@ -9,6 +9,7 @@ const initialState = {
 	role          : null,
 	email         : null,
 	orgID         : null,
+	phone         : null,
 	token         : null,
 	users         : []
 }
@@ -27,6 +28,7 @@ export default function(state = initialState, action)
 					role          : action.payload.role,
 					email         : action.payload.email,
 					orgID         : action.payload.orgID,
+					phone         : action.payload.phone,
 					token         : encrypt(action.payload.token)
 				}
 			case DO_LOGOUT :

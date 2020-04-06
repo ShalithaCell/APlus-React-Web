@@ -85,6 +85,7 @@ namespace Portal.API.Controllers
                 authenticatedResult.RoleID = RoleDetails.Id;
                 authenticatedResult.UserID = user.Id;
                 authenticatedResult.UserName = user.UserName;
+                authenticatedResult.Phone = user.PhoneNumber;
                 authenticatedResult.StatusCode = StatusCodes.Status200OK;
                 authenticatedResult = _authenticationServices.GenerateJWT(authenticatedResult);
 
