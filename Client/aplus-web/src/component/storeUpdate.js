@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -47,20 +46,20 @@ export default function SignInSide() {
 	const classes = useStyles();
 
 	return (
-		<Grid container component="main" className={ classes.root }>
-			<CssBaseline />
-			<Grid item xs={ false } sm={ 10 } md={ 7 } className={ classes.image } />
-			<Grid item xs={ 15 } sm={ 10 } md={ 5} component={ Paper } elevation={ 20 } square>
-				<div className={ classes.paper }>
-					<Avatar className={ classes.avatar }>
-						<HouseTwoToneIcon />
-					</Avatar>
-					<Typography component="h1" variant="h5">
-						Update Existing Branch
-					</Typography>
-					<form className={ classes.form } Validate>
+    <Grid container component="main" className={ classes.root }>
+        <CssBaseline />
+        <Grid item xs={ false } sm={ 10 } md={ 7 } className={ classes.image } />
+        <Grid item xs={ 15 } sm={ 10 } md={ 5 } component={ Paper } elevation={ 20 } square>
+            <div className={ classes.paper }>
+                <Avatar className={ classes.avatar }>
+                    <HouseTwoToneIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Update Existing Branch
+                </Typography>
+                <form className={ classes.form } Validate>
 
-						<TextField
+                    <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -71,7 +70,7 @@ export default function SignInSide() {
 							autoComplete="bName"
 
 						/>
-						<TextField
+                    <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -82,7 +81,7 @@ export default function SignInSide() {
 							id="location"
 
 						/>
-						<TextField
+                    <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -93,7 +92,7 @@ export default function SignInSide() {
 							id="tpNo"
 						/>
 
-						<TextField
+                    <TextField
 							variant="outlined"
 							margin="normal"
 
@@ -104,21 +103,21 @@ export default function SignInSide() {
 							id="noofEmployees"
 						/>
 
-						<Button
+                    <Button
 							type="submit"
 							variant="contained"
 							color="primary"
 							className={ classes.submit }
 						>
-							Update Branch
-						</Button>
+                        Update Branch
+                    </Button>
 
-						<Box mt={ 8 }>
-							<Copyright />
-						</Box>
-					</form>
-				</div>
-			</Grid>
-		</Grid>
+                    <Box mt={ 8 }>
+                        <Copyright />
+                    </Box>
+                </form>
+            </div>
+        </Grid>
+    </Grid>
 	);
 }

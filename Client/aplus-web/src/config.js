@@ -1,4 +1,3 @@
-/*eslint-disable */
 //api url
 export const API_TARGET = 'https://localhost:44317/api/';
 

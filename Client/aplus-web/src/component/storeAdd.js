@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -70,7 +69,6 @@ export default function storeAdd() {
 			const localData = JSON.parse(GetSession());
 			let token = localData.sessionData.token;
 			token = decrypt(token);
-
 
 			//console.log('ABC');
 			const success = false;
