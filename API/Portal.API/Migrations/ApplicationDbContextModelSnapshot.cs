@@ -302,6 +302,7 @@ namespace Portal.API.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
+
                     b.Property<string>("OrgLocation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -309,6 +310,17 @@ namespace Portal.API.Migrations
                     b.Property<string>("OrgName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RegistedDate")
                         .ValueGeneratedOnAdd()
@@ -318,6 +330,20 @@ namespace Portal.API.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("organizations");
+                    b.Property<string>("SupplireEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SupplireName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.PasswordResetToken", b =>
