@@ -15,6 +15,7 @@ namespace Portal.API.Domain.ResultModels
         public string Email { get; set; }
         public int OrgID { get; set; }
         public int StatusCode { get; set; }
+        public string Phone { get; set; }
         public List<string> ErrorMessages { get; set; }
         public string Token { get; set; }
     }

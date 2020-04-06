@@ -1,4 +1,3 @@
-/* eslint-disable */
 import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import TableCell from '@material-ui/core/TableCell';
@@ -223,7 +222,7 @@ const styles = (theme) => ({
 	},
 	container : {
 		paddingBottom : theme.spacing(1.5)
-	},
+	}
 });
 
 const WeatherIcon = ({ classes, id }) => {
@@ -293,7 +292,7 @@ const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ..
             <ColorLens fontSize="large" htmlColor="#FF7043" />
             <Typography variant="h5" style={ { marginRight: '550px' } }>Organization Monthly Plan</Typography>
 
-			<Button href="http://localhost:3000/storeDashboard"
+            <Button href="http://localhost:3000/storeDashboard"
 				variant="contained"
 				color="primary"
 				> back</Button>
@@ -337,46 +336,46 @@ export default class Demo extends React.PureComponent {
 
 		return (
 
-        <Paper>
+    <Paper>
 
-            <Scheduler
+        <Scheduler
 					data={ data }
 				>
-                <EditingState
+            <EditingState
 						onCommitChanges={ this.commitChanges }
 					/>
-                <ViewState
+            <ViewState
 						defaultCurrentDate="2018-07-17"
 					/>
 
-                <MonthView
+            <MonthView
 						timeTableCellComponent={ TimeTableCell }
 						dayScaleCellComponent={ DayScaleCell }
 					/>
 
-                <Appointments
+            <Appointments
 						appointmentComponent={ Appointment }
 						appointmentContentComponent={ AppointmentContent }
 					/>
-                <Resources
+            <Resources
 						data={ resources }
 					/>
 
-                <Toolbar
+            <Toolbar
 						flexibleSpaceComponent={ FlexibleSpace }
 					/>
-                <DateNavigator />
+            <DateNavigator />
 
-                <EditRecurrenceMenu />
-                <AppointmentTooltip
+            <EditRecurrenceMenu />
+            <AppointmentTooltip
 						showCloseButton
 						showDeleteButton
 						showOpenButton
 					/>
-                <AppointmentForm />
-                <DragDropProvider />
-            </Scheduler>
-        </Paper>
+            <AppointmentForm />
+            <DragDropProvider />
+        </Scheduler>
+    </Paper>
 
 		);
 	}

@@ -1,6 +1,8 @@
 import React from 'react';
 import MaterialTable from 'material-table';
 import Navbar from './navbar';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 
 export default function MaterialTableDemo() {
 	const [ state, setState ] = React.useState({
@@ -17,7 +19,11 @@ export default function MaterialTableDemo() {
 	});
 
 	return (
-    <MaterialTable
+    <Container component="main" maxWidth="sx">
+        <Navbar/>
+        <Container  maxWidth="s">
+            <Typography component="div" style={ {   height: '12vh' } } />
+            <MaterialTable
 			title="Inventory"
 			columns={ state.columns }
 			data={ state.data }
@@ -59,5 +65,7 @@ export default function MaterialTableDemo() {
 					})
 			} }
 		/>
+        </Container>
+    </Container>
 	);
 }
