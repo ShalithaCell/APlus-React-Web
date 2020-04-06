@@ -6,9 +6,23 @@ import { connect } from 'react-redux';
 import { doLogOut } from '../redux/userActions';
 import { DestroySession } from '../services/sessionManagement';
 import { withRouter } from "react-router-dom";
+import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import DialogContent from '@material-ui/core/DialogContent/DialogContent';
+import Dialog from '@material-ui/core/Dialog/Dialog';
+import UserProfile from './user/userProfile';
 
 class Navbar extends Component
 {
+
+    constructor(props)
+    {
+        super(props);
+        this.state = {
+            showProfileDialog : false
+        }
+    }
 
     logout = (e) => {
         e.preventDefault();
@@ -18,6 +32,19 @@ class Navbar extends Component
 
         this.props.history.push("/");
         window.location.reload();
+    }
+
+    btnProfileDialog = (e) => {
+        if(e.currentTarget.id === 'btnClose'){
+            this.setState({
+                showProfileDialog : false
+            });
+        }else{
+            this.setState({
+                showProfileDialog : true
+            });
+        }
+
     }
 
 	render()
@@ -54,13 +81,23 @@ class Navbar extends Component
             </li>
             <Fragment>
                 <NavItem>
-                    <NavLink tag={ Link } className="text-dark" to={ '/' } >Hello { this.props.items.userName }</NavLink>
+                    <a href={ null } onClick={ this.btnProfileDialog.bind(this) } className="text-dark" to={ '/' } >Hello { this.props.items.userName }</a>
                 </NavItem>
                 <NavItem>
                     <a className="text-dark" onClick={ this.logout } >Logout</a>
                 </NavItem>
             </Fragment>
         </ul>
+        <Dialog open={ this.state.showProfileDialog } aria-labelledby="form-dialog-title" fullWidth={ true } maxWidth={ 'md' }>
+            <DialogTitle disableTypography >
+                <IconButton id="btnClose"  onClick={ this.btnProfileDialog.bind(this) } className={ 'pull-right' }>
+                    <CloseIcon />
+                </IconButton>
+            </DialogTitle>
+            <DialogContent>
+                <UserProfile />
+            </DialogContent>
+        </Dialog>
     </header>
 		);
 	}
