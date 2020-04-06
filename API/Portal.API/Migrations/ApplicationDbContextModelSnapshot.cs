@@ -120,6 +120,55 @@ namespace Portal.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Branch", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BranchLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BranchName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BranchPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<int>("NoofEmployees")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OrgName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrganizationFK")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrganizationID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RegistedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("OrganizationID");
+
+                    b.ToTable("branches");
+                });
+
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.CustomPermission", b =>
                 {
                     b.Property<int>("ID")
@@ -154,7 +203,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Report",
                             PermissionCode = "RE",
-                            RegistedDate = new DateTime(2020, 4, 3, 22, 42, 28, 777, DateTimeKind.Local).AddTicks(4205)
+                            RegistedDate = new DateTime(2020, 4, 5, 16, 6, 59, 876, DateTimeKind.Local).AddTicks(2767)
                         },
                         new
                         {
@@ -162,7 +211,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Sales",
                             PermissionCode = "SE",
-                            RegistedDate = new DateTime(2020, 4, 3, 22, 42, 28, 778, DateTimeKind.Local).AddTicks(2059)
+                            RegistedDate = new DateTime(2020, 4, 5, 16, 6, 59, 877, DateTimeKind.Local).AddTicks(5332)
                         },
                         new
                         {
@@ -170,7 +219,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory View",
                             PermissionCode = "IV",
-                            RegistedDate = new DateTime(2020, 4, 3, 22, 42, 28, 778, DateTimeKind.Local).AddTicks(2082)
+                            RegistedDate = new DateTime(2020, 4, 5, 16, 6, 59, 877, DateTimeKind.Local).AddTicks(5368)
                         },
                         new
                         {
@@ -178,7 +227,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Add",
                             PermissionCode = "IA",
-                            RegistedDate = new DateTime(2020, 4, 3, 22, 42, 28, 778, DateTimeKind.Local).AddTicks(2084)
+                            RegistedDate = new DateTime(2020, 4, 5, 16, 6, 59, 877, DateTimeKind.Local).AddTicks(5370)
                         },
                         new
                         {
@@ -186,7 +235,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Update",
                             PermissionCode = "IU",
-                            RegistedDate = new DateTime(2020, 4, 3, 22, 42, 28, 778, DateTimeKind.Local).AddTicks(2086)
+                            RegistedDate = new DateTime(2020, 4, 5, 16, 6, 59, 877, DateTimeKind.Local).AddTicks(5372)
                         },
                         new
                         {
@@ -194,7 +243,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Delete",
                             PermissionCode = "ID",
-                            RegistedDate = new DateTime(2020, 4, 3, 22, 42, 28, 778, DateTimeKind.Local).AddTicks(2087)
+                            RegistedDate = new DateTime(2020, 4, 5, 16, 6, 59, 877, DateTimeKind.Local).AddTicks(5374)
                         },
                         new
                         {
@@ -202,7 +251,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Customer Handling",
                             PermissionCode = "CH",
-                            RegistedDate = new DateTime(2020, 4, 3, 22, 42, 28, 778, DateTimeKind.Local).AddTicks(2088)
+                            RegistedDate = new DateTime(2020, 4, 5, 16, 6, 59, 877, DateTimeKind.Local).AddTicks(5375)
                         });
                 });
 
@@ -241,7 +290,7 @@ namespace Portal.API.Migrations
                     b.ToTable("customRolePermissionLevels");
                 });
 
-            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Inventories", b =>
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Organization", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -252,6 +301,15 @@ namespace Portal.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
+
+
+                    b.Property<string>("OrgLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrgName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductCode")
                         .IsRequired()
@@ -269,6 +327,9 @@ namespace Portal.API.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
+                    b.HasKey("ID");
+
+                    b.ToTable("organizations");
                     b.Property<string>("SupplireEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -475,6 +536,13 @@ namespace Portal.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Branch", b =>
+                {
+                    b.HasOne("Portal.API.Domain.DataBaseModels.Organization", "Organization")
+                        .WithMany("Branch")
+                        .HasForeignKey("OrganizationID");
                 });
 
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.CustomRolePermissionLevelc", b =>
