@@ -73,7 +73,6 @@ class App extends Component {
                     <Route exact path='/addinventory' component={ addinventory } />
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
-                    <Route exact path='/sales_homes' component={ sales_homes } />
                     <Route exact path='/updateinventory' component={ updateinventory } />
                     <Route exact path='/dash' component={ dashboard } />
                     <Route exact path= '/storeDashboard' component={ storeDashboard } />
