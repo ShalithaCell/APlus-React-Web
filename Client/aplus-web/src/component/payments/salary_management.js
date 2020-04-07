@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, Container } from '@material-ui/core';
-import Navbar from './navbar'
+import Navbar from '../navbar'
 
 const useStyles =  makeStyles((theme) => ({
   table : {
@@ -75,6 +75,7 @@ const useStyles =  makeStyles((theme) => ({
 export default function MaterialTableDemo() {
   const [ state, setState ] = React.useState({
     columns : [
+      { title: 'Salary ID', field: 'salary_id', type: 'numeric' },
       { title: 'Full Name', field: 'name' },
       { title: 'EID', field: 'eid', type: 'numeric' },
       {
@@ -84,40 +85,47 @@ export default function MaterialTableDemo() {
        },
       { title: 'Basic  (Rs)', field: 'basic', type: 'numeric' },
       { title: 'Attendance', field: 'attendance', type: 'numeric' },
-      { title: 'Month', field: 'month', type: 'numeric' },
-      { title: 'Year', field: 'year', type: 'numeric' },
+      { title: 'Paid date', field: 'paid_date', type: 'numeric' },
+      { title: 'For month', field: 'for_month', type: 'numeric' },
       { title: 'Bonus (Rs)', field: 'bonus', type: 'numeric' },
       { title: 'Total (Rs)', field: 'total', type: 'decimal' }
 
     ],
     data : [
-        {
+        { 
+            salary_id   : 1001,
             name        : 'Mehmt dias',
             eid         : 100001,
             basic       : 15000.00,
             bonus       : 500.00,
             designation : 63,
             attendance  : 20,
-            year        : 2020,
-            month       : 3, 
+            paid_date   : "2020.03.03",
+            for_month   : 3, 
             total       : 15500.00
           },
       {
+        salary_id   : 1002,
         name        : 'Zerya Betül',
         eid         : 20002,
         basic       : 25000.00,
         bonus       : 2000.00,
         designation : 34,
         attendance  : 20,
-        year        : 2020,
-        month       : 3, 
+        paid_date   : "2020.03.03",
+        for_month   : 3, 
         total       : 27000.00
       }
     ]
   });
 
   const classes = useStyles();
-  
+  const [ add, setadd ] = useState( { salary_id: '', name: '', eid: '', basic: '', bonus: '', designation: '', attendance: '', paid_date: '', for_month: '', total: '' })
+
+  const OnChange = (e) => {
+    e.persist();
+    setadd( { ...add, [ e.target.name ]: e.target.value })
+  }
   return (
       <Container component="main" maxWidth="sx">
           <Navbar/>

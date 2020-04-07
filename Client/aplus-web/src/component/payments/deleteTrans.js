@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Navbar from './navbar';
+import Navbar from '../navbar';
 import { fade, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -26,7 +26,6 @@ export default function PaymentForm() {
       <Container component="main" maxWidth="sx">
           <Navbar/>
           <Container maxWidth="$" >
-              // eslint-disable-next-line react/jsx-indent
               <Typography component="div" className={ classes.table } />
               <React.Fragment>
                   <Typography variant="h6" gutterBottom>

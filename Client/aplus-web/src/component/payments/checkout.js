@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 // import AddressForm from './address_form';
 import PaymentForm from './payment_form';
 import Review from './review';
-import Navbar from './navbar';
+import Navbar from '../navbar';
 import { fade, Container } from '@material-ui/core';
 
 function Copyright() {
@@ -95,7 +95,6 @@ export default function Checkout() {
         <Container component="main" maxWidth="sx">
             <Navbar/>
             <Container maxWidth="$" >
-                // eslint-disable-next-line react/jsx-indent
                 <Typography component="div" className={ classes.table } />
                 <React.Fragment>
                     <CssBaseline />

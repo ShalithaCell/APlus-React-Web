@@ -5,7 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
-import Navbar from './navbar';
+import Navbar from '../navbar';
 import { fade, Container } from '@material-ui/core';
 
 const products = [

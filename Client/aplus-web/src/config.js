@@ -21,3 +21,5 @@ export const REGISTER_NEW_ROLE_ENDPOINT = API_TARGET +'roles/registerRole';
 export const GET_ROLE_ENDPOINT = API_TARGET +'roles/getRoleInfomation';
 export const UPDATE_ROLE_ENDPOINT = API_TARGET +'roles/updateRole';
 export const REMOVE_ROLE_ENDPOINT = API_TARGET +'roles/removeRole';
+export const ADD_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/addTransaction';
+export const ADD_SALARY_ENDPOINT = API_TARGET + 'salary/addSalary';

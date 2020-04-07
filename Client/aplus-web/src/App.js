@@ -10,11 +10,11 @@ import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
-import checkout from './component/checkout'
-import transactions from './component/transactions'
-import payment_form from './component/payment_form'
-import review from './component/review'
-import salary_management from './component/salary_management'
+import checkout from './component/payments/checkout'
+import transactions from './component/payments/transactions'
+import payment_form from './component/payments/payment_form'
+import review from './component/payments/review'
+import salary_management from './component/payments/salary_management'
 import addSupplier from './component/addSupplier'
 import informSupplier from './component/informSupplier'
 import sales_homes from './component/sales_home'
@@ -23,6 +23,9 @@ import EmployeeRequest from './component/EmployeeRequest'
 import AddRequest from './component/AddRequest'
 import UpdateRequest from './component/UpdateRequest'
 import request from './component/request'
+import editTrans from './component/payments/editTrans'
+import addTrans from './component/payments/addTrans'
+import deleteTrans from './component/payments/deleteTrans'
 import customeradd from './component/customeradd'
 import storeAdd from './component/storeAdd'
 import storeChart from './component/store/storeChart'
@@ -74,6 +77,9 @@ class App extends Component {
                     <Route exact path='/payment_form' component={ payment_form } />
                     <Route exact path='/review' component={ review } />
                     <Route exact path='/transactions' component={ transactions } />
+                    <Route exact path='/editTrans' component={ editTrans } />
+                    <Route exact path='/deleteTrans' component={ deleteTrans } />
+                    <Route exact path='/addTrans' component={ addTrans } />
                     <Route exact path='/salary_management' component={ salary_management } />
                 </Switch>
 				:

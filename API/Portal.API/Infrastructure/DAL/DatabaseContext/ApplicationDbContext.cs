@@ -21,6 +21,8 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
         public DbSet<PasswordResetToken> passwordResetTokens { get; set; }
         public DbSet<CustomPermission> customPermissions { get; set; }
         public DbSet<CustomRolePermissionLevelc> customRolePermissionLevels { get; set; }
+        public DbSet<TransactionDetails> TransactionDetails { get; set; }
+        public DbSet<SalaryDetails> SalaryDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
