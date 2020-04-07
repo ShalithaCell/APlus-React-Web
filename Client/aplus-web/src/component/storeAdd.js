@@ -96,6 +96,7 @@ export default function storeAdd() {
 				.then(function(response)
 				{
 					console.log('ok');
+
 				})
 				.catch(function(error)
 				{
