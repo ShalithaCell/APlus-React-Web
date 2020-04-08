@@ -23,6 +23,10 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
         public DbSet<CustomRolePermissionLevelc> customRolePermissionLevels { get; set; }
         public DbSet<TransactionDetails> TransactionDetails { get; set; }
         public DbSet<SalaryDetails> SalaryDetails { get; set; }
+        public DbSet<Branch> branches { get; set; }
+        public DbSet<RequestAddTables> requestAddTable { get; set; }
+        public DbSet<Organization> organizations { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
