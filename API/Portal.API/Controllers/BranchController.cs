@@ -44,6 +44,7 @@ namespace Portal.API.Controllers
                 NoofEmployees = b.B_Employee,
                 OrganizationFK = 1
             };
+
             _context.branches.Add(branch);
             await _context.SaveChangesAsync();
 
