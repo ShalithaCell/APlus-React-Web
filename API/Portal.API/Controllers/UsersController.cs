@@ -85,6 +85,7 @@ namespace Portal.API.Controllers
                 authenticatedResult.RoleID = RoleDetails.Id;
                 authenticatedResult.UserID = user.Id;
                 authenticatedResult.UserName = user.UserName;
+                authenticatedResult.Phone = user.PhoneNumber;
                 authenticatedResult.StatusCode = StatusCodes.Status200OK;
                 authenticatedResult = _authenticationServices.GenerateJWT(authenticatedResult);
 
@@ -163,6 +164,30 @@ namespace Portal.API.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpPost("checkPasswordResetToken")]
+        public async Task<IActionResult> PasswordResetTokenValidation([FromBody] JObject objToken)
+        {
+            string token = objToken["token"].ToString();
+
+            PasswordResetToken passwordResetToken = _context.passwordResetTokens.Where(o => o.Token == token).FirstOrDefault();
+
+            if(passwordResetToken == null)
+            {
+                return Ok(new { valid = 0 });
+            }
+
+            double minites = (DateTime.Now - passwordResetToken.RegistedDate).TotalMinutes;
+
+            if(minites > 10)
+            {
+                return Ok(new { valid = 0 });
+            }
+
+            return Ok(new { valid = 1 });
+
+        }
+
 
         [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
         [HttpPost("getAllUsers")]
@@ -234,7 +259,7 @@ namespace Portal.API.Controllers
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                var uriBuilder = new UriBuilder(model.BaseUrl);
+                var uriBuilder = new UriBuilder(model.BaseUrl + "/confirm");
                 var parameters = HttpUtility.ParseQueryString(string.Empty);
                 parameters["userId"] = user.Id.ToString();
                 parameters["code"] = code;
@@ -275,6 +300,8 @@ namespace Portal.API.Controllers
             }
 
         }
+
+        
 
         [Authorize(Roles = Const.RoleAdminOrSuperAdminOrAuthUser)]
         [HttpPost("updateUser")]
@@ -357,5 +384,74 @@ namespace Portal.API.Controllers
                 Phone = user.PhoneNumber
             });
         }
+
+        [AllowAnonymous]
+        [HttpPost("confirmEmailAddress")]
+        public async Task<IActionResult> ConfirmEmailAddress([FromBody] JObject obj)
+        {
+            var user = await _userManager.FindByIdAsync(obj["userID"].ToString());
+
+            if (user == null)
+                return NotFound("User ID is not valid");
+
+            string code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(obj["code"].ToString()));
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { res = true } );
+            }
+            else
+            {
+                return Ok(new { res = false });
+            }
+
+
+        }
+
+        [AllowAnonymous]
+        [HttpPost("resentUserPassword")]
+        public async Task<IActionResult> RestUserPassword([FromBody] JObject obj)
+        {
+            string token = obj["token"].ToString();
+            string password = obj["password"].ToString();
+
+            var tokenData = _context.passwordResetTokens.Where(o => o.Token == token).FirstOrDefault();
+
+            if(tokenData == null)
+            {
+                return Ok(new { status = 0 });
+            }
+
+            var user = await _userManager.FindByIdAsync(tokenData.UserID.ToString());
+
+            if(user == null)
+            {
+                return Ok(new { status = 0 });
+            }
+
+            double minites = (DateTime.Now - tokenData.RegistedDate).TotalMinutes;
+
+            if(minites > 10)
+            {
+                return Ok(new { status = 2 });
+            }
+
+            var token2 = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token2, password);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { status = 1 });
+            }
+            else
+            {
+                return Ok(new { status = 0 });
+            }
+        }
+
+
     }
 }

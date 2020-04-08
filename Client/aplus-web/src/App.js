@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import logo from './logo.svg';
@@ -42,6 +41,8 @@ import attendance_Dashbord from './component/attendance_Dashbord';
 import Absent_Attendance from './component/Absent_Attendance';
 import Latecomers_Attendance from './component/Latecomers_Attendance';
 import EarlyLevers_Attendance from './component/EarlyLevers_Attendance';
+import ConfirmationDialogs from './component/dialogs/confirmationDialogs';
+import UserProfile from './component/user/userProfile';
 
 class App extends Component {
 
@@ -71,10 +72,11 @@ class App extends Component {
                     <Route exact path='/UpdateRequest' component={ UpdateRequest } />
                     <Route exact path='/Attendance' component={ Attendance } />
                     <Route exact path='/addinventory' component={ addinventory } />
+                    <Route exact path ='/storePlan' component={ storePlan }/>
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
                     <Route exact path='/updateinventory' component={ updateinventory } />
-                    <Route exact path='/dash' component={ dashboard } />
+                    <Route exact path='/dashboardInventory' component={ dashboard } />
                     <Route exact path= '/storeDashboard' component={ storeDashboard } />
                     <Route exact path= '/storePlan' component={ map } />
                     <Route exact path='/checkout' component={ checkout } />
@@ -89,10 +91,13 @@ class App extends Component {
                     <Route exact path='/Absent_Attendance' component={ Absent_Attendance } />
                     <Route exact path='./Latecomers_Attendance' component={ Latecomers_Attendance } />
                     <Route exact path='./EarlyLevers_Attendance' component={ EarlyLevers_Attendance } />
+                    <Route exact path='/confirm' component={ ConfirmationDialogs } />
+                    <Route exact path='/userProfile' component={ UserProfile } />
                 </Switch>
 				:
                 <Switch>
-                    <Route path='/' component={ login } />
+                    <Route exact path='/confirm' component={ ConfirmationDialogs } />
+                    <Route component={ login } />
                 </Switch>
 			}
             {this.props.loader ?
