@@ -9,11 +9,11 @@ import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
-import checkout from './component/checkout'
-import transactions from './component/transactions'
-import payment_form from './component/payment_form'
-import review from './component/review'
-import salary_management from './component/salary_management'
+import checkout from './component/payments/checkout'
+import transactions from './component/payments/transactions'
+import payment_form from './component/payments/payment_form'
+import review from './component/payments/review'
+import salary_management from './component/payments/salary_management'
 import addSupplier from './component/addSupplier'
 import informSupplier from './component/informSupplier'
 import Attendance from './component/Attendance'
@@ -43,6 +43,9 @@ import Latecomers_Attendance from './component/Latecomers_Attendance';
 import EarlyLevers_Attendance from './component/EarlyLevers_Attendance';
 import ConfirmationDialogs from './component/dialogs/confirmationDialogs';
 import UserProfile from './component/user/userProfile';
+import editTrans from './component/payments/editTrans'
+import addTrans from './component/payments/addTrans'
+import deleteTrans from './component/payments/deleteTrans'
 
 class App extends Component {
 
@@ -93,26 +96,29 @@ class App extends Component {
                     <Route exact path='./EarlyLevers_Attendance' component={ EarlyLevers_Attendance } />
                     <Route exact path='/confirm' component={ ConfirmationDialogs } />
                     <Route exact path='/userProfile' component={ UserProfile } />
+                    <Route exact path='/editTrans' component={ editTrans } />
+                    <Route exact path='/deleteTrans' component={ deleteTrans } />
+                    <Route exact path='/addTrans' component={ addTrans } />
                 </Switch>
-				:
+						:
                 <Switch>
                     <Route exact path='/confirm' component={ ConfirmationDialogs } />
                     <Route component={ login } />
                 </Switch>
-			}
+					}
             {this.props.loader ?
                 <div className="to-center">
                     <Loader
-						type="Triangle"
-						color="#00BFFF"
-						height={ 200 }
-						width={ 200 }
-						visible={ true }
-					/>
+								type="Triangle"
+								color="#00BFFF"
+								height={ 200 }
+								width={ 200 }
+								visible={ true }
+							/>
                 </div>
-				:
+						:
                 <div></div>
-			}
+					}
             <SessionExpire />
             <ToastContainer />
         </div>
