@@ -11,7 +11,10 @@ namespace Portal.API.Infrastructure
         /// Access control const
         /// </summary>
         public const string RoleSuperAdmin = "1";
-        public const string RoleAdmin = "Administrator";
+        public const string RoleAdmin = "2";
+        public const string AuthenticatedUser = "3";
+
         public const string RoleAdminOrSuperAdmin = RoleSuperAdmin + "," + RoleAdmin;
+        public const string RoleAdminOrSuperAdminOrAuthUser = RoleSuperAdmin + "," + RoleAdmin + "," + AuthenticatedUser;
     }
 }
