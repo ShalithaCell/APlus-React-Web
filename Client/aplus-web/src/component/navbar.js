@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 import { NavbarBrand } from 'reactstrap';
 import NavItem from 'reactstrap/es/NavItem';
 import { connect } from 'react-redux';
 import { doLogOut } from '../redux/userActions';
 import { DestroySession } from '../services/sessionManagement';
-import { withRouter } from "react-router-dom";
 import DialogTitle from '@material-ui/core/DialogTitle/DialogTitle';
 import IconButton from '@material-ui/core/IconButton/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -30,7 +29,7 @@ class Navbar extends Component
         this.props.doLogOut();
         DestroySession();
 
-        this.props.history.push("/");
+        this.props.history.push('/');
         window.location.reload();
     }
 
@@ -65,10 +64,8 @@ class Navbar extends Component
                             </li>
                             <li>
                                 <NavLink tag={ Link } className="gn-icon" to="/"><i className="fa fa-home" aria-hidden="true"></i> Home</NavLink>
-                                <ul className="gn-submenu">
-                                    <li><NavLink tag={ Link } className="gn-icon gn-icon-illustrator" to="/counter">Counter</NavLink></li>
-                                    <li><NavLink tag={ Link } className="gn-icon gn-icon-photoshop" to="/fetch-data">Fetch data</NavLink></li>
-                                </ul>
+                                <NavLink tag={ Link } className="gn-icon" to="/users"><i className="fa fa-users" aria-hidden="true"></i> Users</NavLink>
+
                             </li>
 
                         </ul>
@@ -107,4 +104,4 @@ const mapStateToProps = (state) => ({
     items : state.user
 })
 
-export default connect(mapStateToProps, { doLogOut })(withRouter(Navbar));
+export default withRouter(connect(mapStateToProps, { doLogOut })(Navbar));
