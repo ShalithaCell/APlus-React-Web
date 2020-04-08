@@ -21,10 +21,8 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
         public DbSet<PasswordResetToken> passwordResetTokens { get; set; }
         public DbSet<CustomPermission> customPermissions { get; set; }
         public DbSet<CustomRolePermissionLevelc> customRolePermissionLevels { get; set; }
-        public DbSet<RequestAddTables> requestAddTable { get; set; }
-        public DbSet<Branch> branches { get; set; }
-        public DbSet<Organization> organizations { get; set; }
-        //public DbSet<Inventories> Inventories { get; set; }
+        public DbSet<TransactionDetails> TransactionDetails { get; set; }
+        public DbSet<SalaryDetails> SalaryDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -45,7 +43,6 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
                                 .HasDefaultValue(true);
                         });
             }
-
 
             //table configuration and data seeding
             builder.ApplyConfiguration(new CustomPermissionDataSet());

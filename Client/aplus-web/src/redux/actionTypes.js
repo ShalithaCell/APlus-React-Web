@@ -1,8 +1,10 @@
 export const DO_LOGIN = 'DO_LOGIN';
 export const DO_LOGOUT = 'LOGOUT';
-export const UPDATE_USER_LIST = 'UPDATE_USER_LIST';
-
-export const UPDATE_USER_NAME_LIST = 'UPDATE_USERNAME_LIST';
+//export const ADD_TRANS = 'ADD_TRANS';
+export const EDIT_TRANS = 'EDIT_TRANS';
+export const DELETE_TRANS = 'DELETE_TRANS';
+export const VIEW_TRANS = 'VIEW_TRANS';
+export const ADD_SALARY = 'ADD_SALARY';
 
 export const POPUP_DIALOG_FORGOTPASSWORD = 'POPUP_DIALOG_FORGOTPASSWORD';
 export const POPUP_SPINNER = 'POPUP_SPINNER';
@@ -10,4 +12,3 @@ export const POPUP_SPINNER = 'POPUP_SPINNER';
 export const SET_SESSION_EXPIRED = 'SET_SESSION_EXPIRED';
 
 export const UPDATE_ROLE_LIST = 'UPDATE_ROLE_LIST';
-//export const ADD_INVENTORY = 'ADD NEW INVENTORY';
