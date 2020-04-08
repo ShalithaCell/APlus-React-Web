@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -46,32 +45,32 @@ export default function Deposits() {
 	return (
     <React.Fragment>
         <Table>
-			<TableRow>
-				<TableCell>
-					<Grid >
-						<Avatar className={ classes.avatar }>
-							<PeopleIcon  className={ classes.icon } />
-						</Avatar>
-					</Grid>
-				</TableCell>
-			<TableCell>
+            <TableRow>
+                <TableCell>
+                    <Grid >
+                        <Avatar className={ classes.avatar }>
+                            <PeopleIcon  className={ classes.icon } />
+                        </Avatar>
+                    </Grid>
+                </TableCell>
+                <TableCell>
 
-				<Title>Total of Employees</Title>
-			</TableCell>
-				</TableRow>
-		</Table>
+                    <Title>Total of Employees</Title>
+                </TableCell>
+            </TableRow>
+        </Table>
 
         <Typography component="p" variant="h4">
-				1500
+            1500
         </Typography>
 
         <div>
-			<IconButton color="inherit">
-				<Button href="http://localhost:3000/home"
+            <IconButton color="inherit">
+                <Button href="http://localhost:3000/home"
 						variant="contained"
 
 				> View</Button>
-			</IconButton>
+            </IconButton>
         </div>
 
     </React.Fragment>

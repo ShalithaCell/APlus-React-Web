@@ -120,6 +120,55 @@ namespace Portal.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Branch", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BranchLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BranchName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BranchPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<int>("NoofEmployees")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OrgName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OrganizationFK")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("OrganizationID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RegistedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("OrganizationID");
+
+                    b.ToTable("branches");
+                });
+
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.CustomPermission", b =>
                 {
                     b.Property<int>("ID")
@@ -239,6 +288,62 @@ namespace Portal.API.Migrations
                     b.HasIndex("FK_RoleID");
 
                     b.ToTable("customRolePermissionLevels");
+                });
+
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Organization", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+
+                    b.Property<string>("OrgLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrgName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Qty")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RegistedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("organizations");
+                    b.Property<string>("SupplireEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SupplireName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("float");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.PasswordResetToken", b =>
@@ -485,6 +590,13 @@ namespace Portal.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Branch", b =>
+                {
+                    b.HasOne("Portal.API.Domain.DataBaseModels.Organization", "Organization")
+                        .WithMany("Branch")
+                        .HasForeignKey("OrganizationID");
                 });
 
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.CustomRolePermissionLevelc", b =>
