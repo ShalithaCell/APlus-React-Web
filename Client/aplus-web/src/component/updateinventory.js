@@ -4,7 +4,7 @@ import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 
-export default function MaterialTableDemo() {
+export default function UpdateInventory() {
 	const [ state, setState ] = React.useState({
 		columns : [
 			{ title: 'Product Name', field: 'name' },
