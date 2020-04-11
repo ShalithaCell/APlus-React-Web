@@ -62,6 +62,13 @@ namespace Portal.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("forTest")]
+        public async Task<IActionResult> ForTest()
+        {
+            return Ok(true);
+        }
+
+        [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
         {

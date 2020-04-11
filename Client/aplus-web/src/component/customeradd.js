@@ -52,7 +52,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function customeradd() {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   const classes = useStyles();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   const [ add, setadd ] = useState({ cfname: '', clname: '', cemail: '', cidnumber: '', cphonenumber: '' })
 
           const onChangeCustomer = (e) => {
