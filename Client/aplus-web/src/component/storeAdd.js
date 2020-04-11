@@ -1,5 +1,4 @@
-/* eslint-disable */
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +11,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Copyright } from '@material-ui/icons';
 import Navbar from './navbar';
+import { GetSession } from '../services/sessionManagement';
+import { decrypt } from '../services/EncryptionService';
+import axios from 'axios';
+import { ADD_BRANCH } from '../config';
+import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
 	root : {
@@ -44,23 +49,81 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function SignInSide() {
+export default function storeAdd() {
+
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const dispatch = useDispatch();
+	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const classes = useStyles();
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const [ add, setadd ] = useState({ bName: '', orgName: '', location: '', tpNo: '', noofEmployees: '' });
+
+	const onChange = (e) =>
+	{
+		e.persist();
+		setadd({ ...add, [ e.target.name ]: e.target.value })
+	}
+
+	async function Insertbranch(){
+
+			const localData = JSON.parse(GetSession());
+			let token = localData.sessionData.token;
+			token = decrypt(token);
+
+			//console.log('ABC');
+			const success = false;
+			let resData;
+
+			console.log(token);
+
+			const userObj = {
+				B_Name     : add.bName,
+				Org_Name   : add.orgName,
+				B_Location : add.location,
+				B_Phone    : add.tpNo,
+				B_Employee : add.noofEmployee
+			}
+
+			//API call
+			await axios({
+				method  : 'post',
+				url     : ADD_BRANCH,
+				headers : { Authorization: 'Bearer ' + token },
+				data    : userObj
+			})
+				.then(function(response)
+				{
+					console.log('ok');
+
+				})
+				.catch(function(error)
+				{
+					if(error.response.status === 401){
+						dispatch({
+							type    : SET_SESSION_EXPIRED,
+							payload : true
+						});
+
+					}
+					throw error;
+				});
+
+	}
 
 	return (
     <Grid container component="main" className={ classes.root }>
-		<Navbar/>
+        <Navbar/>
         <CssBaseline />
         <Grid item xs={ false } sm={ 10 } md={ 7 } className={ classes.image } />
-        <Grid item xs={ 15 } sm={ 10 } md={ 5} component={ Paper } elevation={ 20 } square>
+        <Grid item xs={ 12 } sm={ 10 } md={ 5 } component={ Paper } elevation={ 20 } square>
             <div className={ classes.paper }>
                 <Avatar className={ classes.avatar }>
                     <HouseTwoToneIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-						Add a New Branch
+                    Add a New Branch
                 </Typography>
-                <form className={ classes.form } Validate>
+                <div className={ classes.form } >
 
                     <TextField
 							variant="outlined"
@@ -71,8 +134,23 @@ export default function SignInSide() {
 							label="Branch Name"
 							name="bName"
 							autoComplete="bName"
+							onChange={ onChange }
+							value={ add.bName }
 
 						/>
+                    <TextField
+						variant="outlined"
+						margin="normal"
+						required
+						fullWidth
+						id="orgName"
+						label="Organization Name"
+						name="orgName"
+						autoComplete="orgName"
+						onChange={ onChange }
+						value={ add.orgName }
+
+					/>
                     <TextField
 							variant="outlined"
 							margin="normal"
@@ -82,9 +160,11 @@ export default function SignInSide() {
 							label="Location"
 							type="location"
 							id="location"
+							onChange={ onChange }
+							value={ add.location }
 
 						/>
-					<TextField
+                    <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -93,32 +173,36 @@ export default function SignInSide() {
 							label="Phone No"
 							type="tpNo"
 							id="tpNo"
+							onChange={ onChange }
+							value={ add.tpNo }
 					/>
 
-					<TextField
+                    <TextField
 						variant="outlined"
 						margin="normal"
-
 						fullWidth
 						name="noofEmployees"
 						label="No of Employees"
 						type="noofEmployees"
 						id="noofEmployees"
+						onChange={ onChange }
+						value={ add.noofEmployees }
 					/>
 
-					<Button
+                    <Button
 							type="submit"
 							variant="contained"
 							color="primary"
 							className={ classes.submit }
+							onClick={ Insertbranch }
 						>
-							Add Branch
+                        Add Branch
                     </Button>
 
                     <Box mt={ 8 }>
                         <Copyright />
                     </Box>
-                </form>
+                </div>
             </div>
         </Grid>
     </Grid>

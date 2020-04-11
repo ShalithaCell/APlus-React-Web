@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 	}
 });
 
-export default function Deposits() {
+export default function Card6() {
 	const classes = useStyles();
 	return (
     <React.Fragment>

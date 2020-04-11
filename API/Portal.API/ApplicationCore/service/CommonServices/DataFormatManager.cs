@@ -21,5 +21,18 @@ namespace Portal.API.ApplicationCore.service.CommonServices
 
             return text;
         }
+
+        public static string GetFormatedAccountVerificationEmailTemplate(AccountVerificationData accountVerificationData, string path)
+        {
+            string text = File.ReadAllText(path);
+
+            text = text.Replace("{siteName}", accountVerificationData.SiteName);
+            text = text.Replace("{siteUrl}", accountVerificationData.SiteUrl);
+            text = text.Replace("{title}", accountVerificationData.Title);
+            text = text.Replace("{confirmUrl}", accountVerificationData.BaseUrl);
+            text = text.Replace("{userName}", accountVerificationData.UserName);
+
+            return text;
+        }
     }
 }

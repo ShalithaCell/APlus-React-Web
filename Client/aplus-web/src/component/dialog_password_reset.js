@@ -65,7 +65,7 @@ class PasswordResetDialog extends Component
             <DialogContent>
                 <DialogContentText>
                     Please enter the email address for your account. A password reset link will be sent to you. Once you have received the password reset link.
-                    You will be able to choose a new password for your account.
+                    You will be able to choose a new password for your account. The link is valid for 10 minutes.
                 </DialogContentText>
                 <TextField
 							autoFocus

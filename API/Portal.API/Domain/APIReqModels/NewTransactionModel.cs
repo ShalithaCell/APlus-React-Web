@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Portal.API.Domain.APIReqModels
+{
+    public class NewTransactionModel
+    {
+
+            [Required(ErrorMessage = "Transaction Id is required.")]
+            public String Transaction_ID { get; set; }
+            public String Description { get; set; }
+            [Required(ErrorMessage = "User Id is required.")]
+            public String User_ID { get; set; }
+            [Required(ErrorMessage = "Date is required.")]
+            public DateTime Date { get; set; }
+            [Required(ErrorMessage = "Time Id is required.")]
+            public DateTime Time { get; set; }
+            public int Quantity { get; set; }
+            public Double Unit_price { get; set; }
+            [Required(ErrorMessage = "Total Id is required.")]
+            public Double Total { get; set; }
+    }
+}

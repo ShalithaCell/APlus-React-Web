@@ -18,7 +18,7 @@ import IconButton from '@material-ui/core/IconButton/IconButton';
 import RemoveConfirmDialog from '../removeConfirmDialog';
 import { ToastContainer } from '../dialogs/ToastContainer';
 import { TOAST_SUCCESS, TOAST_ERROR } from '../../config';
-import { updateUserList } from '../../redux/userActions';
+import { updateUserList, removeUser } from '../../redux/userActions';
 import Register from './register';
 
 const useStyles  = (theme) =>  ({
@@ -47,6 +47,7 @@ class ListOfUsers extends Component
 			showNewUserDialog : false,
 			editable          : false,
 			editRole          : 0,
+			editUserID        : 0,
 			popupDelete       : false,
 			removeItem        : '',
 			removeID          : null
@@ -76,20 +77,57 @@ class ListOfUsers extends Component
 		}
 		else if (e.currentTarget.id === 'btnYes')
 		{
+			const result = await this.props.removeUser(this.state.removeID);
 
+			if(result.result === true){
+				this.setState({
+					...this.state,
+					popupDelete : false,
+					removeID    : null,
+					removeItem  : ''
+				});
+
+				ToastContainer(TOAST_SUCCESS, 'Successfully User is removed !');
+
+				this.props.updateUserList(this.props.user.roleID);//refresh role list
+			}else{
+				ToastContainer(TOAST_ERROR, result.message);
+			}
 		}
 		else if (e.currentTarget.id === 'btnNo')
 		{
-
+			this.setState({
+				...this.state,
+				popupDelete : false,
+				removeID    : null,
+				removeItem  : ''
+			});
 		}
 	}
 
-	onUserEditClick = (userID) => {
+	onClose = () => {
+		this.setState({
+			...this.state,
+			showNewUserDialog : false
+		});
+	}
 
+	onUserEditClick = (userID) => {
+		this.setState({
+			...this.state,
+			showNewUserDialog : true,
+			editable          : true,
+			editUserID        : userID
+		});
 	}
 
 	onUserDeleteClick = (userID, userName) => {
-
+		this.setState({
+			...this.state,
+			popupDelete : true,
+			removeID    : userID,
+			removeItem  : userName
+		});
 	}
 
 	render()
@@ -126,13 +164,13 @@ class ListOfUsers extends Component
 										(rowData) => ({
 											icon     : 'edit',
 											tooltip  : rowData.modifyAllowed ? 'Click here to edit user' : 'no permission to edit.',
-											onClick  : (event, rowData) => this.onRoleEditClick( rowData.iD),
+											onClick  : (event, rowData) => this.onUserEditClick( rowData.id),
 											disabled : !rowData.modifyAllowed
 										}),
 										(rowData) => ({
 											icon     : 'delete',
 											tooltip  : rowData.modifyAllowed ? 'Click here to remove user' : 'no permission to remove.',
-											onClick  : (event, rowData) => this.onRoleDeleteClick(rowData.iD, rowData.userName ),
+											onClick  : (event, rowData) => this.onUserDeleteClick(rowData.id, rowData.userName ),
 											disabled : !rowData.modifyAllowed
 										})
 									] }
@@ -158,7 +196,7 @@ class ListOfUsers extends Component
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                { <Register editable={ this.state.editable } editRole={ this.state.editRole }/> }
+                { <Register editable={ this.state.editable } userID={ this.state.editUserID } editRole={ this.state.editRole } dialogClose={ this.onClose }/> }
             </DialogContent>
         </Dialog>
         <RemoveConfirmDialog popupDelete={ this.state.popupDelete } item={ this.state.removeItem }  onRemoveClick={ this.onClickListner }/>
@@ -176,4 +214,4 @@ const mapStateToProps = (state) => ({
 	user     : state.user
 })
 
-export default connect(mapStateToProps, { updateUserList })(withStyles(useStyles)(ListOfUsers));
+export default connect(mapStateToProps, { updateUserList, removeUser })(withStyles(useStyles)(ListOfUsers));

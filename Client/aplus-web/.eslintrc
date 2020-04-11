@@ -7,9 +7,12 @@
     }
   },
   "plugins": [
-    "react"
+    "react",
+    "react-hooks"
   ],
   "rules": {
+    "react-hooks/rules-of-hooks" : "error",
+    "react-hooks/exhaustive-deps" : "warn",
     "space-in-parens": [ 0, "always" ],
     "template-curly-spacing": [ 2, "always" ],
     "array-bracket-spacing": [ 2, "always" ],

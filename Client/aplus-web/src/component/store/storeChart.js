@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -19,10 +18,9 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
 import MaterialTable from 'material-table';
 
-
 // Generate Order Data
-function createData(id, BranchName, Location, PhoneNo, NoofEmployees, Update,Delete) {
-	return { id, BranchName, Location, PhoneNo, NoofEmployees, Update,Delete };
+function createData(id, BranchName, Location, PhoneNo, NoofEmployees, Update, Delete) {
+	return { id, BranchName, Location, PhoneNo, NoofEmployees, Update, Delete };
 }
 
 const rows = [
@@ -39,14 +37,14 @@ function preventDefault(event) {
 
 function Copyright() {
 	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{'Copyright © '}
-			<Link color="inherit" href="https://material-ui.com/">
-				A Plus Web
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
+    <Typography variant="body2" color="textSecondary" align="center">
+        {'Copyright © '}
+        <Link color="inherit" href="https://material-ui.com/">
+            A Plus Web
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+    </Typography>
 	);
 }
 
@@ -54,66 +52,66 @@ const useStyles = makeStyles((theme) => ({
 	seeMore : {
 		marginTop : theme.spacing(3)
 	},
-	root: {
-		flexGrow: 5,
+	root : {
+		flexGrow : 5
 
 	},
-	paper: {
-		padding: theme.spacing(2),
-		textAlign: 'center',
-		color: '#95a5a6'
+	paper : {
+		padding   : theme.spacing(2),
+		textAlign : 'center',
+		color     : '#95a5a6'
 	},
-	menuButton: {
-		marginRight: theme.spacing(2),
+	menuButton : {
+		marginRight : theme.spacing(2)
 	},
-	title: {
-		flexGrow: 1,
-		display: 'none',
-		[theme.breakpoints.up('sm')]: {
-			display: 'block',
+	title : {
+		flexGrow                       : 1,
+		display                        : 'none',
+		[ theme.breakpoints.up('sm') ] : {
+			display : 'block'
+		}
+	},
+	search : {
+		position        : 'relative',
+		borderRadius    : theme.shape.borderRadius,
+		backgroundColor : fade(theme.palette.common.white, 0.15),
+		'&:hover'       : {
+			backgroundColor : fade(theme.palette.common.white, 0.25)
 		},
+		marginLeft                     : 0,
+		width                          : '100%',
+		[ theme.breakpoints.up('sm') ] : {
+			marginLeft : theme.spacing(1),
+			width      : 'auto'
+		}
 	},
-	search: {
-		position: 'relative',
-		borderRadius: theme.shape.borderRadius,
-		backgroundColor: fade(theme.palette.common.white, 0.15),
-		'&:hover': {
-			backgroundColor: fade(theme.palette.common.white, 0.25),
-		},
-		marginLeft: 0,
-		width: '100%',
-		[theme.breakpoints.up('sm')]: {
-			marginLeft: theme.spacing(1),
-			width: 'auto',
-		},
+	searchIcon : {
+		padding        : theme.spacing(0, 2),
+		height         : '100%',
+		position       : 'absolute',
+		pointerEvents  : 'none',
+		display        : 'flex',
+		alignItems     : 'center',
+		justifyContent : 'center'
 	},
-	searchIcon: {
-		padding: theme.spacing(0, 2),
-		height: '100%',
-		position: 'absolute',
-		pointerEvents: 'none',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	inputRoot: {
-		color: '#95a5a6',
+	inputRoot : {
+		color : '#95a5a6'
 
 	},
 
-	inputInput: {
-		padding: theme.spacing(1, 1, 1, 0),
+	inputInput : {
+		padding                        : theme.spacing(1, 1, 1, 0),
 		// vertical padding + font size from searchIcon
-		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-		transition: theme.transitions.create('width'),
-		width: '100%',
-		[theme.breakpoints.up('sm')]: {
-			width: '12ch',
-			'&:focus': {
-				width: '20ch',
-			},
-		},
-	},
+		paddingLeft                    : `calc(1em + ${ theme.spacing(4) }px)`,
+		transition                     : theme.transitions.create('width'),
+		width                          : '100%',
+		[ theme.breakpoints.up('sm') ] : {
+			width     : '12ch',
+			'&:focus' : {
+				width : '20ch'
+			}
+		}
+	}
 
 }));
 
@@ -121,82 +119,81 @@ export default function Branches() {
 	const classes = useStyles();
 	return (
 
+    <React.Fragment>
 
-			<React.Fragment>
+        <div className={ classes.root }>
+            <AppBar color="primary" position="relative">
 
-			<div className={classes.root}>
-				<AppBar color="primary" position="relative">
+                <Toolbar>
 
-					<Toolbar>
+                    <Typography className={ classes.title } variant="h6" noWrap>
+                        Branch Details
 
-						<Typography className={classes.title} variant="h6" noWrap>
-							Branch Details
+                    </Typography>
+                    <div className={ classes.search }>
+                        <div className={ classes.searchIcon }>
 
-						</Typography>
-						<div className={classes.search}>
-							<div className={classes.searchIcon}>
-
-								<SearchIcon />
-							</div>
-							<InputBase
+                            <SearchIcon />
+                        </div>
+                        <InputBase
 								placeholder="Search…"
-								classes={{
-									root: classes.inputRoot,
-									input: classes.inputInput,
-								}}
-								inputProps={{ 'aria-label': 'search' }}
+								classes={ {
+									root  : classes.inputRoot,
+									input : classes.inputInput
+								} }
+								inputProps={ { 'aria-label': 'search' } }
 							/>
-						</div>
-					</Toolbar>
-				</AppBar>
-			</div>
-			<Table size="small">
-				<TableHead>
-					<TableRow>
-						<TableCell>Branch ID</TableCell>
-						<TableCell>Branch Name</TableCell>
-						<TableCell>Location</TableCell>
-						<TableCell>Phone</TableCell>
-						<TableCell>No of Employees</TableCell>
-						<TableCell>Edit</TableCell>
-						<TableCell>Delete</TableCell>
+                    </div>
+                </Toolbar>
+            </AppBar>
+        </div>
+        <Table size="small">
+            <TableHead>
+                <TableRow>
+                    <TableCell>Branch ID</TableCell>
+                    <TableCell>Branch Name</TableCell>
+                    <TableCell>Location</TableCell>
+                    <TableCell>Phone</TableCell>
+                    <TableCell>No of Employees</TableCell>
+                    <TableCell>Edit</TableCell>
+                    <TableCell>Delete</TableCell>
 
-					</TableRow>
-				</TableHead>
-				<TableBody>
+                </TableRow>
+            </TableHead>
+            <TableBody>
 
-					{ rows.map((row) => (
+                { rows.map((row) => (
 
-						<TableRow key={ row.id }>
-							<TableCell>{ row.id }</TableCell>
-							<TableCell>{ row.BranchName }</TableCell>
-							<TableCell>{ row.Location }</TableCell>
-							<TableCell>{ row.PhoneNo }</TableCell>
-							<TableCell>{ row.NoofEmployees }</TableCell>
-							<TableCell>{ <Button
+                    <TableRow key={ row.id }>
+                        <TableCell>{ row.id }</TableCell>
+                        <TableCell>{ row.BranchName }</TableCell>
+                        <TableCell>{ row.Location }</TableCell>
+                        <TableCell>{ row.PhoneNo }</TableCell>
+                        <TableCell>{ row.NoofEmployees }</TableCell>
+                        <TableCell>{ <Button
 								variant="contained"
 								color="primary"
-								className={classes.button}
-								startIcon={<EditIcon />}
+								className={ classes.button }
+								startIcon={ <EditIcon /> }
 							>
 
-							</Button>
+                        </Button>
 							}</TableCell>
-							<TableCell>{ <Button
+                        <TableCell>{ <Button
 								variant="contained"
 								color="secondary"
-								className={classes.button}
-								startIcon={<DeleteIcon />}
+								className={ classes.button }
+								startIcon={ <DeleteIcon /> }
 							>
 
-							</Button>
+                        </Button>
 							}</TableCell>
-						</TableRow>
+                    </TableRow>
 					))
 					}
-				</TableBody>
-			</Table>
+            </TableBody>
+        </Table>
 
-			</React.Fragment>
+    </React.Fragment>
 	);
 }

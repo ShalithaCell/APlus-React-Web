@@ -296,18 +296,40 @@ namespace Portal.API.Migrations
 
                     b.ToTable("passwordResetTokens");
                 });
-
-            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.customer", b =>
+            
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.SalaryDetails", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Attendance")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Basic")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Bonus")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Eid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("For_month")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Paid_date")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("RegistedDate")
                         .ValueGeneratedOnAdd()
@@ -337,6 +359,64 @@ namespace Portal.API.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("customers");
+                    b.Property<string>("Salary_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("SalaryDetails");
+                });
+
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.TransactionDetails", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RegistedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETDATE()");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Total")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Transaction_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Unit_price")
+                        .HasColumnType("float");
+
+                    b.Property<string>("User_ID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("TransactionDetails");
                 });
 
             modelBuilder.Entity("Portal.API.Domain.IdentityModel.AppRole", b =>

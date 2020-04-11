@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import logo from './logo.svg';
@@ -10,14 +9,13 @@ import './App.css';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
-import checkout from './component/checkout'
-import transactions from './component/transactions'
-import payment_form from './component/payment_form'
-import review from './component/review'
-import salary_management from './component/salary_management'
+import checkout from './component/payments/checkout'
+import transactions from './component/payments/transactions'
+import payment_form from './component/payments/payment_form'
+import review from './component/payments/review'
+import salary_management from './component/payments/salary_management'
 import addSupplier from './component/addSupplier'
 import informSupplier from './component/informSupplier'
-import sales_homes from './component/sales_home'
 import Attendance from './component/Attendance'
 import EmployeeRequest from './component/EmployeeRequest'
 import AddRequest from './component/AddRequest'
@@ -39,6 +37,15 @@ import addinventory from './component/addinventory';
 import listOfRoles from './component/role/listOfRoles';
 import listOfUsers from './component/user/listOfUsers';
 import { ToastContainer } from 'react-toastify';
+import attendance_Dashbord from './component/attendance_Dashbord';
+import Absent_Attendance from './component/Absent_Attendance';
+import Latecomers_Attendance from './component/Latecomers_Attendance';
+import EarlyLevers_Attendance from './component/EarlyLevers_Attendance';
+import ConfirmationDialogs from './component/dialogs/confirmationDialogs';
+import UserProfile from './component/user/userProfile';
+import editTrans from './component/payments/editTrans'
+import addTrans from './component/payments/addTrans'
+import deleteTrans from './component/payments/deleteTrans'
 
 class App extends Component {
 
@@ -68,11 +75,11 @@ class App extends Component {
                     <Route exact path='/UpdateRequest' component={ UpdateRequest } />
                     <Route exact path='/Attendance' component={ Attendance } />
                     <Route exact path='/addinventory' component={ addinventory } />
+                    <Route exact path ='/storePlan' component={ storePlan }/>
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
-                    <Route exact path='/sales_homes' component={ sales_homes } />
                     <Route exact path='/updateinventory' component={ updateinventory } />
-                    <Route exact path='/dash' component={ dashboard } />
+                    <Route exact path='/dashboardInventory' component={ dashboard } />
                     <Route exact path= '/storeDashboard' component={ storeDashboard } />
                     <Route exact path= '/storePlan' component={ map } />
                     <Route exact path='/checkout' component={ checkout } />
@@ -83,25 +90,35 @@ class App extends Component {
                     <Route exact path='/users' component={ listOfUsers } />
                     <Route exact path='/customeradd' component={ customeradd } />
                     <Route exact path='/customer_list' component={ customer_list } />
+                    <Route exact path='/attendance_Dashbord' component={ attendance_Dashbord } />
+                    <Route exact path='/Absent_Attendance' component={ Absent_Attendance } />
+                    <Route exact path='./Latecomers_Attendance' component={ Latecomers_Attendance } />
+                    <Route exact path='./EarlyLevers_Attendance' component={ EarlyLevers_Attendance } />
+                    <Route exact path='/confirm' component={ ConfirmationDialogs } />
+                    <Route exact path='/userProfile' component={ UserProfile } />
+                    <Route exact path='/editTrans' component={ editTrans } />
+                    <Route exact path='/deleteTrans' component={ deleteTrans } />
+                    <Route exact path='/addTrans' component={ addTrans } />
                 </Switch>
-				:
+						:
                 <Switch>
-                    <Route path='/' component={ login } />
+                    <Route exact path='/confirm' component={ ConfirmationDialogs } />
+                    <Route component={ login } />
                 </Switch>
-			}
+					}
             {this.props.loader ?
                 <div className="to-center">
                     <Loader
-						type="Triangle"
-						color="#00BFFF"
-						height={ 200 }
-						width={ 200 }
-						visible={ true }
-					/>
+								type="Triangle"
+								color="#00BFFF"
+								height={ 200 }
+								width={ 200 }
+								visible={ true }
+							/>
                 </div>
-				:
+						:
                 <div></div>
-			}
+					}
             <SessionExpire />
             <ToastContainer />
         </div>
