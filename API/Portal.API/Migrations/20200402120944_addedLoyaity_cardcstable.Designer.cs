@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
 
 namespace Portal.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200402120944_addedLoyaity_cardcstable")]
+    partial class addedLoyaity_cardcstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,7 +156,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Report",
                             PermissionCode = "RE",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 833, DateTimeKind.Local).AddTicks(4675)
+                            RegistedDate = new DateTime(2020, 4, 2, 17, 39, 43, 864, DateTimeKind.Local).AddTicks(4726)
                         },
                         new
                         {
@@ -162,7 +164,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Sales",
                             PermissionCode = "SE",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4756)
+                            RegistedDate = new DateTime(2020, 4, 2, 17, 39, 43, 865, DateTimeKind.Local).AddTicks(4525)
                         },
                         new
                         {
@@ -170,7 +172,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory View",
                             PermissionCode = "IV",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4783)
+                            RegistedDate = new DateTime(2020, 4, 2, 17, 39, 43, 865, DateTimeKind.Local).AddTicks(4553)
                         },
                         new
                         {
@@ -178,7 +180,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Add",
                             PermissionCode = "IA",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4786)
+                            RegistedDate = new DateTime(2020, 4, 2, 17, 39, 43, 865, DateTimeKind.Local).AddTicks(4555)
                         },
                         new
                         {
@@ -186,7 +188,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Update",
                             PermissionCode = "IU",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4788)
+                            RegistedDate = new DateTime(2020, 4, 2, 17, 39, 43, 865, DateTimeKind.Local).AddTicks(4557)
                         },
                         new
                         {
@@ -194,7 +196,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Delete",
                             PermissionCode = "ID",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4789)
+                            RegistedDate = new DateTime(2020, 4, 2, 17, 39, 43, 865, DateTimeKind.Local).AddTicks(4558)
                         },
                         new
                         {
@@ -202,7 +204,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Customer Handling",
                             PermissionCode = "CH",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4790)
+                            RegistedDate = new DateTime(2020, 4, 2, 17, 39, 43, 865, DateTimeKind.Local).AddTicks(4560)
                         });
                 });
 
@@ -296,40 +298,18 @@ namespace Portal.API.Migrations
 
                     b.ToTable("passwordResetTokens");
                 });
-            
-            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.SalaryDetails", b =>
+
+            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.customer", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Attendance")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Basic")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Bonus")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Eid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("For_month")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Paid_date")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("RegistedDate")
                         .ValueGeneratedOnAdd()
@@ -359,64 +339,6 @@ namespace Portal.API.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("customers");
-                    b.Property<string>("Salary_ID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Total")
-                        .HasColumnType("float");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("SalaryDetails");
-                });
-
-            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.TransactionDetails", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RegistedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("Total")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Transaction_ID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Unit_price")
-                        .HasColumnType("float");
-
-                    b.Property<string>("User_ID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("TransactionDetails");
                 });
 
             modelBuilder.Entity("Portal.API.Domain.IdentityModel.AppRole", b =>

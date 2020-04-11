@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -53,7 +53,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function customeradd() {
   const classes = useStyles();
+  const [ add, setadd ] = useState({ cfname: '', clname: '', cemail: '', cidnumber: '', cphonenumber: '' })
 
+          const onChangeCustomer = (e) => {
+            e.presist();
+            setadd({ ...add, [ e.target.name ]: e.target.value })
+            console.log(e)
+          }
   return (
     
       <Container component="main" maxWidth="xs">
@@ -70,13 +76,15 @@ export default function customeradd() {
                       <Grid item xs={ 12 } sm={ 6 }>
                           <TextField
                              autoComplete="fname"
-                             name="firstName"
+                             name="cfName"
                              variant="outlined"
                              required
                              fullWidth
                              id="firstName"
                              label="First Name"
+                             value={ add.cfname }
                              autoFocus
+                             ocChange={ onChangeCustomer }
                             />
                       </Grid>
                       <Grid item xs={ 12 } sm={ 6 }>
@@ -86,8 +94,10 @@ export default function customeradd() {
                            fullWidth
                            id="lastName"
                            label="Last Name"
-                           name="lastName"
+                           name="clName"
                            autoComplete="lname"
+                           value={ add.clname }
+                           onChange={ onChangeCustomer }
                            />
                       </Grid>
                       <Grid item xs={ 12 }>
@@ -97,8 +107,10 @@ export default function customeradd() {
                             fullWidth
                             id="email"
                             label="Email Address"
-                            name="email"
+                            name="cemail"
                             autoComplete="email"
+                            value={ add.cemail }
+                            onChange={ onChangeCustomer }
                             />
                       </Grid>
                       <Grid item xs={ 12 }>
@@ -108,8 +120,10 @@ export default function customeradd() {
                             fullWidth
                             id="id_number"
                             label="ID Number"
-                            name="id_number"
+                            name="cidnumber"
                             autoComplete="number"
+                            value={ add.cidnumber }
+                            onChange={ onChangeCustomer }
                             />
                       </Grid>
                       <Grid item xs={ 12 }>
@@ -119,8 +133,10 @@ export default function customeradd() {
                             fullWidth
                             id="phone_number"
                             label="Phone number"
-                            name="phone_number"
+                            name="cphonenumber"
                             autoComplete="phone_number"
+                            value={ add.cphonenumber }
+                            onChange={ onChangeCustomer }
                             />
                       </Grid>
                       <Grid item xs={ 12 }>
@@ -136,6 +152,7 @@ export default function customeradd() {
                     variant="contained"
                     color="primary"
                     className={ classes.submit }
+
                     >
                       Add Customer
                   </Button>
