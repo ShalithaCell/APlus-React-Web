@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
 
 namespace Portal.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200402100735_addedcustomertabel")]
+    partial class addedcustomertabel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,7 +156,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Report",
                             PermissionCode = "RE",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 833, DateTimeKind.Local).AddTicks(4675)
+                            RegistedDate = new DateTime(2020, 4, 2, 15, 37, 34, 624, DateTimeKind.Local).AddTicks(7520)
                         },
                         new
                         {
@@ -162,7 +164,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Sales",
                             PermissionCode = "SE",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4756)
+                            RegistedDate = new DateTime(2020, 4, 2, 15, 37, 34, 626, DateTimeKind.Local).AddTicks(553)
                         },
                         new
                         {
@@ -170,7 +172,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory View",
                             PermissionCode = "IV",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4783)
+                            RegistedDate = new DateTime(2020, 4, 2, 15, 37, 34, 626, DateTimeKind.Local).AddTicks(588)
                         },
                         new
                         {
@@ -178,7 +180,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Add",
                             PermissionCode = "IA",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4786)
+                            RegistedDate = new DateTime(2020, 4, 2, 15, 37, 34, 626, DateTimeKind.Local).AddTicks(590)
                         },
                         new
                         {
@@ -186,7 +188,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Update",
                             PermissionCode = "IU",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4788)
+                            RegistedDate = new DateTime(2020, 4, 2, 15, 37, 34, 626, DateTimeKind.Local).AddTicks(592)
                         },
                         new
                         {
@@ -194,7 +196,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Delete",
                             PermissionCode = "ID",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4789)
+                            RegistedDate = new DateTime(2020, 4, 2, 15, 37, 34, 626, DateTimeKind.Local).AddTicks(593)
                         },
                         new
                         {
@@ -202,7 +204,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Customer Handling",
                             PermissionCode = "CH",
-                            RegistedDate = new DateTime(2020, 4, 2, 17, 47, 3, 834, DateTimeKind.Local).AddTicks(4790)
+                            RegistedDate = new DateTime(2020, 4, 2, 15, 37, 34, 626, DateTimeKind.Local).AddTicks(595)
                         });
                 });
 
@@ -239,31 +241,6 @@ namespace Portal.API.Migrations
                     b.HasIndex("FK_RoleID");
 
                     b.ToTable("customRolePermissionLevels");
-                });
-
-            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Loyaity_card", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<DateTime>("RegistedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<int>("no_of_point")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("loyaity_Card");
                 });
 
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.PasswordResetToken", b =>
