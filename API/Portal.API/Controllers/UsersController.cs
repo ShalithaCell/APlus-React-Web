@@ -80,7 +80,7 @@ namespace Portal.API.Controllers
             if (result.Succeeded)
             {
                 //current user
-                var user = await _userManager.FindByEmailAsync(model.Email).ConfigureAwait(true);
+                var user = await _userManager.FindByNameAsync(model.Email).ConfigureAwait(true);
                 // Get the roles for the user
                 var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
                 var RoleDetails = _context.Roles.Where(o => o.Name == roles[0]).FirstOrDefault();
@@ -221,7 +221,7 @@ namespace Portal.API.Controllers
                 userResult.RoleName = RoleDetails.Name;
                 userResult.UserName = user.UserName;
                 userResult.Email = user.Email;
-                userResult.Locked = user.LockoutEnabled ? "YES" : "NO";
+                userResult.Locked = user.EmailConfirmed ? "YES" : "NO";
 
                 userResult.modifyAllowed = userResult.RoleID >= RoleID;
 
