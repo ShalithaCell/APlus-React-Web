@@ -172,6 +172,67 @@ namespace Portal.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost("resetPasswordMobile")]
+        public async Task<IActionResult> SendPasswordResetLinkMobile([FromBody] ForgotPasswordReq model)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return Ok(false);
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                bool available = true;
+                int mCode = 0;
+
+                Random rnd = new Random();
+                do
+                {
+
+                    mCode = rnd.Next(100000, 999999);
+                    var isAvailable = _context.passwordResetTokens.Where(o => o.MobileCode == mCode.ToString()).FirstOrDefault();
+                    available = isAvailable == null;
+                } while (!available);
+
+
+                //insert to database
+                PasswordResetToken passwordResetToken = new PasswordResetToken
+                {
+                    UserID = user.Id,
+                    IsActive = true,
+                    RegistedDate = DateTime.Now,
+                    MobileCode = mCode.ToString(),
+                    Token = code
+                };
+
+                _context.passwordResetTokens.Add(passwordResetToken);
+                _ = _context.SaveChangesAsync();
+
+                ForgotEmailDataMobile forgotEmailData = new ForgotEmailDataMobile
+                {
+                    Company = _config.Value.CompanyName,
+                    Email = model.Email,
+                    code = mCode.ToString(),
+                    SiteName = _config.Value.SolutionName,
+                    SiteUrl = _config.Value.BaseURL
+                };
+
+                await _emailSender.SendEmailAsync(model.Email, "APlus Account Password Reset", DataFormatManager.GetFormatedForgotPasswordEmailTemplate(forgotEmailData, _hostingEnvironment.ContentRootPath + _templateParams.Value.ForgotPasswordMailTemplateMobile));
+
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [AllowAnonymous]
         [HttpPost("checkPasswordResetToken")]
         public async Task<IActionResult> PasswordResetTokenValidation([FromBody] JObject objToken)
         {
@@ -458,6 +519,7 @@ namespace Portal.API.Controllers
                 return Ok(new { status = 0 });
             }
         }
+
 
 
     }
