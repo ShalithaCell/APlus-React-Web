@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Navbar from './navbar';
 
-export default function MaterialTableDemo() {
+export default function AbsentAttendance() {
   const [ state, setState ] = React.useState({
     columns : [
       { title: 'Name', field: 'name' },
