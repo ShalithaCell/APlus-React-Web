@@ -15,7 +15,8 @@ import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, Container } from '@material-ui/core';
-import Navbar from '../navbar'
+import Navbar from '../navbar';
+import { useEffect, useState } from 'react';
 
 const useStyles =  makeStyles((theme) => ({
   table : {

@@ -229,7 +229,6 @@ export const updateUser = (userObj) => async (dispatch) => {
 					type    : SET_SESSION_EXPIRED,
 					payload : true
 				});
-
 			}
 			throw error;
 		});

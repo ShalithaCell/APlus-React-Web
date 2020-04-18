@@ -82,7 +82,7 @@ namespace Portal.API.Controllers
 
         [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
         [HttpPost("getRoleInfomation")]
-        public async Task<IActionResult> GetRoleInformation([FromBody] RoleInfoReqData roleInfoReq)
+        public async Task<IActionResult> GetRoleInformation( [FromBody] RoleInfoReqData roleInfoReq)
         {
             NewRoleModel outputModel = new NewRoleModel();
 

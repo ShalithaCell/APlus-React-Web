@@ -10,7 +10,7 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import home from './component/home'
 import login from './component/login'
 import checkout from './component/payments/checkout'
-import transactions from './component/payments/transactions'
+import ViewTransaction from './component/payments/transactions'
 import payment_form from './component/payments/payment_form'
 import review from './component/payments/review'
 import salary_management from './component/payments/salary_management'
@@ -85,7 +85,7 @@ class App extends Component {
                     <Route exact path='/checkout' component={ checkout } />
                     <Route exact path='/payment_form' component={ payment_form } />
                     <Route exact path='/review' component={ review } />
-                    <Route exact path='/transactions' component={ transactions } />
+                    <Route exact path='/transactions' component={ ViewTransaction } />
                     <Route exact path='/salary_management' component={ salary_management } />
                     <Route exact path='/users' component={ listOfUsers } />
                     <Route exact path='/customeradd' component={ customeradd } />

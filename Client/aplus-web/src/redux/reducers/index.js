@@ -12,4 +12,4 @@ const reducers = combineReducers(
 		transaction : transactionReducer
 	});
 
-export default reducers;
+export default reducers;	

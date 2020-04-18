@@ -2,6 +2,7 @@ import React from 'react';
 import MaterialTable from 'material-table';
 
 export default function customer_list() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [ state, setState ] = React.useState({
     columns : [
       { title: 'Frist Name', field: 'fname' },
