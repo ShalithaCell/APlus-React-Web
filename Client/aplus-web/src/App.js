@@ -28,7 +28,7 @@ import storeUpdate from './component/storeUpdate';
 import Register from './component/user/register';
 import RegisterRole from './component/role/registerRole';
 import SessionExpire from './component/sessionExpire';
-import updateinventory from './component/updateinventory';
+import InventoryList from './component/updateinventory';
 import dashboard from './component/dashboard'
 import storeDashboard from './component/storeDashboard';
 import map from './component/store/map';
@@ -46,6 +46,7 @@ import UserProfile from './component/user/userProfile';
 import editTrans from './component/payments/editTrans'
 import addTrans from './component/payments/addTrans'
 import deleteTrans from './component/payments/deleteTrans'
+import inventoryUpdateTable from './component/inventoryUpdateTable';
 
 class App extends Component {
 
@@ -78,7 +79,7 @@ class App extends Component {
                     <Route exact path ='/storePlan' component={ storePlan }/>
                     <Route exact path='/addSupplier' component={ addSupplier } />
                     <Route exact path='/informSupplier' component={ informSupplier } />
-                    <Route exact path='/updateinventory' component={ updateinventory } />
+                    <Route exact path='/updateinventory' component={ InventoryList } />
                     <Route exact path='/dashboardInventory' component={ dashboard } />
                     <Route exact path= '/storeDashboard' component={ storeDashboard } />
                     <Route exact path= '/storePlan' component={ map } />
@@ -99,6 +100,7 @@ class App extends Component {
                     <Route exact path='/editTrans' component={ editTrans } />
                     <Route exact path='/deleteTrans' component={ deleteTrans } />
                     <Route exact path='/addTrans' component={ addTrans } />
+                    <Route exact path='/tableInventory' component={ inventoryUpdateTable }/>
                 </Switch>
 						:
                 <Switch>

@@ -36,4 +36,7 @@ export const RESET_USER_PASSWORD_ENDPOINT = API_TARGET +'users/resentUserPasswor
 export const ADD_REQUEST = API_TARGET +'requestAdd/addRequests';
 
 export const ADD_BRANCH = API_TARGET+'branch/addBranch';
-export const ADD_INVENTORY = API_TARGET +'inventory/addInventory';
+export const ADD_INVENTORY_ENDPOINT = API_TARGET +'inventory/addInventory';
+export const UPDATE_INVENTORY_ENDPOINT = API_TARGET + 'inventory/updateInventory';
+export const REMOVE_INVENTORY_ENDPOINT = API_TARGET + 'inventory/removeInventory';
+export const GET_INVENTORY_ENDPOINT = API_TARGET + 'inventory/getInventoryList';

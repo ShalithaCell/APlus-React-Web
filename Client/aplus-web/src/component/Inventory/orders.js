@@ -76,7 +76,7 @@ export default function Orders()
                         <TableCell align="right">{<Button
 								onClick={ handleClickOpen }
 								variant="contained"
-								color="secondary"
+								color="primary"
 								className={ classes.button }
 								startIcon={ <DeleteIcon/> }
 							>

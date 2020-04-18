@@ -12,8 +12,11 @@ import Navbar from './navbar';
 import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
-import { ADD_INVENTORY } from '../config';
+import { ADD_INVENTORY_ENDPOINT, TOAST_ERROR } from '../config';
 import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
+import { useDispatch } from 'react-redux';
+import { addInventory } from  '../redux/InventoryActions';
+import { ToastContainer } from './dialogs/ToastContainer';
 
 const useStyles = makeStyles((theme) => ({
   paper : {
@@ -35,18 +38,72 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const initialFieldValues = {
+    productnameWarning : '',
+    productcodeWarning : '',
+    qtycodeWarning     : '',
+    upricecodeWarning  : '',
+    snamecodeWarning   : '',
+    semailcodeWarning  : ''
+}
+
 export default function AddInventory() {
   const classes = useStyles();
-  const [ add, setadd ] =  useState({ pname: '', pcode: '', qty: '', uprice: '', sname: '', semail: '' });
+  const [ add, setadd ] =  useState({ pname: '', pcode: '', qty: '', uprice: '', sname: '', semail: '', inventoryWarning: '' });
 
     const onChangeInventory = (event) => {
       event.persist();
       setadd({ ...add, [ event.target.name ]: event.target.value });
         console.log(event);
+
+        if(event.target.id === 'pname'){
+            if(event.target.id === ''){
+                add.inventoryWarning({
+                    inventoryWarning : 'Product name is required'
+                })
+            }
+        }
     };
 
     async function InsertInventory()
     {
+
+        if (add.pname.length === 0 || initialFieldValues.productnameWarning.length !== 0)
+        {
+            ToastContainer(TOAST_ERROR, 'Please Enter Product Name');
+            return;
+        }
+
+        if (add.pcode.length === 0 || initialFieldValues.productcodeWarning.length !== 0)
+        {
+            ToastContainer(TOAST_ERROR, 'Please Enter Product Code');
+            return;
+        }
+
+        if (add.qty.length === 0 || initialFieldValues.qtycodeWarning.length !== 0)
+        {
+            ToastContainer(TOAST_ERROR, 'Please Enter Quantity');
+            return;
+        }
+
+        if (add.uprice.length === 0 || initialFieldValues.upricecodeWarning.length !== 0)
+        {
+            ToastContainer(TOAST_ERROR, 'Please Enter Unit Price');
+            return;
+        }
+
+        if (add.sname.length === 0 || initialFieldValues.snamecodeWarning.length !== 0)
+        {
+            ToastContainer(TOAST_ERROR, 'Please Enter Supplier Name');
+            return;
+        }
+
+        if (add.semail.length === 0 || initialFieldValues.semailcodeWarning.length !== 0)
+        {
+            ToastContainer(TOAST_ERROR, 'Please Enter Supplier Email');
+            return;
+        }
+
         const localData = JSON.parse(GetSession());
         let token = localData.sessionData.token;
         token = decrypt(token);
@@ -69,12 +126,13 @@ export default function AddInventory() {
         //API call
         await axios({
             method  : 'post',
-            url     : ADD_INVENTORY,
+            url     : ADD_INVENTORY_ENDPOINT,
             headers : { Authorization: 'Bearer ' + token },
             data    : userObj
         })
             .then(function(response)
             {
+                //return true;
                 console.log("ok");
             })
             .catch(function(error)
@@ -111,6 +169,7 @@ export default function AddInventory() {
                 required
                 fullWidth
                 label="Product Name"
+                helperText={ add.inventoryWarning }
                 value={ add.pname }
                 autoFocus
                 onChange={ onChangeInventory }
