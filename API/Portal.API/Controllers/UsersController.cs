@@ -520,6 +520,49 @@ namespace Portal.API.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPost("resentUserPasswordMobile")]
+        public async Task<IActionResult> RestUserPasswordMobile([FromBody] JObject obj)
+        {
+            string token = obj["token"].ToString();
+            string password = obj["password"].ToString();
+
+            var tokenData = _context.passwordResetTokens.Where(o => o.MobileCode == token).FirstOrDefault();
+
+            if (tokenData == null)
+            {
+                return Ok(new { status = 0 });
+            }
+
+            var user = await _userManager.FindByIdAsync(tokenData.UserID.ToString());
+
+            if (user == null)
+            {
+                return Ok(new { status = 0 });
+            }
+
+            double minites = (DateTime.Now - tokenData.RegistedDate).TotalMinutes;
+
+            if (minites > 10)
+            {
+                return Ok(new { status = 2 });
+            }
+
+            var token2 = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token2, password);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { status = 1 });
+            }
+            else
+            {
+                return Ok(new { status = 0 });
+            }
+        }
+
+
 
 
     }
