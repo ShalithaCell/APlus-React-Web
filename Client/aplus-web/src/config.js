@@ -37,3 +37,9 @@ export const ADD_REQUEST = API_TARGET +'requestAdd/addRequests';
 
 export const ADD_BRANCH = API_TARGET+'branch/addBranch';
 export const ADD_INVENTORY = API_TARGET +'inventory/addInventory';
+
+export const ADD_CUSTOMER = API_TARGET+'customer/addcustomer';
+export const LIST_CUSTOMER = API_TARGET+'customer/listcustomer';
+
+export const GET_CUSTOMER_ENDPOINT = API_TARGET+'customer/getcustomer';
+export const REMOVE_CUSTOMER_ENDPOINT = API_TARGET+'customer/removecustomer';

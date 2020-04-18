@@ -20,8 +20,8 @@ import Attendance from './component/Attendance'
 import EmployeeRequest from './component/EmployeeRequest'
 import AddRequest from './component/AddRequest'
 import UpdateRequest from './component/UpdateRequest'
-import customeradd from './component/customeradd'
-import customer_list from './component/customer_list'
+import Customeradd from './component/customeradd'
+import CustomerLlist from './component/customer_list'
 import storeAdd from './component/storeAdd'
 import storeChart from './component/store/storeChart'
 import storeUpdate from './component/storeUpdate';
@@ -69,7 +69,7 @@ class App extends Component {
                     <Route exact path='/register' component={ Register }/>
                     <Route exact path='/registerRole' component={ RegisterRole }/>
                     <Route exact path='/roles' component={ listOfRoles }/>
-                    <Route exact path='/customeradd' component={ customeradd } />
+                    <Route exact path='/customeradd' component={ Customeradd } />
                     <Route exact path='/EmployeeRequest' component={ EmployeeRequest } />
                     <Route exact path='/AddRequest' component={ AddRequest } />
                     <Route exact path='/UpdateRequest' component={ UpdateRequest } />
@@ -88,8 +88,8 @@ class App extends Component {
                     <Route exact path='/transactions' component={ transactions } />
                     <Route exact path='/salary_management' component={ salary_management } />
                     <Route exact path='/users' component={ listOfUsers } />
-                    <Route exact path='/customeradd' component={ customeradd } />
-                    <Route exact path='/customer_list' component={ customer_list } />
+                    <Route exact path='/customeradd' component={ Customeradd } />
+                    <Route exact path='/customer_list' component={ CustomerLlist } />
                     <Route exact path='/attendance_Dashbord' component={ attendance_Dashbord } />
                     <Route exact path='/Absent_Attendance' component={ Absent_Attendance } />
                     <Route exact path='./Latecomers_Attendance' component={ Latecomers_Attendance } />
