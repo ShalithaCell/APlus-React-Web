@@ -21,3 +21,10 @@ export const REGISTER_NEW_ROLE_ENDPOINT = API_TARGET +'roles/registerRole';
 export const GET_ROLE_ENDPOINT = API_TARGET +'roles/getRoleInfomation';
 export const UPDATE_ROLE_ENDPOINT = API_TARGET +'roles/updateRole';
 export const REMOVE_ROLE_ENDPOINT = API_TARGET +'roles/removeRole';
+export const ADD_BILL_TRANSACTION_ENDPOINT = API_TARGET +'cashier/addBill';
+
+export const ADD_SUPPLIER_ENDPOINT = API_TARGET +'supplier/addSupplier';
+export const REMOVE_SUPPLIER_ENDPOINT = API_TARGET +'supplier/removeSupplier';
+export const GET_SUPPLIER_ENDPOINT = API_TARGET +'supplier/getSupplier';
+export const UPDATE_SUPPLIER_ENDPOINT = API_TARGET +'supplier/addSupplier';
+export const UPDATE_SUPPLIER_DETAILS_ENDPOINT = API_TARGET +'supplier/addSupplier';

@@ -32,6 +32,7 @@ import SessionExpire from './component/sessionExpire';
 import addinventory from './component/addinventory';
 import listOfRoles from './component/role/listOfRoles';
 import { ToastContainer } from 'react-toastify';
+import SupplierList from './component/SupplierList';
 
 class App extends Component {
 
@@ -68,6 +69,7 @@ class App extends Component {
                     <Route exact path='/review' component={ review } />
                     <Route exact path='/transactions' component={ transactions } />
                     <Route exact path='/salary_management' component={ salary_management } />
+                    <Route exact path='/SupplierList' component={ SupplierList } />
                 </Switch>
 				:
                 <Switch>
