@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
 using Portal.API.Domain.IdentityModel;
@@ -44,9 +44,37 @@ namespace Portal.API.Controllers
             };
 
             _context.customers.Add(Customer);
-            _ = _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("getcustomer")]
+        public async Task<IActionResult> GetCustomer()
+        {
+
+            var customers = _context.customers.Where(o => o.IsActive == true).ToList();
+
+            return Ok(customers);
+        }
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("removecustomer")]
+        public async Task<IActionResult> Deletecustomer([FromBody] JObject customerss)
+        {
+            customer cus = _context.customers.Where(o => o.ID == Convert.ToInt32(customerss["customerId"].ToString())).FirstOrDefault();
+
+            if (cus == null)
+            {
+                return BadRequest();
+            }
+
+            _context.customers.Remove(cus);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+
+
+        }
+
     }
-}
+}   

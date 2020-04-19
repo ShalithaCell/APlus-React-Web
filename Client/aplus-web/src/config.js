@@ -64,4 +64,9 @@ export const REMOVE_INVENTORY_ENDPOINT = API_TARGET + 'inventory/removeInventory
 export const GET_INVENTORY_ENDPOINT = API_TARGET + 'inventory/getInventoryList';
 export const ADD_INVENTORY = API_TARGET +'inventory/addInventory';
 
+export const ADD_CUSTOMER = API_TARGET+'customer/addcustomer';
+export const LIST_CUSTOMER = API_TARGET+'customer/listcustomer';
+
+export const GET_CUSTOMER_ENDPOINT = API_TARGET+'customer/getcustomer';
+export const REMOVE_CUSTOMER_ENDPOINT = API_TARGET+'customer/removecustomer';
 export const ADD_ATTENDANCE = API_TARGET +'attendance/addAttendance';
