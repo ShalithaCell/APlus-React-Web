@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -10,7 +9,22 @@ import Grid from '@material-ui/core/Grid';
 import HouseTwoToneIcon from '@material-ui/icons/HouseTwoTone';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Copyright } from '@material-ui/icons';
+import Link from '@material-ui/core/Link';
+import Navbar from './navbar';
+import Container from '@material-ui/core/Container';
+
+function Copyright() {
+	return (
+    <Typography variant="body2" color="textSecondary" align="center">
+        {'Copyright © '}
+        <Link color="inherit" href="http://localhost:3000/storeDashboard">
+            Aplus Web
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+    </Typography>
+	);
+}
 
 const useStyles = makeStyles((theme) => ({
 	root : {
@@ -43,24 +57,28 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function SignInSide() {
+export default function StoreUpdate() {
 	const classes = useStyles();
 
 	return (
-		<Grid container component="main" className={ classes.root }>
-			<CssBaseline />
-			<Grid item xs={ false } sm={ 10 } md={ 7 } className={ classes.image } />
-			<Grid item xs={ 15 } sm={ 10 } md={ 5} component={ Paper } elevation={ 20 } square>
-				<div className={ classes.paper }>
-					<Avatar className={ classes.avatar }>
-						<HouseTwoToneIcon />
-					</Avatar>
-					<Typography component="h1" variant="h5">
-						Update Existing Branch
-					</Typography>
-					<form className={ classes.form } Validate>
+    <div>
+        <Navbar/>
+        <div className={ 'top-5pres' }>
+            <Container fixed>
+                <Grid container component="main" className={ classes.root }>
+                    <CssBaseline />
+                    <Grid item xs={ false } sm={ 10 } md={ 7 } className={ classes.image } />
+                    <Grid item xs={ 12 } sm={ 10 } md={ 5 } component={ Paper } elevation={ 20 } square>
+                        <div className={ classes.paper }>
+                            <Avatar className={ classes.avatar }>
+                                <HouseTwoToneIcon />
+                            </Avatar>
+                            <Typography component="h1" variant="h5">
+                                Update Existing Branch
+                            </Typography>
+                            <form className={ classes.form } Validate>
 
-						<TextField
+                                <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -71,7 +89,7 @@ export default function SignInSide() {
 							autoComplete="bName"
 
 						/>
-						<TextField
+                                <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -82,7 +100,7 @@ export default function SignInSide() {
 							id="location"
 
 						/>
-						<TextField
+                                <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -93,10 +111,9 @@ export default function SignInSide() {
 							id="tpNo"
 						/>
 
-						<TextField
+                                <TextField
 							variant="outlined"
 							margin="normal"
-
 							fullWidth
 							name="noofEmployees"
 							label="No of Employees"
@@ -104,21 +121,24 @@ export default function SignInSide() {
 							id="noofEmployees"
 						/>
 
-						<Button
+                                <Button
 							type="submit"
 							variant="contained"
 							color="primary"
 							className={ classes.submit }
 						>
-							Update Branch
-						</Button>
+                                    Update Branch
+                                </Button>
 
-						<Box mt={ 8 }>
-							<Copyright />
-						</Box>
-					</form>
-				</div>
-			</Grid>
-		</Grid>
+                                <Box mt={ 8 }>
+                                    <Copyright />
+                                </Box>
+                            </form>
+                        </div>
+                    </Grid>
+                </Grid>
+            </Container>
+        </div>
+    </div>
 	);
 }

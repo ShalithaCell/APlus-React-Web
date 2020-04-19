@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,9 +12,17 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
+import Navbar from './navbar';
+import { Aggregation } from 'devextreme-react/chart';
+import { GetSession } from '../services/sessionManagement';
+import { decrypt } from '../services/EncryptionService';
+import axios from 'axios';
+import { ADD_REQUEST } from '../config';
+import { useDispatch } from 'react-redux';
+import { ToastContainer } from './dialogs/ToastContainer';
 function Copyright() {
   return (
+      
       <Typography variant="body2" color="textSecondary" align="center">
           {'Copyright © '}
           <Link color="inherit" href="https://material-ui.com/">
@@ -23,6 +31,7 @@ function Copyright() {
           {new Date().getFullYear()}
           {'.'}
       </Typography>
+     
   );
 }
 
@@ -45,12 +54,121 @@ const useStyles = makeStyles((theme) => ({
     margin : theme.spacing(3, 0, 2)
   }
 }));
+const initialFieldValues = {
+	firstnameWarning   : '',
+	lastNameWarning    : '',
+	emailWarning       : '',
+	addressWarning     : '',
+  phoneNumberWarning : '',
+  roleWarning        : '',
+  passwordWarning    : '',
+  passwordWarning    : ''
+
+}
 
 export default function AddRequest() {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const [ add, setadd ] = useState( { fname: '', lname: '', remail: '', rAddress: '', rPhonenumber: '', arole: '',  rpassword: '', rConfimpassword: '' });
+  const onChangeAddRequest = (event) => {
+    event.persist();
+    setadd({ ...add, [ event.target.name ]: event.target.value });
+     };
 
+  async function AddRequests()
+  {
+    if (add.fname.length === 0 || initialFieldValues.firstnameWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter First Name');
+			return;
+    }
+    if (add.lname.length === 0 || initialFieldValues.lastNameWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Last Name');
+			return;
+    }
+    if (add.remail.length === 0 || initialFieldValues.emailWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Email ');
+			return;
+    }
+    	
+    if (add.rAddress.length === 0 || initialFieldValues.addressWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Address');
+			return;
+    }
+    	
+    if (add.rPhonenumber.length === 0 || initialFieldValues.phoneNumberWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Phone Number');
+			return;
+    }
+    
+    if (add.arole.length === 0 || initialFieldValues.roleWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Role Name');
+			return;
+    }
+    
+    if (add.rpassword.length === 0 || initialFieldValues.passwordWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Password');
+			return;
+    }
+    if (add.rConfimpassword.length === 0 || initialFieldValues.passwordWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Password');
+			return;
+		}
+      const localData = JSON.parse(GetSession());
+      let token = localData.sessionData.token;
+      token = decrypt(token);
+
+      //console.log('ABC');
+      let success = false;
+      let resData;
+
+      console.log(token);
+
+      const userObj = {
+        fname     : add.fname,
+        lname     : add.lname,
+        email     : add.remail,
+        address   : add.rAddress,
+        phoneno   : add.rPhonenumber,
+        role      : add.arole,
+        pw        : add.rpassword,
+        pwconfirm : add.rConfimpassword
+      }
+
+      //API call
+      await axios({
+        method  : 'post',
+        url     : ADD_REQUEST,
+        headers : { Authorization: 'Bearer ' + token },
+        data    : userObj
+    })
+        .then(function(response)
+        {
+            console.log("ok");
+        })
+        .catch(function(error)
+        {
+            if(error.response.status === 401){
+                dispatch({
+                    type    : SET_SESSION_EXPIRED,
+                    payload : true
+                });
+
+            }
+            throw error;
+        });
+}
   return (
       <Container component="main" maxWidth="xs">
+     
+          <Navbar/>
           <CssBaseline />
           <div className={ classes.paper }>
               <Avatar className={ classes.avatar }>
@@ -59,18 +177,20 @@ export default function AddRequest() {
               <Typography component="h1" variant="h5">
                   New Employee
               </Typography>
-              <form className={ classes.form } noValidate>
+              <div className={ classes.form } Validate>
                   <Grid container spacing={ 2 }>
                       <Grid item xs={ 12 } sm={ 6 }>
                           <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="fname"
                 variant="outlined"
                 required
                 fullWidth
                 id="firstName"
                 label="First Name"
                 autoFocus
+                value={ add.fname }
+                onChange={ onChangeAddRequest }
               />
                       </Grid>
                       <Grid item xs={ 12 } sm={ 6 }>
@@ -80,8 +200,10 @@ export default function AddRequest() {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
+                name="lname"
                 autoComplete="lname"
+                value={ add.lname }
+                onChange={ onChangeAddRequest }
               />
                       </Grid>
                       <Grid item xs={ 12 }>
@@ -90,33 +212,26 @@ export default function AddRequest() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
-                name="email"
+                label="Email "
+                name="remail"
                 autoComplete="email"
+                value={ add.remail }
+                onChange={ onChangeAddRequest }
               />
                       </Grid>
+                     
                       <Grid item xs={ 12 }>
                           <TextField
                 variant="outlined"
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="Address"
-              />
-                      </Grid>
-                      <Grid item xs={ 12 }>
-                          <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="Address"
+                name="rAddress"
                 label="Address"
                 type="Address"
                 id="Address"
-                autoComplete="current-password"
+                autoComplete="Address"
+                value={ add.rAddress }
+                onChange={ onChangeAddRequest }
               />
               
                       </Grid>
@@ -125,11 +240,13 @@ export default function AddRequest() {
                 variant="outlined"
                 required
                 fullWidth
-                name="Phone Number"
+                name="rPhonenumber"
                 label="Phone Number"
                 type="Phone Number"
                 id="Phone Number"
                 autoComplete="Phone Number"
+                value={ add.rPhonenumber }
+                onChange={ onChangeAddRequest }
               />
               
                       </Grid>
@@ -138,11 +255,41 @@ export default function AddRequest() {
                 variant="outlined"
                 required
                 fullWidth
-                name="Role"
+                name="arole"
                 label="Role"
                 type="Role"
                 id="Role"
                 autoComplete="Role"
+                value={ add.arole }
+                onChange={ onChangeAddRequest }
+              />
+                      </Grid>
+                      <Grid item xs={ 12 }>
+                          <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="rpassword"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="password"
+                value={ add.rpassword }
+                onChange={ onChangeAddRequest }
+              />
+                      </Grid>
+                      <Grid item xs={ 12 }>
+                          <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="rConfimpassword"
+                label="passwordConfirm "
+                type="passwordConfirm "
+                id="passwordConfirm "
+                autoComplete="passwordConfirm "
+                value={ add.rConfimpassword }
+                onChange={ onChangeAddRequest }
               />
                       </Grid>
                       
@@ -159,11 +306,12 @@ export default function AddRequest() {
             variant="contained"
             color="primary"
             className={ classes.submit }
+            onClick={ AddRequests }
           >
                       ADD
                   </Button>
                  
-              </form>
+              </div>
           </div>
           
       </Container>

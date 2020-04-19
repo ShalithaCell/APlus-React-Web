@@ -9,5 +9,8 @@ namespace Portal.API.Domain.SystemModels
     {
         public string ExceptionMailTemplate { get; set; }
         public string ForgotPasswordMailTemplate { get; set; }
+        public string ForgotPasswordMailTemplateMobile { get; set; }
+
+        public string AccountVerificationTemplate { get; set; }
     }
 }

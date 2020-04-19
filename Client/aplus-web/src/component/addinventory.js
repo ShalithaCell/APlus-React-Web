@@ -1,31 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import DvrIcon from '@material-ui/icons/Dvr';
-
-function Copyright() {
-  return (
-      <Typography variant="body2" color="textSecondary" align="center">
-          {'Copyright © '}
-          <Link color="inherit" href="">
-              Your Website
-          </Link>{' '}
-          {new Date().getFullYear()}
-          {'.'}
-      </Typography>
-  );
-}
+import Navbar from './navbar';
+import { GetSession } from '../services/sessionManagement';
+import { decrypt } from '../services/EncryptionService';
+import axios from 'axios';
+import { ADD_INVENTORY } from '../config';
+import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
 
 const useStyles = makeStyles((theme) => ({
   paper : {
@@ -47,11 +35,64 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SignUp() {
+export default function AddInventory() {
   const classes = useStyles();
+  const [ add, setadd ] =  useState({ pname: '', pcode: '', qty: '', uprice: '', sname: '', semail: '' });
+
+    const onChangeInventory = (event) => {
+      event.persist();
+      setadd({ ...add, [ event.target.name ]: event.target.value });
+        console.log(event);
+    };
+
+    async function InsertInventory()
+    {
+        const localData = JSON.parse(GetSession());
+        let token = localData.sessionData.token;
+        token = decrypt(token);
+
+        //console.log('ABC');
+        let success = false;
+        let resData;
+
+        console.log(token);
+
+        const userObj = {
+            PName  : add.pname,
+            Pcode  : add.pcode,
+            Qty_   : add.qty,
+            Uprice : add.uprice,
+            SName  : add.sname,
+            SEmail : add.semail
+        }
+
+        //API call
+        await axios({
+            method  : 'post',
+            url     : ADD_INVENTORY,
+            headers : { Authorization: 'Bearer ' + token },
+            data    : userObj
+        })
+            .then(function(response)
+            {
+                console.log("ok");
+            })
+            .catch(function(error)
+            {
+                if(error.response.status === 401){
+                    dispatch({
+                        type    : SET_SESSION_EXPIRED,
+                        payload : true
+                    });
+
+                }
+                throw error;
+            });
+    }
 
   return (
       <Container component="main" maxWidth="xs">
+          <Navbar/>
           <CssBaseline />
           <div className={ classes.paper } >
               <Avatar className={ classes.avatar }>
@@ -60,18 +101,19 @@ export default function SignUp() {
               <Typography component="h1" variant="h5">
                   Add Inventory
               </Typography>
-              <form className={ classes.form } noValidate>
+              <div className={ classes.form } noValidate>
                   <Grid container spacing={ 2 }>
                       <Grid item xs={ 12 } sm={ 6 }>
                           <TextField
                 autoComplete="pname"
-                name="productName"
+                name="pname"
                 variant="outlined"
                 required
                 fullWidth
-                id="productName"
                 label="Product Name"
+                value={ add.pname }
                 autoFocus
+                onChange={ onChangeInventory }
               />
                       </Grid>
                       <Grid item xs={ 12 } sm={ 6 }>
@@ -79,9 +121,10 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="productCode"
                 label="Product Code"
-                name="productCode"
+                name="pcode"
+                value={ add.pcode }
+                onChange={ onChangeInventory }
               />
                       </Grid>
                       <Grid item xs={ 12 }>
@@ -92,6 +135,8 @@ export default function SignUp() {
                 id="qty"
                 label="Quantity"
                 name="qty"
+                value={ add.qty }
+                onChange={ onChangeInventory }
               />
                       </Grid>
                       <Grid item xs={ 12 }>
@@ -103,18 +148,9 @@ export default function SignUp() {
                 label="Unit Price"
                 type="uprice"
                 id="uprice"
+                value={ add.uprice }
+                onChange={ onChangeInventory }
               />
-                      </Grid>
-                      <Grid item xs={ 12 }>
-                          <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="date"
-                label="Date"
-                type="date"
-                id="date"
-               />
                       </Grid>
                       <Grid item xs={ 12 }>
                           <TextField
@@ -126,30 +162,8 @@ export default function SignUp() {
                 type="sname"
                 id="sname"
                 autoComplete="current-sname"
-              />
-                      </Grid>
-                      <Grid item xs={ 12 }>
-                          <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="saddress"
-                label="Supplire Address"
-                type="saddress"
-                id="saddress"
-                autoComplete="current-saddress"
-              />
-                      </Grid>
-                      <Grid item xs={ 12 }>
-                          <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="sphone"
-                label="Supplie Contanct"
-                type="sphone"
-                id="saddrsphoneess"
-                autoComplete="current-sphone"
+                value={ add.sname }
+                onChange={ onChangeInventory }
               />
                       </Grid>
                       <Grid item xs={ 12 }>
@@ -162,25 +176,24 @@ export default function SignUp() {
                 type="semail"
                 id="semail"
                 autoComplete="current-email"
+                value={ add.semail }
+                onChange={ onChangeInventory }
               />
                       </Grid>
                   </Grid>
                   <Button
             type="submit"
-            fullWidth
             variant="contained"
             color="primary"
             className={ classes.submit }
+            onClick={ InsertInventory }
           >
-                      Submit
+                      ADD INVENTORY
                   </Button>
                   <Grid container justify="flex-end">
                   </Grid>
-              </form>
+              </div>
           </div>
-          <Box mt={ 5 }>
-              <Copyright />
-          </Box>
       </Container>
   );
 }
