@@ -21,6 +21,8 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
         public DbSet<PasswordResetToken> passwordResetTokens { get; set; }
         public DbSet<CustomPermission> customPermissions { get; set; }
         public DbSet<CustomRolePermissionLevelc> customRolePermissionLevels { get; set; }
+        public DbSet<CashierData> cashierDatas { get; set; }
+        public DbSet<SupplierDetailsTable> supplierDetailsTables { get; set; }
         public DbSet<customer> customers { get; set; }
         public DbSet<Loyaity_card> loyaity_Card { get; set; }
         public DbSet<TransactionDetails> TransactionDetails { get; set; }
@@ -30,8 +32,6 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
         public DbSet<Organization> organizations { get; set; }
         public DbSet<Inventories> Inventories { get; set; }
         public DbSet<Attendances> attendances { get; set; }
-
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
