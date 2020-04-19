@@ -21,7 +21,19 @@ export const REGISTER_NEW_ROLE_ENDPOINT = API_TARGET +'roles/registerRole';
 export const GET_ROLE_ENDPOINT = API_TARGET +'roles/getRoleInfomation';
 export const UPDATE_ROLE_ENDPOINT = API_TARGET +'roles/updateRole';
 export const REMOVE_ROLE_ENDPOINT = API_TARGET +'roles/removeRole';
+
+export const ADD_BILL_TRANSACTION_ENDPOINT = API_TARGET +'cashier/addBill';
+
+export const ADD_SUPPLIER_ENDPOINT = API_TARGET +'supplier/addSupplier';
+export const REMOVE_SUPPLIER_ENDPOINT = API_TARGET +'supplier/removeSupplier';
+export const GET_SUPPLIER_ENDPOINT = API_TARGET +'supplier/getSupplier';
+export const UPDATE_SUPPLIER_ENDPOINT = API_TARGET +'supplier/addSupplier';
+export const UPDATE_SUPPLIER_DETAILS_ENDPOINT = API_TARGET +'supplier/addSupplier';
 export const ADD_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/addTransaction';
+export const VIEW_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/getTransactionInfomation';
+export const UPDATE_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/updateTransactions';
+export const DELETE_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/deleteTransactions';
+
 export const ADD_SALARY_ENDPOINT = API_TARGET + 'salary/addSalary';
 export const SYNC_USER_LIST_ENDPOINT = API_TARGET +'users/getAllUsers';
 export const SYNC_USER_Name_LIST_ENDPOINT = API_TARGET +'users/getUserNames';
@@ -34,8 +46,22 @@ export const CONFIRM_PASSWORD_RESET_TOKEN_ENDPOINT = API_TARGET +'users/checkPas
 export const RESET_USER_PASSWORD_ENDPOINT = API_TARGET +'users/resentUserPassword';
 
 export const ADD_REQUEST = API_TARGET +'requestAdd/addRequests';
+export const GET_REQUEST_ENDPOINT = API_TARGET +'requestAdd/getRequestInfomation';
+//export const GET_REQUEST_ENDPOINT = API_TARGET +'requestAdd/addRequests';
+export const UPDATE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/addRequests';
+export const REMOVE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/removeRequest';
+
+export const ADD_BRANCH_ENDPOINT = API_TARGET+'branch/addBranch';
+export const GET_BRANCH_ENDPOINT = API_TARGET+'branch/getBranch';
+export const UPDATE_BRANCH_DETAILS_ENDPOINT = API_TARGET+ 'branch/updateBranch';
+export const UPDATE_BRANCH_ENDPOINT = API_TARGET+ 'branch/updateBranch';
+export const REMOVE_BRANCH_ENDPOINT = API_TARGET+ 'branch/deleteBranch';
 
 export const ADD_BRANCH = API_TARGET+'branch/addBranch';
+export const ADD_INVENTORY_ENDPOINT = API_TARGET +'inventory/addInventory';
+export const UPDATE_INVENTORY_ENDPOINT = API_TARGET + 'inventory/updateInventory';
+export const REMOVE_INVENTORY_ENDPOINT = API_TARGET + 'inventory/removeInventory';
+export const GET_INVENTORY_ENDPOINT = API_TARGET + 'inventory/getInventoryList';
 export const ADD_INVENTORY = API_TARGET +'inventory/addInventory';
 
 export const ADD_CUSTOMER = API_TARGET+'customer/addcustomer';
@@ -43,3 +69,4 @@ export const LIST_CUSTOMER = API_TARGET+'customer/listcustomer';
 
 export const GET_CUSTOMER_ENDPOINT = API_TARGET+'customer/getcustomer';
 export const REMOVE_CUSTOMER_ENDPOINT = API_TARGET+'customer/removecustomer';
+export const ADD_ATTENDANCE = API_TARGET +'attendance/addAttendance';

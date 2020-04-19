@@ -2,8 +2,13 @@ import { combineReducers } from 'redux';
 import userReducer from './userReducer'
 import systemDefaults from './systemDefaults';
 import roleReducer from './roleReducer';
+import inventoryReducer from './inventoryReducer';
+import transactionReducer from './transactionReducer';
+import supplierReducer from './supplierReducer';
 import transactionReducer from './transactionReducer'
 import customerReducers from './customerReducers';
+import requestReducer from './requestReducer';
+import branchReducer from './branchReducer';
 
 const reducers = combineReducers(
 	{
@@ -11,7 +16,13 @@ const reducers = combineReducers(
 		system      : systemDefaults,
 		role        : roleReducer,
 		transaction : transactionReducer,
-		customer    : customerReducers
+		customer    : customerReducers,
+		inventory  	: inventoryReducer,
+		transaction : transactionReducer,
+		transaction : transactionReducer,
+		request     : requestReducer,
+		branch      : branchReducer,
+    supplier : supplierReducer
 	});
 
-export default reducers;
+export default reducers;	

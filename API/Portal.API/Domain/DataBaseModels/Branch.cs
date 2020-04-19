@@ -27,7 +27,6 @@ namespace Portal.API.Domain.DataBaseModels
         public Organization Organization { get; set; }
 
         public int OrganizationFK { get; set; }
-
-
+        
     }
 }

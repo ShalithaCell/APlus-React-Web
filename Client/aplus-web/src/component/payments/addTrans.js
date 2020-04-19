@@ -13,14 +13,17 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Navbar from '../navbar';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import { addTrans } from '../../redux/transactionActions'
 import { useDispatch } from 'react-redux'
 import { GetSession } from '../../services/sessionManagement';
 import { decrypt } from '../../services/EncryptionService';
 import axios from 'axios';
 import { ADD_TRANSACTION_ENDPOINT } from '../../config';
-import { SET_SESSION_EXPIRED } from '../../redux/actionTypes'
+import { SET_SESSION_EXPIRED } from '../../redux/actionTypes';
+import { connect } from 'react-redux';
+import { transactionReducer } from '../../redux/reducers/transactionReducer';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 function Copyright() {
   return (
@@ -56,73 +59,108 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function AddTransaction() {
+///////////////////////////////////////
+
+const initialValues ={
+  description : '',
+  userid      : '',
+  qty         : '', 
+  unit        : '',
+  total       : ''
+}
+
+const AddTransaction = ({ ...props }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const initialValues ={
-    transid     : '',
-    description : '',
-    userid      : '',
-    date        : '',
-    time        : '',
-    qty         : '', 
-    unit        : '',
-    total       : ''
-  }
   const [ values, setvalues ] = useState (initialValues) 
-  
+  const transObj = {
+    Description : values.description,
+    User_ID     : values.userid,
+    Quantity    : values.qty,
+    Unit_price  : values.unit,
+    Total       : values.total
+  }
+
+  ///
+
+  // const [ errors, seterrors ] = useState ({}) 
+  //  const validate = () => {
+  //    const temt = {}
+  //    temp.description = values.description ? '' : 'This field is required.'
+  //    temp.userid = values.userid ? '' : 'This field is required.'
+  //    temp.date = values.date ? '' : 'This field is required.'
+  //    temp.time = values.time ? '' : 'This field is required.'
+  //    temp.qty = values.qty ? '' : 'This field is required.'
+  //    temp.unit = values.unit ? '' : 'This field is required.'
+  //    temp.total = values.total ? '' : 'This field is required.'
+  //     seterrors({
+  //       ...temp
+  //     })
+  //    return object.values(temp).every( (x) => x == '')
+  //  }
+
+   ///
+
   const OnChange = (e) => {
     e.persist();
-    setvalues( { ...values, [ e.target.name ]: e.target.value })
+		setvalues({ ...values, [ e.target.name ]: e.target.value })
+  }
+ //addTrans(userObj);
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    // props.addTrans(userObj);
+    props.addTrans(values);
+    console.log(values) ;
+
+    // if(validate()){
+    //   window.alert('validation succeeded')
+    // } 
   }
 
-  async function AddTrans(){
+  ////////////////////////////
+  //    const localData = JSON.parse(GetSession());
+  //    let token = localData.sessionData.token;
+  //    token = decrypt(token);
 
-    console.log(values)  
+  //    const success = false;
+  //    let resData;
 
-     const localData = JSON.parse(GetSession());
-     let token = localData.sessionData.token;
-     token = decrypt(token);
+  //   console.log(token);
 
-     const success = false;
-     let resData;
+  //   const userObj = {
+  //     Transaction_ID : values.transid,
+  //     Description    : values.description,
+  //     User_ID        : values.userid,
+  //     Date           : values.date,
+  //     Time           : values.time,
+  //     Quantity       : values.qty,
+  //     Unit_price     : values.unit,
+  //     Total          : values.total
+  //   }
 
-    console.log(token);
+  //   //API call
+  //   await axios({
+  //     method  : 'POST',
+  //     url     : ADD_TRANSACTION_ENDPOINT,
+  //     headers : { Authorization: 'Bearer ' + token  },
+  //     data    : userObj
+  //   })
 
-    const userObj = {
-      Transaction_ID : values.transid,
-      Description    : values.description,
-      User_ID        : values.userid,
-      Date           : values.date,
-      Time           : values.time,
-      Quantity       : values.qty,
-      Unit_price     : values.unit,
-      Total          : values.total
-    }
-
-    //API call
-    await axios({
-      method  : 'POST',
-      url     : ADD_TRANSACTION_ENDPOINT,
-      headers : { Authorization: 'Bearer ' + token  },
-      data    : userObj
-    })
-
-         .then(function( response ){
-           console.log(response);
-         })
-        .catch(function(error){
-          console.log(error);
-           if(error.response.status === 401){
-            dispatch({
-               type    : SET_SESSION_EXPIRED,
-               payload : true
-             })
-           }
-             throw error;
-        });
-  }
+  //        .then(function( response ){
+  //          console.log(response);
+  //        })
+  //       .catch(function(error){
+  //         console.log(error);
+  //          if(error.response.status === 401){
+  //           dispatch({
+  //              type    : SET_SESSION_EXPIRED,
+  //              payload : true
+  //            })
+  //          }
+  //            throw error;
+  //       });
 
   return (
       <Container component="main" maxWidth="xs">
@@ -136,23 +174,23 @@ export default function AddTransaction() {
                       <Typography component="h1" variant="h5">
                           Add Transaction
                       </Typography>
-                      <div className={ classes.form } noValidate onSubmit={ AddTrans }>
+                      <div className={ classes.form } noValidate onSubmit={ handleClick }>
                           <Grid container spacing={ 2 }>
                              
                               <Grid container spacing={ 2 }>
-                                  <Grid item xs={ 12 } sm={ 6 }>
-                                      <TextField
+                                  { <Grid item xs={ 12 } sm={ 6 }>
+                                      { <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="transid"
-                label="Transaction ID"
-                name="transid"
-                autoComplete="transid"
-                value = { values.transid }
+                id="description"
+                label="Description"
+                name="description"
+                autoComplete="description"
+                value = { values.description }
                 onChange = { OnChange }
-              />
-                                  </Grid>
+              /> }
+                                  </Grid> }
                                   <Grid item xs={ 12 } sm={ 6 }>
                                       <TextField
                 variant="userid"
@@ -167,33 +205,7 @@ export default function AddTransaction() {
                 onChange = { OnChange }
               />
                                   </Grid>
-                                  <Grid item xs={ 12 } sm={ 6 }>
-                                      <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="date"
-                label="Date"
-                name="date"
-                autoComplete="date"
-                value = { values.date }
-                onChange = { OnChange }
-              />
-                                  </Grid>
-                                  <Grid item xs={ 12 } sm={ 6 }>
-                                      <TextField
-                variant="time"
-                required
-                fullWidth
-                id="time"
-                variant="outlined"
-                label="Time"
-                name="time"
-                autoComplete="time"
-                value = { values.time }
-                onChange = { OnChange }
-              />
-                                  </Grid>
+                                  
                                   <Grid item xs={ 12 } sm={ 6 }>
                                       <TextField
                 variant="outlined"
@@ -239,7 +251,8 @@ export default function AddTransaction() {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={ AddTrans }
+            onClick={ handleClick }
+            //onSubmit={ handleSubmit }
             className={ classes.submit }
           >
                                   Add
@@ -257,3 +270,5 @@ export default function AddTransaction() {
       </Container> 
   );
 }
+
+export default connect(null, { addTrans })(withStyles(useStyles)(AddTransaction));

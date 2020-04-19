@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
 using Portal.API.Domain.IdentityModel;
@@ -20,6 +21,7 @@ namespace Portal.API.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly RoleManager<AppRole> _roleManager;
+        private RequestAddTables requestDelete;
 
         public RequestAddController(ApplicationDbContext context, RoleManager<AppRole> roleManager)
         {
@@ -51,10 +53,47 @@ namespace Portal.API.Controllers
                 return Ok();
 
             }
-            
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("getRequestInfomation")]
+        public async Task<IActionResult> GetRequestInformation()
+        {
+            var requestInfo = _context.requestAddTable.Where(o => o.IsActive == true).ToList();
+
+            return Ok(requestInfo);
         }
 
-       
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("getRequest")]
+        public async Task<IActionResult> GetRequest()
+        {
+            var requests = _context.requestAddTable.Where(o => o.IsActive == true).ToList();
+            return Ok(requests);
+        }
 
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("removeRequest")]
+        public async Task<IActionResult> RemoveRequest([FromBody] JObject requestRes)
+        {
+
+            RequestAddTables request = _context.requestAddTable.Where(o => o.ID == Convert.ToInt32(requestRes["requestId"].ToString())).FirstOrDefault();
+
+            if (request == null)
+            {
+                return BadRequest();
+            }
+
+
+             _context.requestAddTable.Remove(request);
+            _context.SaveChanges(true);
+
+            return Ok();
+
+        }
+
+    }
+
+       
+    
     
 }

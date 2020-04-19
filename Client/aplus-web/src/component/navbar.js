@@ -66,6 +66,9 @@ class Navbar extends Component
                                 <NavLink tag={ Link } className="gn-icon" to="/"><i className="fa fa-home" aria-hidden="true"></i> Home</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/users"><i className="fa fa-users" aria-hidden="true"></i> Users</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/Customeradd"><i className="fa fa-users" aria-hidden="true"></i> Customer</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/"><i className="fa fa-home" aria-hidden="true"/> Home</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/roles"><i className="fa fa-university" aria-hidden="true"/> Roles</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/users"><i className="fa fa-users" aria-hidden="true"/> Users</NavLink>
 
                             </li>
 

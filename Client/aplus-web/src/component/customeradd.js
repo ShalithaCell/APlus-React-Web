@@ -17,6 +17,21 @@ import axios from 'axios';
 import { ADD_CUSTOMER } from '../config';
 import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
 import { useDispatch } from 'react-redux';
+import Container from '@material-ui/core/Container';
+import { useState } from 'react';
+
+function Copyright() {
+  return (
+      <Typography variant="body2" color="textSecondary" align="center">
+          {'Copyright © '}
+          {new Date().getFullYear()}
+          {'-'}
+          <Link color="inherit" href="https://google.com/">
+              NVIDID Techonologies
+          </Link>{' '}
+      </Typography>
+  );
+}
 
 const useStyles = makeStyles((theme) => ({
 	root : {
@@ -212,3 +227,120 @@ export default function Customeradd() {
     </Grid>
 	);
 }
+export default function customeradd() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const classes = useStyles();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [ add, setadd ] = useState({ cfname: '', clname: '', cemail: '', cidnumber: '', cphonenumber: '' })
+
+          const onChangeCustomer = (e) => {
+            e.presist();
+            setadd({ ...add, [ e.target.name ]: e.target.value })
+            console.log(e)
+          }
+  return (
+    
+      <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <div className={ classes.paper }>
+              <Avatar className={ classes.avatar }>
+                  <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                  Customer add
+              </Typography>
+              <form className={ classes.form } noValidate>
+                  <Grid container spacing={ 2 }>
+                      <Grid item xs={ 12 } sm={ 6 }>
+                          <TextField
+                             autoComplete="fname"
+                             name="cfName"
+                             variant="outlined"
+                             required
+                             fullWidth
+                             id="firstName"
+                             label="First Name"
+                             value={ add.cfname }
+                             autoFocus
+                             ocChange={ onChangeCustomer }
+                            />
+                      </Grid>
+                      <Grid item xs={ 12 } sm={ 6 }>
+                          <TextField
+                           variant="outlined"
+                           required
+                           fullWidth
+                           id="lastName"
+                           label="Last Name"
+                           name="clName"
+                           autoComplete="lname"
+                           value={ add.clname }
+                           onChange={ onChangeCustomer }
+                           />
+                      </Grid>
+                      <Grid item xs={ 12 }>
+                          <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="cemail"
+                            autoComplete="email"
+                            value={ add.cemail }
+                            onChange={ onChangeCustomer }
+                            />
+                      </Grid>
+                      <Grid item xs={ 12 }>
+                          <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="id_number"
+                            label="ID Number"
+                            name="cidnumber"
+                            autoComplete="number"
+                            value={ add.cidnumber }
+                            onChange={ onChangeCustomer }
+                            />
+                      </Grid>
+                      <Grid item xs={ 12 }>
+                          <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="phone_number"
+                            label="Phone number"
+                            name="cphonenumber"
+                            autoComplete="phone_number"
+                            value={ add.cphonenumber }
+                            onChange={ onChangeCustomer }
+                            />
+                      </Grid>
+                      <Grid item xs={ 12 }>
+                          <FormControlLabel
+                               control={ <Checkbox value="allowExtraEmails" color="primary" /> }
+                               label="Enter the correct details"
+                          />
+                      </Grid>
+                  </Grid>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={ classes.submit }
+
+                    >
+                      Add Customer
+                  </Button>
+                  <Grid container justify="flex-end">
+                  </Grid>
+              </form>
+          </div>
+          <Box mt={ 5 }>
+              <Copyright />
+          </Box>
+      </Container>
+  );
+}                     
