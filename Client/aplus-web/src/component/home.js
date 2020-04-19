@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { doLogin } from '../redux/userActions';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Navbar from './navbar';
 import { GetSession } from '../services/sessionManagement';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,20 +15,20 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import Icon from '@material-ui/core/Icon';
 import SaveIcon from '@material-ui/icons/Save';
-import green from '@material-ui/core/colors/green';
 import purple from '@material-ui/core/colors/purple';
 import red from '@material-ui/core/colors/red';
+import MaterialTable from 'material-table';
+import { decrypt } from '../services/EncryptionService';
+import axios from 'axios';
+import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
+import { ADD_BILL_TRANSACTION_ENDPOINT } from '../config';
 
 const useStyles = makeStyles((theme) => ({
 	root : {
-		height : '100vh'
+		height : '100vh',
+		width  : '150vh'
 
 	},
 	paper : {
@@ -51,8 +50,7 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom : theme.spacing(8)
 	},
 	card : {
-		height : '10' +
-			'0%',
+		height : '100%',
 
 		display : 'flex',
 
@@ -62,11 +60,17 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop : '56.25%' // 16:9
 	},
 	cardContent : {
-		flexGrow : 1
+		size : '10%'
 	},
 	table : {
-		minWidth : 500
+		minWidth : 500,
+
+		margintop : 100
+	},
+	button : {
+		width : 80
 	}
+
 }));
 function ccyFormat(num) {
 	return `${ num.toFixed(2) }`;
@@ -92,25 +96,84 @@ const accent2 = purple.A200;
 const TAX_RATE = 0.07;
 
 const rows = [
-	createRow('Paperclips (Box)', 100, 1.15),
-	createRow('Paper (Case)', 10, 45.99),
-	createRow('Waste Basket', 2, 17.99)
+	createRow('', '', ''),
+	createRow('', '', ''),
+	createRow('', '', '')
 ];
 
 const invoiceSubtotal = subtotal(rows);
 const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
-const cards = [ 1, 2, 3, 4, 5, 6 ];
+const cards = [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ];
 
-export default function SignInSide() {
+export default function AddBills() {
 	const classes = useStyles();
 
+	const dispatch = useDispatch();
+
+	const [ state, setState ] = React.useState({
+		columns : [
+			{ title: 'Description', field: 'description' },
+			{ title: 'Qty', field: 'qty' },
+			{ title: 'Unit Price', field: 'unitPrice', type: 'double' },
+			{ title: 'Sum', field: 'sum' },
+			{ title: 'SubTotal', field: 'subTotal' },
+			{ title: 'Discount', field: 'discount' },
+			{ title: 'Total', field: 'total' }
+		],
+		data : []
+
+	});
+
+		async function finalBill()
+		{
+			const localData = JSON.parse(GetSession());
+			let token = localData.sessionData.token;
+			token = decrypt(token); //decrypt the token
+
+			const success = false;
+			let resData;
+
+			console.log(token)
+
+			const billobj = {
+				description : state.data
+			}
+			console.log(state.columns);
+
+			//API call
+			await axios({
+				method  : 'post',
+				url     : ADD_BILL_TRANSACTION_ENDPOINT,
+				headers : { Authorization: 'Bearer ' + token },
+				data    : state.data
+			})
+				.then(function(response)
+
+				{
+					console.log('ok');
+
+				})
+				.catch(function(error)
+				{
+					/*
+					if(error.response.status === 401){
+						dispatch({
+							type    : SET_SESSION_EXPIRED,
+							payload : true
+						})
+					}
+					throw error;
+					*/
+				});
+		}
+
 	return (
-		
+
     <Grid container component="main" className={ classes.root }>
-        <Navbar />
         <CssBaseline />
+        <Navbar />
         <Grid item xs={ false } sm={ 4 } md={ 7 }>
             <div className={ classes.paper }>
                 <Container className={ classes.cardGrid } maxWidth="md">
@@ -125,11 +188,8 @@ export default function SignInSide() {
 										title="Image title"
 									/>
                                     <CardContent className={ classes.cardContent }>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            Coca cola
-                                        </Typography>
-                                        <Typography>
-                                            This is a Coca cola
+                                        <Typography >
+                                            Product Name
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
@@ -146,94 +206,105 @@ export default function SignInSide() {
         </Grid>
 
         <Grid item xs={ 12 } sm={ 8 } md={ 5 } component={ Paper } elevation={ 6 } square>
-            <TableContainer component={ Paper }>
-                <Table className={ classes.table } aria-label="spanning table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center" colSpan={ 3 }>
-                                Details
-                            </TableCell>
-                            <TableCell align="right">Price</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Desc</TableCell>
-                            <TableCell align="right">Qty.</TableCell>
-                            <TableCell align="right">Unit</TableCell>
-                            <TableCell align="right">Sum</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={ row.desc }>
-                                <TableCell>{row.desc}</TableCell>
-                                <TableCell align="right">{row.qty}</TableCell>
-                                <TableCell align="right">{row.unit}</TableCell>
-                                <TableCell align="right">{ccyFormat(row.price)}</TableCell>
-                            </TableRow>
-						))}
+            <Table className={ classes.table } >
+                <MaterialTable
+					title="PriceList"
+					columns={ state.columns }
+					data={ state.data }
+					editable={ {
+						onRowAdd : (newData) =>
+							new Promise((resolve) => {
+								setTimeout(() => {
+									resolve();
+									setState((prevState) => {
+										const data = [ ...prevState.data ];
+										data.push(newData);
+										return { ...prevState, data };
+									});
+								}, 600);
+							}),
+						onRowUpdate : (newData, oldData) =>
+							new Promise((resolve) => {
+								setTimeout(() => {
+									resolve();
+									if (oldData) {
+										setState((prevState) => {
+											const data = [ ...prevState.data ];
+											data[ data.indexOf(oldData) ] = newData;
+											return { ...prevState, data };
+										});
+									}
+								}, 600);
+							}),
+						onRowDelete : (oldData) =>
+							new Promise((resolve) => {
+								setTimeout(() => {
+									resolve();
+									setState((prevState) => {
+										const data = [ ...prevState.data ];
+										data.splice(data.indexOf(oldData), 1);
+										return { ...prevState, data };
+									});
+								}, 600);
+							})
+					} }
+				/>
 
-                        <TableRow>
-                            <TableCell rowSpan={ 3 } />
-                            <TableCell colSpan={ 2 }>Subtotal</TableCell>
-                            <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Tax</TableCell>
-                            <TableCell align="right">{`${ (TAX_RATE * 100).toFixed(0) } %`}</TableCell>
-                            <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell colSpan={ 2 }>Total</TableCell>
-                            <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Grid item xs={ false } sm={ 4 } md={ 7 }>
-
-                <CssBaseline />
-                <Grid item xs={ 12 } sm={ 8 } md={ 5 } component={ Paper } elevation={ 6 } square>
-                    <ButtonGroup variant="contained" orientation="horizontal" color="primary" aria-label="horizontal contained primary button group">
-                        <Button size="large" variant="contained">1</Button>
-                        <Button>2</Button>
-                        <Button>3</Button>
-                        <Button>Qty</Button>
-                        <Button>Sec1</Button>
-                        <Button>Employee</Button>
-                        <Button  size="medium" color="primary" >Loyalty</Button>
-                        <Button variant="contained" color="secondary"  size="large">Review</Button>
-                    </ButtonGroup>
-                    <ButtonGroup variant="contained" orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
-                        <Button>4</Button>
-                        <Button>5</Button>
-                        <Button>6</Button>
-                        <Button>Disc</Button>
-                        <Button>Pannel</Button>
-                        <Button>Info</Button>
-                        <Button variant="contained" color="secondary"  startIcon={ <SaveIcon /> } size="large">PayBills</Button>
-                    </ButtonGroup>
-                    <ButtonGroup variant="contained" orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
-                        <Button>7</Button>
-                        <Button>8</Button>
-                        <Button>9</Button>
-                        <Button>Price</Button>
-                        <Button>Sales</Button>
-                        <Button>Attend</Button>
-                        <Button variant="contained" color="secondary"  size="large">Discount</Button>
-                    </ButtonGroup>
-                    <ButtonGroup variant="contained" orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
-                        <Button>+</Button>
-                        <Button>0</Button>
-                        <Button >-</Button>
-                        <Button>Del</Button>
-                        <Button>%</Button>
-                        <Button>*</Button>
-                        <Button>Chec</Button>
-                        <Button variant="contained" color="accent" endIcon={ <Icon>send</Icon> } size="large">Payment</Button>
-                    </ButtonGroup>
-                </Grid>
+            </Table>
+			
+            <Grid item xs={ 12 } sm={ 8 } md={ 5 } component={ Paper } elevation={ 6 } square>
+                <ButtonGroup variant="contained" orientation="horizontal" color="primary" aria-label="horizontal contained primary button group">
+                    <Button size="large" variant="contained">1</Button>
+                    <Button>2</Button>
+                    <Button>3</Button>
+                    <Button>c</Button>
+                    <Button>Qty</Button>
+                    <Button>Sec1</Button>
+                    <Button>Employee</Button>
+                    <Button  size="medium" color="primary" >Loyalty</Button>
+                    <Button  size="medium" color="primary" >Loyalty</Button>
+                    <Button  size="medium" color="primary" >Loyalty</Button>
+                    <Button variant="contained" color="secondary"  size="large">Review</Button>
+                </ButtonGroup>
+                <ButtonGroup variant="contained" orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
+                    <Button>4</Button>
+                    <Button>5</Button>
+                    <Button>6</Button>
+                    <Button>b</Button>
+                    <Button>Disc</Button>
+                    <Button>Pannel</Button>
+                    <Button>Info</Button>
+                    <Button  size="medium" color="primary" >Loyalty</Button>
+                    <Button  size="medium" color="primary" >Loyalty</Button>
+                    <Button variant="contained" color="secondary"  startIcon={ <SaveIcon /> } size="large">PayBills</Button>
+                </ButtonGroup>
+                <ButtonGroup variant="contained" orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
+                    <Button>7</Button>
+                    <Button>8</Button>
+                    <Button>9</Button>
+                    <Button>a</Button>
+                    <Button>Price</Button>
+                    <Button>Sales</Button>
+                    <Button>Attend</Button>
+                    <Button  size="medium" color="primary" >Loyalty</Button>
+                    <Button  size="medium" color="primary" >Loyalty</Button>
+                    <Button variant="contained" color="secondary"  size="large">Discount</Button>
+                </ButtonGroup>
+                <ButtonGroup  variant="contained"  orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
+                    <Button>+</Button>
+                    <Button>0</Button>
+                    <Button >-</Button>
+                    <Button>.</Button>
+                    <Button>Del</Button>
+                    <Button>%</Button>
+                    <Button>*</Button>
+                    <Button>Chec</Button>
+                    <Button  size="medium" color="primary" >Loyalty</Button>
+                    <Button  size="medium" color="primary" >Loyalty</Button>
+                    <Button  color="accent" endIcon={ <Icon>send</Icon> } size="large" className={ classes.submit } onClick={ finalBill }>Payment</Button>
+                </ButtonGroup>
             </Grid>
-           
+
         </Grid>
     </Grid>
 );

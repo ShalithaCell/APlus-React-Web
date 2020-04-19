@@ -109,13 +109,12 @@ export default function DashboardInventory() {
     <Container component="main" maxWidth="sx">
         <Navbar/>
         <div className={ classes.root }>
-            <CssBaseline />
             <AppBar position="absolute" className={ clsx(classes.appBar, open && classes.appBarShift) }>
                 <Toolbar className={ classes.toolbar }>
                     <Typography component="h1" variant="h5" color="inherit" noWrap className={ classes.title }>
                         Inventory
                     </Typography>
-                    <IconButton color="inherit">
+                    <IconButton color="inherit" href={ 'http://localhost:3000/addinventory' }>
                         <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
                             <AddIcon />
                         </Fab>
@@ -165,7 +164,7 @@ export default function DashboardInventory() {
                         </Grid>
                         <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
                             <Paper className={ fixedHeightPaper } >
-                                <Button variant="contained" color="secondary">
+                                <Button variant="contained" color="secondary" href="http://localhost:3000/updateinventory">
                                     DETAILS
                                 </Button>
                             </Paper>
@@ -180,6 +179,6 @@ export default function DashboardInventory() {
             </main>
         </div>
     </Container>
-    
+
 	);
 }

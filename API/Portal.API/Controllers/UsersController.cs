@@ -62,6 +62,13 @@ namespace Portal.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("forTest")]
+        public async Task<IActionResult> ForTest()
+        {
+            return Ok(true);
+        }
+
+        [AllowAnonymous]
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody]AuthenticateModel model)
         {
@@ -73,7 +80,7 @@ namespace Portal.API.Controllers
             if (result.Succeeded)
             {
                 //current user
-                var user = await _userManager.FindByEmailAsync(model.Email).ConfigureAwait(true);
+                var user = await _userManager.FindByNameAsync(model.Email).ConfigureAwait(true);
                 // Get the roles for the user
                 var roles = await _userManager.GetRolesAsync(user).ConfigureAwait(true);
                 var RoleDetails = _context.Roles.Where(o => o.Name == roles[0]).FirstOrDefault();
@@ -165,6 +172,67 @@ namespace Portal.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost("resetPasswordMobile")]
+        public async Task<IActionResult> SendPasswordResetLinkMobile([FromBody] ForgotPasswordReq model)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return Ok(false);
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                bool available = true;
+                int mCode = 0;
+
+                Random rnd = new Random();
+                do
+                {
+
+                    mCode = rnd.Next(100000, 999999);
+                    var isAvailable = _context.passwordResetTokens.Where(o => o.MobileCode == mCode.ToString()).FirstOrDefault();
+                    available = isAvailable == null;
+                } while (!available);
+
+
+                //insert to database
+                PasswordResetToken passwordResetToken = new PasswordResetToken
+                {
+                    UserID = user.Id,
+                    IsActive = true,
+                    RegistedDate = DateTime.Now,
+                    MobileCode = mCode.ToString(),
+                    Token = code
+                };
+
+                _context.passwordResetTokens.Add(passwordResetToken);
+                _ = _context.SaveChangesAsync();
+
+                ForgotEmailDataMobile forgotEmailData = new ForgotEmailDataMobile
+                {
+                    Company = _config.Value.CompanyName,
+                    Email = model.Email,
+                    code = mCode.ToString(),
+                    SiteName = _config.Value.SolutionName,
+                    SiteUrl = _config.Value.BaseURL
+                };
+
+                await _emailSender.SendEmailAsync(model.Email, "APlus Account Password Reset", DataFormatManager.GetFormatedForgotPasswordEmailTemplate(forgotEmailData, _hostingEnvironment.ContentRootPath + _templateParams.Value.ForgotPasswordMailTemplateMobile));
+
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        [AllowAnonymous]
         [HttpPost("checkPasswordResetToken")]
         public async Task<IActionResult> PasswordResetTokenValidation([FromBody] JObject objToken)
         {
@@ -214,7 +282,7 @@ namespace Portal.API.Controllers
                 userResult.RoleName = RoleDetails.Name;
                 userResult.UserName = user.UserName;
                 userResult.Email = user.Email;
-                userResult.Locked = user.LockoutEnabled ? "YES" : "NO";
+                userResult.Locked = user.EmailConfirmed ? "YES" : "NO";
 
                 userResult.modifyAllowed = userResult.RoleID >= RoleID;
 
@@ -451,6 +519,50 @@ namespace Portal.API.Controllers
                 return Ok(new { status = 0 });
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost("resentUserPasswordMobile")]
+        public async Task<IActionResult> RestUserPasswordMobile([FromBody] JObject obj)
+        {
+            string token = obj["nameValuePairs"]["token"].ToString();
+            string password = obj["nameValuePairs"]["password"].ToString();
+
+            var tokenData = _context.passwordResetTokens.Where(o => o.MobileCode == token).FirstOrDefault();
+
+            if (tokenData == null)
+            {
+                return Ok(new { status = 0 });
+            }
+
+            var user = await _userManager.FindByIdAsync(tokenData.UserID.ToString());
+
+            if (user == null)
+            {
+                return Ok(new { status = 0 });
+            }
+
+            double minites = (DateTime.Now - tokenData.RegistedDate).TotalMinutes;
+
+            if (minites > 10)
+            {
+                return Ok(new { status = 2 });
+            }
+
+            var token2 = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await _userManager.ResetPasswordAsync(user, token2, password);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { status = 1 });
+            }
+            else
+            {
+                return Ok(new { status = 0 });
+            }
+        }
+
+
 
 
     }

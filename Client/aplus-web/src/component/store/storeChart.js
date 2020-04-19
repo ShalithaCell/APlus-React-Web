@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect  } from 'react';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
@@ -16,20 +17,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
-import MaterialTable from 'material-table';
+import { getBranchInformation, removeBranch } from '../../redux/branchActions';
+import storeAdd from '../storeAdd';
 
 // Generate Order Data
 function createData(id, BranchName, Location, PhoneNo, NoofEmployees, Update, Delete) {
 	return { id, BranchName, Location, PhoneNo, NoofEmployees, Update, Delete };
 }
-
-const rows = [
-	createData(0, 'Branch1', 'L1', '0000', '9'),
-	createData(1, 'Branch2', 'L2', '0000', '4'),
-	createData(2, 'Branch3', 'L3', '0000', '3' ),
-	createData(3, 'Branch4', 'L4', '0000', '5' ),
-	createData(4, 'Branch5', 'L5', '0000', '6' )
-];
 
 function preventDefault(event) {
 	event.preventDefault();
@@ -115,10 +109,22 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function Branches() {
-	const classes = useStyles();
-	return (
+const StoreChart = ( props ) => {
 
+	const classes = useStyles();
+
+	const Deletebranch = (id) => {
+		console.log(id);
+		props.removeBranch(id);
+		props.getBranchInformation();
+	}
+
+	useEffect(() => {
+		console.log("DDDD");
+	 	props.getBranchInformation();
+	}, []);
+	
+	return (
     <React.Fragment>
 
         <div className={ classes.root }>
@@ -128,11 +134,9 @@ export default function Branches() {
 
                     <Typography className={ classes.title } variant="h6" noWrap>
                         Branch Details
-
                     </Typography>
                     <div className={ classes.search }>
                         <div className={ classes.searchIcon }>
-
                             <SearchIcon />
                         </div>
                         <InputBase
@@ -157,43 +161,49 @@ export default function Branches() {
                     <TableCell>No of Employees</TableCell>
                     <TableCell>Edit</TableCell>
                     <TableCell>Delete</TableCell>
-
                 </TableRow>
             </TableHead>
             <TableBody>
-
-                { rows.map((row) => (
-
+                { props.branchList.map((row) => (
                     <TableRow key={ row.id }>
                         <TableCell>{ row.id }</TableCell>
-                        <TableCell>{ row.BranchName }</TableCell>
-                        <TableCell>{ row.Location }</TableCell>
-                        <TableCell>{ row.PhoneNo }</TableCell>
-                        <TableCell>{ row.NoofEmployees }</TableCell>
-                        <TableCell>{ <Button
+                        <TableCell>{ row.branchName }</TableCell>
+                        <TableCell>{ row.branchLocation }</TableCell>
+                        <TableCell>{ row.branchPhone }</TableCell>
+                        <TableCell>{ row.noofEmployees }</TableCell>
+                        <TableCell>{ 
+                            <Button href="http://localhost:3000/storeUpdate"
 								variant="contained"
 								color="primary"
 								className={ classes.button }
 								startIcon={ <EditIcon /> }
 							>
 
-                        </Button>
+                            </Button>
 							}</TableCell>
                         <TableCell>{ <Button
 								variant="contained"
 								color="secondary"
+								tooltip = 'Click here to remove user'
 								className={ classes.button }
 								startIcon={ <DeleteIcon /> }
+								onClick={ Deletebranch.bind(null, row.id) }
 							>
 
                         </Button>
-							}</TableCell>
+							} </TableCell>
+
                     </TableRow>
 					))
 					}
             </TableBody>
         </Table>
-
     </React.Fragment>
+            
 	);
 }
+const mapStateToProps = (state) => ({
+	branchList : state.branch.branchList
+})
+
+export default connect(mapStateToProps, { removeBranch, getBranchInformation })(StoreChart);

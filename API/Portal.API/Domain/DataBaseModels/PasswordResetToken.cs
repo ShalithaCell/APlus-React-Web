@@ -15,6 +15,7 @@ namespace Portal.API.Domain.DataBaseModels
         public int UserID { get; set; }
         [Required]
         public string Token { get; set; }
+        public string MobileCode { get; set; }
 
         public AppUser appUser { get; }
     }

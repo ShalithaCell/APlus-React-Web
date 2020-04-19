@@ -141,7 +141,7 @@ class ListOfUsers extends Component
             <Container fixed>
                 <Card className={ classes.root }>
                     <CardHeader
-								title="List of Roles"
+								title="List of Users"
 								className={ 'text-left' }
 								action={
     <Button variant="outlined" color="primary" startIcon={ <AddCircle /> } id="btnAddUser" onClick={ this.onClickListner.bind(this) }>
@@ -157,7 +157,7 @@ class ListOfUsers extends Component
 										{ title: 'User name', field: 'userName' },
 										{ title: 'Email', field: 'email' },
 										{ title: 'Role', field: 'roleName' },
-										{ title: 'Locked', field: 'locked' }
+										{ title: 'Email Confirmed', field: 'locked' }
 									] }
 									data={ this.props.userList  }
 									actions={ [
