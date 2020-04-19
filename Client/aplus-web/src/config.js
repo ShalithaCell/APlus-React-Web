@@ -21,6 +21,7 @@ export const REGISTER_NEW_ROLE_ENDPOINT = API_TARGET +'roles/registerRole';
 export const GET_ROLE_ENDPOINT = API_TARGET +'roles/getRoleInfomation';
 export const UPDATE_ROLE_ENDPOINT = API_TARGET +'roles/updateRole';
 export const REMOVE_ROLE_ENDPOINT = API_TARGET +'roles/removeRole';
+
 export const ADD_BILL_TRANSACTION_ENDPOINT = API_TARGET +'cashier/addBill';
 
 export const ADD_SUPPLIER_ENDPOINT = API_TARGET +'supplier/addSupplier';
@@ -29,6 +30,10 @@ export const GET_SUPPLIER_ENDPOINT = API_TARGET +'supplier/getSupplier';
 export const UPDATE_SUPPLIER_ENDPOINT = API_TARGET +'supplier/addSupplier';
 export const UPDATE_SUPPLIER_DETAILS_ENDPOINT = API_TARGET +'supplier/addSupplier';
 export const ADD_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/addTransaction';
+export const VIEW_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/getTransactionInfomation';
+export const UPDATE_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/updateTransactions';
+export const DELETE_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/deleteTransactions';
+
 export const ADD_SALARY_ENDPOINT = API_TARGET + 'salary/addSalary';
 export const SYNC_USER_LIST_ENDPOINT = API_TARGET +'users/getAllUsers';
 export const SYNC_USER_Name_LIST_ENDPOINT = API_TARGET +'users/getUserNames';

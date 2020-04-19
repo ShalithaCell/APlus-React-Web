@@ -22,4 +22,4 @@ const reducers = combineReducers(
     supplier : supplierReducer
 	});
 
-export default reducers;
+export default reducers;	

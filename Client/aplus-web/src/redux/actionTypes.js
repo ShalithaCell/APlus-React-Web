@@ -1,7 +1,8 @@
 export const DO_LOGIN = 'DO_LOGIN';
 export const DO_LOGOUT = 'LOGOUT';
-//export const ADD_TRANS = 'ADD_TRANS';
-export const EDIT_TRANS = 'EDIT_TRANS';
+
+export const ADD_TRANS = 'ADD_TRANS';
+export const UPDATE_TRANS = 'UPDATE_TRANS';
 export const DELETE_TRANS = 'DELETE_TRANS';
 export const VIEW_TRANS = 'VIEW_TRANS';
 export const ADD_SALARY = 'ADD_SALARY';
