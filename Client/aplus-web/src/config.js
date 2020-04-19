@@ -34,6 +34,10 @@ export const CONFIRM_PASSWORD_RESET_TOKEN_ENDPOINT = API_TARGET +'users/checkPas
 export const RESET_USER_PASSWORD_ENDPOINT = API_TARGET +'users/resentUserPassword';
 
 export const ADD_REQUEST = API_TARGET +'requestAdd/addRequests';
+export const GET_REQUEST_ENDPOINT = API_TARGET +'requestAdd/getRequestInfomation';
+//export const GET_REQUEST_ENDPOINT = API_TARGET +'requestAdd/addRequests';
+export const UPDATE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/addRequests';
+export const REMOVE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/removeRequest';
 
 export const ADD_BRANCH_ENDPOINT = API_TARGET+'branch/addBranch';
 export const GET_BRANCH_ENDPOINT = API_TARGET+'branch/getBranch';
@@ -42,3 +46,5 @@ export const UPDATE_BRANCH_ENDPOINT = API_TARGET+ 'branch/updateBranch';
 export const REMOVE_BRANCH_ENDPOINT = API_TARGET+ 'branch/deleteBranch';
 
 export const ADD_INVENTORY = API_TARGET +'inventory/addInventory';
+
+export const ADD_ATTENDANCE = API_TARGET +'attendance/addAttendance';

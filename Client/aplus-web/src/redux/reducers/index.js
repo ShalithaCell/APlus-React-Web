@@ -3,7 +3,11 @@ import userReducer from './userReducer'
 import systemDefaults from './systemDefaults';
 import roleReducer from './roleReducer';
 import transactionReducer from './transactionReducer'
+
+import requestReducer from './requestReducer';
+
 import branchReducer from './branchReducer';
+
 
 const reducers = combineReducers(
 	{
@@ -11,6 +15,7 @@ const reducers = combineReducers(
 		system      : systemDefaults,
 		role        : roleReducer,
 		transaction : transactionReducer,
+		request     : requestReducer,
 		branch      : branchReducer
 	});
 

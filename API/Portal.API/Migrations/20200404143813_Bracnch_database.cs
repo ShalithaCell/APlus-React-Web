@@ -7,6 +7,7 @@ namespace Portal.API.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            
             migrationBuilder.CreateTable(
                 name: "organizations",
                 columns: table => new

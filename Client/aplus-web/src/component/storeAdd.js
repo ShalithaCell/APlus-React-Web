@@ -79,11 +79,11 @@ const initialFieldValues = {
 
 function storeAdd() {
 
-	// eslint-disable-next-line react-hooks/rules-of-hooks
+	// eslint-disable-next-line
 	const dispatch = useDispatch();
-	// eslint-disable-next-line react-hooks/rules-of-hooks
+	// eslint-disable-next-line
 	const classes = useStyles();
-	// eslint-disable-next-line react-hooks/rules-of-hooks
+	// eslint-disable-next-line
 	const [ add, setadd ] = useState({ bName: '', orgName: '', location: '', tpNo: '', noofEmployees: '' });
 
 	const onChange = (e) =>
