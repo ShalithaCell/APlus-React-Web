@@ -30,7 +30,7 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
         public DbSet<Branch> branches { get; set; }
         public DbSet<RequestAddTables> requestAddTable { get; set; }
         public DbSet<Organization> organizations { get; set; }
-        public DbSet<Inventories> Inventories { get; set; }
+        public DbSet<Inventories> Inventories { get; set;  }
         public DbSet<Attendances> attendances { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

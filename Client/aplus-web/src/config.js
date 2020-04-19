@@ -52,7 +52,11 @@ export const UPDATE_BRANCH_DETAILS_ENDPOINT = API_TARGET+ 'branch/updateBranch';
 export const UPDATE_BRANCH_ENDPOINT = API_TARGET+ 'branch/updateBranch';
 export const REMOVE_BRANCH_ENDPOINT = API_TARGET+ 'branch/deleteBranch';
 
+export const ADD_BRANCH = API_TARGET+'branch/addBranch';
+export const ADD_INVENTORY_ENDPOINT = API_TARGET +'inventory/addInventory';
+export const UPDATE_INVENTORY_ENDPOINT = API_TARGET + 'inventory/updateInventory';
+export const REMOVE_INVENTORY_ENDPOINT = API_TARGET + 'inventory/removeInventory';
+export const GET_INVENTORY_ENDPOINT = API_TARGET + 'inventory/getInventoryList';
 export const ADD_INVENTORY = API_TARGET +'inventory/addInventory';
 
 export const ADD_ATTENDANCE = API_TARGET +'attendance/addAttendance';
-
