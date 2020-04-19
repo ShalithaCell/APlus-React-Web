@@ -46,6 +46,9 @@ import UserProfile from './component/user/userProfile';
 import editTrans from './component/payments/editTrans'
 import addTrans from './component/payments/addTrans'
 import deleteTrans from './component/payments/deleteTrans'
+import storeTable from './component/store/storeTable';
+import storepie from './component/store/storepie';
+import storeBar from './component/store/storeBar';
 
 class App extends Component {
 
@@ -99,6 +102,8 @@ class App extends Component {
                     <Route exact path='/editTrans' component={ editTrans } />
                     <Route exact path='/deleteTrans' component={ deleteTrans } />
                     <Route exact path='/addTrans' component={ addTrans } />
+                    <Route exact path= '/storeBar' component={ storeBar }/>
+                    <Route exact path= '/storepie' component={ storepie }/>
                 </Switch>
 						:
                 <Switch>
