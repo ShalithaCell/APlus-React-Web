@@ -23,4 +23,10 @@ namespace Portal.API.Domain.APIReqModels
         [Required(ErrorMessage = "Phone Number is Required")]
         public int B_Employee { get; set; }
     }
+
+    public class GetBranchInfo
+    {
+        [Required]
+        public int B_Id { get; set; }
+    }
 }
