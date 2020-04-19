@@ -7,6 +7,8 @@ import {
 } from '@devexpress/dx-react-chart-material-ui';
 
 import { Animation } from '@devexpress/dx-react-chart';
+import Navbar from '../navbar';
+import Container from '@material-ui/core/Container';
 
 const data = [
 	{ country: 'Russia', area: 12 },
@@ -18,7 +20,8 @@ const data = [
 	{ country: 'India', area: 2 },
 	{ country: 'Others', area: 55 }
 ];
-export default class Demo extends React.PureComponent {
+export default class storepie extends React.PureComponent {
+
 	constructor(props) {
 		super(props);
 
@@ -28,23 +31,31 @@ export default class Demo extends React.PureComponent {
 	}
 
 	render() {
+
 		const { data: chartData } = this.state;
 
 		return (
-    <Paper>
-        <Chart
+    <div>
+        <Navbar/>
+        <div className={ 'top-5pres' }>
+            <Container fixed>
+                <Paper>
+                    <Chart
 					data={ chartData }
 				>
-            <PieSeries
+                        <PieSeries
 						valueField="area"
 						argumentField="country"
 					/>
-            <Title
-						text="Area of Countries"
+                        <Title
+						text="Monthly profit"
 					/>
-            <Animation />
-        </Chart>
-    </Paper>
+                        <Animation />
+                    </Chart>
+                </Paper>
+            </Container>
+        </div></div>
+			
 		);
 	}
 }

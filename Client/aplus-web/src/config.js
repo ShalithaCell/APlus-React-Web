@@ -39,7 +39,12 @@ export const GET_REQUEST_ENDPOINT = API_TARGET +'requestAdd/getRequestInfomation
 export const UPDATE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/addRequests';
 export const REMOVE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/removeRequest';
 
-export const ADD_BRANCH = API_TARGET+'branch/addBranch';
+export const ADD_BRANCH_ENDPOINT = API_TARGET+'branch/addBranch';
+export const GET_BRANCH_ENDPOINT = API_TARGET+'branch/getBranch';
+export const UPDATE_BRANCH_DETAILS_ENDPOINT = API_TARGET+ 'branch/updateBranch';
+export const UPDATE_BRANCH_ENDPOINT = API_TARGET+ 'branch/updateBranch';
+export const REMOVE_BRANCH_ENDPOINT = API_TARGET+ 'branch/deleteBranch';
+
 export const ADD_INVENTORY = API_TARGET +'inventory/addInventory';
 
 export const ADD_ATTENDANCE = API_TARGET +'attendance/addAttendance';

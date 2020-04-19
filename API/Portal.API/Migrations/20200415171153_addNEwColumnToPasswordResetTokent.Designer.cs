@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
 
 namespace Portal.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200415171153_addNEwColumnToPasswordResetTokent")]
+    partial class addNEwColumnToPasswordResetTokent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,43 +122,6 @@ namespace Portal.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Attendances", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("ClockOnTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ClockOutTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("RegistedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime>("WorkingHours")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("attendances");
-                });
             modelBuilder.Entity("Portal.API.Domain.DataBaseModels.Branch", b =>
                 {
                     b.Property<int>("ID")
@@ -240,7 +205,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Report",
                             PermissionCode = "RE",
-                            RegistedDate = new DateTime(2020, 4, 11, 14, 6, 30, 95, DateTimeKind.Local).AddTicks(7073)
+                            RegistedDate = new DateTime(2020, 4, 15, 22, 41, 52, 904, DateTimeKind.Local).AddTicks(1934)
                         },
                         new
                         {
@@ -248,7 +213,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Sales",
                             PermissionCode = "SE",
-                            RegistedDate = new DateTime(2020, 4, 11, 14, 6, 30, 96, DateTimeKind.Local).AddTicks(5840)
+                            RegistedDate = new DateTime(2020, 4, 15, 22, 41, 52, 907, DateTimeKind.Local).AddTicks(458)
                         },
                         new
                         {
@@ -256,7 +221,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory View",
                             PermissionCode = "IV",
-                            RegistedDate = new DateTime(2020, 4, 11, 14, 6, 30, 96, DateTimeKind.Local).AddTicks(5867)
+                            RegistedDate = new DateTime(2020, 4, 15, 22, 41, 52, 907, DateTimeKind.Local).AddTicks(504)
                         },
                         new
                         {
@@ -264,7 +229,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Add",
                             PermissionCode = "IA",
-                            RegistedDate = new DateTime(2020, 4, 11, 14, 6, 30, 96, DateTimeKind.Local).AddTicks(5869)
+                            RegistedDate = new DateTime(2020, 4, 15, 22, 41, 52, 907, DateTimeKind.Local).AddTicks(507)
                         },
                         new
                         {
@@ -272,7 +237,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Update",
                             PermissionCode = "IU",
-                            RegistedDate = new DateTime(2020, 4, 11, 14, 6, 30, 96, DateTimeKind.Local).AddTicks(5871)
+                            RegistedDate = new DateTime(2020, 4, 15, 22, 41, 52, 907, DateTimeKind.Local).AddTicks(509)
                         },
                         new
                         {
@@ -280,7 +245,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Delete",
                             PermissionCode = "ID",
-                            RegistedDate = new DateTime(2020, 4, 11, 14, 6, 30, 96, DateTimeKind.Local).AddTicks(5872)
+                            RegistedDate = new DateTime(2020, 4, 15, 22, 41, 52, 907, DateTimeKind.Local).AddTicks(511)
                         },
                         new
                         {
@@ -288,7 +253,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Customer Handling",
                             PermissionCode = "CH",
-                            RegistedDate = new DateTime(2020, 4, 11, 14, 6, 30, 96, DateTimeKind.Local).AddTicks(5873)
+                            RegistedDate = new DateTime(2020, 4, 15, 22, 41, 52, 907, DateTimeKind.Local).AddTicks(513)
                         });
                 });
 

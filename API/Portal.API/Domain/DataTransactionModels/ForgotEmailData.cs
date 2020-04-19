@@ -13,4 +13,13 @@ namespace Portal.API.Domain.DataTransactionModels
         public string Company { get; set; }
         public string PasswordResetUrl { get; set; }
     }
+
+    public class ForgotEmailDataMobile
+    {
+        public string SiteName { get; set; }
+        public string SiteUrl { get; set; }
+        public string Email { get; set; }
+        public string Company { get; set; }
+        public string code { get; set; }
+    }
 }
