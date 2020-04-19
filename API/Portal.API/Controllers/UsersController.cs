@@ -524,8 +524,8 @@ namespace Portal.API.Controllers
         [HttpPost("resentUserPasswordMobile")]
         public async Task<IActionResult> RestUserPasswordMobile([FromBody] JObject obj)
         {
-            string token = obj["token"].ToString();
-            string password = obj["password"].ToString();
+            string token = obj["nameValuePairs"]["token"].ToString();
+            string password = obj["nameValuePairs"]["password"].ToString();
 
             var tokenData = _context.passwordResetTokens.Where(o => o.MobileCode == token).FirstOrDefault();
 
