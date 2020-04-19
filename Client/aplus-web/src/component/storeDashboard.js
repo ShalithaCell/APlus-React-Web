@@ -22,10 +22,10 @@ import { mainListItems, secondaryListItems } from './store/listItems';
 import Chart from './store/storeChart';
 import Deposits from './store/deposit';
 import Branch from './store/noOfBranch';
-import Map from './store/map';
-
+//import Map from './store/map';
 import Pie from './store/storepie';
 import { Button } from '@material-ui/core';
+import Navbar from './navbar';
 
 function Copyright() {
 	return (
@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export default function Dashboard() {
+function Dashboard() {
 	const classes = useStyles();
 	const [ open, setOpen ] = React.useState(true);
 	const handleDrawerOpen = () => {
@@ -133,7 +133,8 @@ export default function Dashboard() {
 	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
 	return (
-    <div className={ classes.root }>
+
+    <div className={ classes.root } >
         <CssBaseline />
         <AppBar position="absolute" className={ clsx(classes.appBar, open && classes.appBarShift) }>
             <Toolbar className={ classes.toolbar }>
@@ -192,7 +193,7 @@ export default function Dashboard() {
                     </Grid>
                     <Grid item xs={ 12 } md={ 4 } lg={ 4 }>
                         <Paper className={ fixedHeightPaper } >
-                            <Map />
+                            <Pie />
                         </Paper>
                     </Grid>
                     <Grid item xs={ 12 }>
@@ -207,5 +208,7 @@ export default function Dashboard() {
             </Container>
         </main>
     </div>
-	);
+           	);
+
 }
+export default Dashboard;

@@ -19,6 +19,7 @@ import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
 import { ADD_REQUEST } from '../config';
 import { useDispatch } from 'react-redux';
+import { ToastContainer } from './dialogs/ToastContainer';
 function Copyright() {
   return (
       
@@ -53,6 +54,17 @@ const useStyles = makeStyles((theme) => ({
     margin : theme.spacing(3, 0, 2)
   }
 }));
+const initialFieldValues = {
+	firstnameWarning   : '',
+	lastNameWarning    : '',
+	emailWarning       : '',
+	addressWarning     : '',
+  phoneNumberWarning : '',
+  roleWarning        : '',
+  passwordWarning    : '',
+  passwordWarning    : ''
+
+}
 
 export default function AddRequest() {
   const dispatch = useDispatch();
@@ -65,6 +77,50 @@ export default function AddRequest() {
 
   async function AddRequests()
   {
+    if (add.fname.length === 0 || initialFieldValues.firstnameWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter First Name');
+			return;
+    }
+    if (add.lname.length === 0 || initialFieldValues.lastNameWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Last Name');
+			return;
+    }
+    if (add.remail.length === 0 || initialFieldValues.emailWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Email ');
+			return;
+    }
+    	
+    if (add.rAddress.length === 0 || initialFieldValues.addressWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Address');
+			return;
+    }
+    	
+    if (add.rPhonenumber.length === 0 || initialFieldValues.phoneNumberWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Phone Number');
+			return;
+    }
+    
+    if (add.arole.length === 0 || initialFieldValues.roleWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Role Name');
+			return;
+    }
+    
+    if (add.rpassword.length === 0 || initialFieldValues.passwordWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Password');
+			return;
+    }
+    if (add.rConfimpassword.length === 0 || initialFieldValues.passwordWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Password');
+			return;
+		}
       const localData = JSON.parse(GetSession());
       let token = localData.sessionData.token;
       token = decrypt(token);
@@ -121,7 +177,7 @@ export default function AddRequest() {
               <Typography component="h1" variant="h5">
                   New Employee
               </Typography>
-              <div className={ classes.form } noValidate>
+              <div className={ classes.form } Validate>
                   <Grid container spacing={ 2 }>
                       <Grid item xs={ 12 } sm={ 6 }>
                           <TextField

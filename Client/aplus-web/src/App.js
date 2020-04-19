@@ -37,6 +37,7 @@ import addinventory from './component/addinventory';
 import listOfRoles from './component/role/listOfRoles';
 import listOfUsers from './component/user/listOfUsers';
 import { ToastContainer } from 'react-toastify';
+import SupplierList from './component/SupplierList';
 import attendance_Dashbord from './component/attendance_Dashbord';
 import Absent_Attendance from './component/Absent_Attendance';
 import Latecomers_Attendance from './component/Latecomers_Attendance';
@@ -47,6 +48,9 @@ import editTrans from './component/payments/editTrans'
 import addTrans from './component/payments/addTrans'
 import deleteTrans from './component/payments/deleteTrans'
 import inventoryUpdateTable from './component/inventoryUpdateTable';
+import storeTable from './component/store/storeTable';
+import storepie from './component/store/storepie';
+import storeBar from './component/store/storeBar';
 
 class App extends Component {
 
@@ -88,6 +92,7 @@ class App extends Component {
                     <Route exact path='/review' component={ review } />
                     <Route exact path='/transactions' component={ transactions } />
                     <Route exact path='/salary_management' component={ salary_management } />
+                    <Route exact path='/SupplierList' component={ SupplierList } />
                     <Route exact path='/users' component={ listOfUsers } />
                     <Route exact path='/customeradd' component={ customeradd } />
                     <Route exact path='/customer_list' component={ customer_list } />
@@ -101,6 +106,8 @@ class App extends Component {
                     <Route exact path='/deleteTrans' component={ deleteTrans } />
                     <Route exact path='/addTrans' component={ addTrans } />
                     <Route exact path='/tableInventory' component={ inventoryUpdateTable }/>
+                    <Route exact path= '/storeBar' component={ storeBar }/>
+                    <Route exact path= '/storepie' component={ storepie }/>
                 </Switch>
 						:
                 <Switch>
