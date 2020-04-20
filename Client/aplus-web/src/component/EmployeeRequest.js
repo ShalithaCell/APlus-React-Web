@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -17,6 +17,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Navbar from './navbar';
+import { connect } from 'react-redux';
+import { REMOVE_REQUEST_ENDPOINT } from '../config';
+import { removeRequest, getRequestInformation } from '../redux/requestActions';
 
 const useStyles = makeStyles({
   table : {
@@ -33,83 +36,103 @@ const rows = [
   createData('Harry', 'Potter', 'hp@gmail.com', '116/5 1st Cross Street,Colombo', '0712835663', 'Inventory Manager')
  
 ];
+ const EmployeeRequest = ( props ) => {
+ const classes = useStyles();
+  //const [ open, setOpen ] = React.useState(false);
 
-export default function SimpleTable() {
-  const classes = useStyles();
-  const [ open, setOpen ] = React.useState(false);
+  //const handleClickOpen = () => {
+    //setOpen(true);
+  //const handleClose = () => {
+    //setOpen(false);
+   
+    const DeleteRequest = (id) => {
+        console.log(id);
+        props.removeRequest(id);
+        props.getRequestInformation();
+    }
+    useEffect( () => {
+        console.log("DDDD");
+        props.getRequestInformation();
+     },  [] );
+     /*if(!this.props.editable){
+        const userObj = {
+            Email       : this.state.email,
+            Password    : this.state.password,
+            RoleID      : this.state.role,
+            UserName    : this.state.username,
+            PhoneNumber : this.state.phone,
+            OrgID       : this.props.currentUser.orgID,
+            BaseUrl     : host
+        };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-      <Container component="main" maxWidth="sx">
-          <Navbar/> 
+        result = await this.props.createNewUser(userObj);
+    }else{
+        const userObj = {
+            Email       : this.state.email,
+            Password    : this.state.password,
+            RoleID      : this.state.role,
+            PhoneNumber : this.state.phone
+        };*/
+  
+//
+return (
+    <Container component="main" maxWidth="sx">
+        <Navbar/> 
     
-          <Container maxWidth="s">
-              <Typography component="div" style={ {  height: '15vh' } } />
-              <TableContainer component={ Paper } style={ {  height: '50vh' } }>
+        <Container maxWidth="s">
+            <Typography component="div" style={ {  height: '15vh' } } />
+            <TableContainer component={ Paper } style={ {  height: '50vh' } }>
        
-                  <Table className={ classes.table } aria-label="simple table">
-                      <TableHead>
-                          <TableRow>
-                              <TableCell>First Name</TableCell>
-                              <TableCell align="right">Last Name</TableCell>
-                              <TableCell align="right">Email</TableCell>
-                              <TableCell align="right">Address</TableCell>
-                              <TableCell align="right">Phone Number</TableCell>
-                              <TableCell align="center">Role</TableCell>
-                              <TableCell align="center">Action</TableCell>
-                          </TableRow>
-                      </TableHead>
-                      <TableBody>
-                          {rows.map((row) => (
-                              <TableRow key={ row.name }>
-                                  <TableCell component="th" scope="row">
-                                      {row.name}
-                                  </TableCell>
-                                  <TableCell align="right">{row.lastName}</TableCell>
-                                  <TableCell align="right">{row.email}</TableCell>
-                                  <TableCell align="right">{row.Address}</TableCell>
-                                  <TableCell align="right">{row.PhoneNumber}</TableCell>
-                                  <TableCell align="right">{row.Role} </TableCell>
-                                  <Button variant="contained" color="primary" size="small" >
-                                      ADD
-                                  </Button>
-                                  <Button variant="contained" color="primary" size="small" onClick={ handleClickOpen } >
-                                      DELETE
-                                  </Button>
-                                  <Dialog
-        open={ open }
-        onClose={ handleClose }
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-                                      <DialogTitle id="alert-dialog-title">{'DO YOU WANT TO DELETE THIS?'}</DialogTitle>
-                                      <DialogContent>
-                                          <DialogContentText id="alert-dialog-description">
-           
-                                          </DialogContentText>
-                                      </DialogContent>
-                                      <DialogActions>
-                                          <Button onClick={ handleClose } color="primary">
-                                              Yes
-                                          </Button>
-                                          <Button onClick={ handleClose } color="primary" autoFocus>
-                                              No
-                                          </Button>
-                                      </DialogActions>
-                                  </Dialog>
-                              </TableRow>
+                <Table className={ classes.table } aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>First Name</TableCell>
+                            <TableCell >Last Name</TableCell>
+                            <TableCell >Email</TableCell>
+                            <TableCell >Address</TableCell>
+                            <TableCell >Phone Number</TableCell>
+                            <TableCell >Role</TableCell>
+                            <TableCell ></TableCell>
+                            <TableCell ></TableCell>
+                            <TableCell ></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {props.requestList.map((row) => (
+                            <TableRow key={ row.id }>
+                                
+                                <TableCell >{row.firstName}</TableCell>
+                                <TableCell >{row.lastName}</TableCell>
+                                <TableCell >{row.email}</TableCell>
+                                <TableCell >{row.address}</TableCell>
+                                <TableCell >{row.phoneNumber}</TableCell>
+                                <TableCell >{row.role} </TableCell>
+                                <TableCell>{ <Button variant="contained" color="primary" size="small" >
+                                    ADD
+                                </Button>}</TableCell>
+
+                                <TableCell>{<Button variant="contained" color="primary" size="small" onClick={ DeleteRequest.bind(null, row.id) } >
+                                    DELETE
+                                </Button>}</TableCell>
+                            
+                                <TableCell>{ <Button variant="contained" color="primary" size="small" href="http://localhost:3000/UpdateRequest"
+>
+                                    UPDATE
+                                </Button>}</TableCell>
+                            </TableRow>
+
           ))}
-                      </TableBody>
-                  </Table>
-              </TableContainer>
-          </Container>
-      </Container>
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Container>
+    </Container>
   );
-}
+//}
+//};
+                        }
+const mapStateToProps = (state) => ({
+    requestList : state.request.requestList
+})
+
+export default connect(mapStateToProps, { removeRequest, getRequestInformation }) (EmployeeRequest);

@@ -11,7 +11,6 @@ namespace Portal.API.Domain.DataBaseModels
     public class TransactionDetails : BaseEntity
     {   
         [Required]
-        public String Transaction_ID { get; set; }
         public String Description { get; set; }
         [Required]
         public String User_ID { get; set; }

@@ -12,49 +12,57 @@ import StoreMallDirectoryIcon from '@material-ui/icons/StoreMallDirectory';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditLocationTwoToneIcon from '@material-ui/icons/EditLocationTwoTone';
+import { Button } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 
 export const mainListItems = (
     <div>
-        <ListItem button>
-
-            <ListItemIcon>
-                <StoreMallDirectoryIcon />
-            </ListItemIcon>
-            <ListItemText primary="Organization" />
-
-        </ListItem>
-        <ListItem button>
-            <Tooltip title="Add Branch">
-                <ListItemIcon>
-                    <AddCircleIcon />
+        
+        <ListItem >
+            <Button href="http://localhost:3000/storeDashboard">
+                <ListItemIcon >
+                    <StoreMallDirectoryIcon />
                 </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Add Branch" />
+                <ListItemText primary="Organization" />
+            </Button>
+
+        </ListItem>                        
+        
+        <ListItem >
+            <Button href="http://localhost:3000/storeAdd">
+                <Tooltip title="Add Branch">
+                    <ListItemIcon>
+                        <AddCircleIcon />
+                    </ListItemIcon>
+                </Tooltip>
+                <ListItemText primary="Add Branch" />
+            </Button>
         </ListItem>
         <ListItem button>
-
-            <Tooltip title="Manage Branch">
+            <Button href="http://localhost:3000/storeDashboard">
+                <Tooltip title="Manage Branch">
+                    <ListItemIcon>
+                        <PeopleIcon />
+                    </ListItemIcon>
+                </Tooltip>
+                <ListItemText primary="Manage Branches" />
+            </Button>
+        </ListItem>
+        <ListItem button>
+            <Button href="http://localhost:3000/storePlan">
                 <ListItemIcon>
-                    <PeopleIcon />
+                    <EventIcon />
                 </ListItemIcon>
-            </Tooltip>
-            <ListItemText primary="Manage Branches" />
-
+                <ListItemText primary="Month Plan" />
+            </Button>
         </ListItem>
         <ListItem button>
-            <ListItemIcon>
-                <EventIcon />
-            </ListItemIcon>
-            <ListItemText primary="Month Plan" />
-
-        </ListItem>
-        <ListItem button>
-
-            <ListItemIcon>
-                <EditLocationTwoToneIcon />
-            </ListItemIcon>
-            <ListItemText primary="Edit Organization" />
-
+            <Button href="http://localhost:3000/storeUpdate">
+                <ListItemIcon>
+                    <EditLocationTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Edit Organization" />
+            </Button>
         </ListItem>
     </div>
 );
@@ -62,45 +70,45 @@ export const mainListItems = (
 export const secondaryListItems = (
     <div>
         <ListSubheader inset>Comparing Profit</ListSubheader>
-        <ListItem button>
-
-            <ListItemIcon>
-                <EmojiEventsIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Best Branch" />
-
+        <ListItem button >
+            <Button href="http://localhost:3000/storeDashboard">
+                <ListItemIcon>
+                    <EmojiEventsIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Best Branch" />
+            </Button>
         </ListItem>
         <ListItem button>
-
-            <ListItemIcon>
-                <EqualizerTwoToneIcon />
-            </ListItemIcon>
-            <ListItemText primary="Last week" />
-
+            <Button href="http://localhost:3000/storepie">
+                <ListItemIcon>
+                    <EqualizerTwoToneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Last week" />
+            </Button>
         </ListItem>
         <ListItem button>
-
-            <ListItemIcon>
-                <EqualizerTwoToneIcon  />
-            </ListItemIcon>
-            <ListItemText primary="Current month" />
-
+            <Button href="http://localhost:3000/storeBar">
+                <ListItemIcon>
+                    <EqualizerTwoToneIcon  />
+                </ListItemIcon>
+                <ListItemText primary="Current month" />
+            </Button>
         </ListItem>
         <ListItem button>
-
-            <ListItemIcon>
-                <EqualizerTwoToneIcon  />
-            </ListItemIcon>
-            <ListItemText primary="Last 6 months" />
-
+            <Button href="http://localhost:3000/storepie">
+                <ListItemIcon>
+                    <EqualizerTwoToneIcon  />
+                </ListItemIcon>
+                <ListItemText primary="Last 6 months" />
+            </Button>
         </ListItem>
         <ListItem button>
-
-            <ListItemIcon>
-                <EqualizerTwoToneIcon  />
-            </ListItemIcon>
-            <ListItemText primary="Year end sale" />
-
+            <Button href="http://localhost:3000/storeBar">
+                <ListItemIcon>
+                    <EqualizerTwoToneIcon  />
+                </ListItemIcon>
+                <ListItemText primary="Year end sale" />
+            </Button>
         </ListItem>
     </div>
 );

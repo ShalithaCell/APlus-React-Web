@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import EmailIcon from '@material-ui/icons/Email';
+import Navbar from './navbar';
 
 function Copyright() {
   return (
@@ -49,12 +50,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SignUp() {
+export default function informSupplier() {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   const classes = useStyles();
 
   return (
       <Container component="main" maxWidth="xs">
           <CssBaseline />
+          <Navbar />
           <div className={ classes.paper }>
               <Avatar className={ classes.avatar }>
                   <EmailIcon />
