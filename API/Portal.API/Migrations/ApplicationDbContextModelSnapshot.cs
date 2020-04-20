@@ -582,7 +582,7 @@ namespace Portal.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("category")
+                    b.Property<string>("category");
 
                     b.Property<string>("Salary_ID")
                         .IsRequired()

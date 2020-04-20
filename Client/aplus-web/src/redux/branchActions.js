@@ -1,13 +1,9 @@
-
 import { GetSession } from '../services/sessionManagement';
-
 import {
 	POPUP_SPINNER,
 	SET_SESSION_EXPIRED,
 	UPDATE_BRANCH_DETAILS_LIST
 } from './actionTypes';
-
-import { GetSession } from '../services/sessionManagement';
 
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';

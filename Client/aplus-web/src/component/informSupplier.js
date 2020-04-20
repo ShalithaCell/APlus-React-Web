@@ -51,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function informSupplier() {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   const classes = useStyles();
 
   return (
