@@ -261,7 +261,20 @@ namespace Portal.API.Controllers
         [HttpPost("getAllUsers")]
         public async Task<IActionResult> GetAllUsers([FromBody] JObject role)
         {
-            int RoleID = Convert.ToInt32(role["roleId"].ToString());
+            int RoleID = 0;
+
+            var ID = role["roleId"];
+            if(ID == null)
+            {
+                RoleID = Convert.ToInt32(role["nameValuePairs"]["roleId"].ToString());
+            }
+            else
+            {
+                RoleID = Convert.ToInt32(role["roleId"].ToString());
+            }
+            
+
+            //?role["nameValuePairs"]["roleId"].ToString();
 
             List<UserListResult> usersResult = new List<UserListResult>();
             List<AppUser> users = _userManager.Users.ToList();
@@ -560,6 +573,26 @@ namespace Portal.API.Controllers
             {
                 return Ok(new { status = 0 });
             }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("requestNewAccount")]
+        public async Task<IActionResult> RequestNewAccount([FromBody] RequestNewAccountMobile requestNewAccountMobile)
+        {
+            SignUpRequest signUpRequest = new SignUpRequest
+            {
+                Email = requestNewAccountMobile.Email,
+                IsActive = true,
+                Name = requestNewAccountMobile.Name,
+                RegistedDate = DateTime.Now,
+                RoleID = requestNewAccountMobile.RoleID
+            }
+            ;
+
+            _context.signUpRequests.Add(signUpRequest);
+            _context.SaveChangesAsync();
+
+            return Ok(true);
         }
 
 
