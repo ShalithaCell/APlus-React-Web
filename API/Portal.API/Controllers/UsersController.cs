@@ -296,7 +296,7 @@ namespace Portal.API.Controllers
                 userResult.UserName = user.UserName;
                 userResult.Email = user.Email;
                 userResult.Locked = user.EmailConfirmed ? "YES" : "NO";
-
+                userResult.Phone = user.PhoneNumber;
                 userResult.modifyAllowed = userResult.RoleID >= RoleID;
 
                 usersResult.Add(userResult);
@@ -427,7 +427,14 @@ namespace Portal.API.Controllers
         [HttpPost("removeUser")]
         public async Task<IActionResult> RemoveUser([FromBody] JObject userID)
         {
-            var user = await _userManager.FindByIdAsync(userID["userID"].ToString());
+            var ID = userID["userID"];
+
+            if(ID == null)
+            {
+                ID = userID["nameValuePairs"]["userID"];
+            }
+
+            var user = await _userManager.FindByIdAsync(ID.ToString());
             var result = await _userManager.DeleteAsync(user);
 
             if (result.Succeeded)

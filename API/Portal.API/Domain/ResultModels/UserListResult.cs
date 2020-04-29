@@ -14,6 +14,7 @@ namespace Portal.API.Domain.ResultModels
         public string RoleName { get; set; }
         public bool modifyAllowed {get;set;}
         public string Locked { get; set; }
+        public string Phone { get; set; }
 
     }
 }
