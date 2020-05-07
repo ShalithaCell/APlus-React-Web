@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
+import storeAdd from './storeAdd';
+import TableBody from '@material-ui/core/TableBody';
 
 function Copyright() {
 	return (
@@ -56,9 +58,13 @@ const useStyles = makeStyles((theme) => ({
 		margin : theme.spacing(6, 0, 2)
 	}
 }));
-
-export default function StoreUpdate() {
+function StoreUpdate() {
 	const classes = useStyles();
+
+	useEffect(() => {
+		console.log('DDDD');
+		props.getBranchInformation();
+	}, []);
 
 	return (
     <div>
@@ -76,9 +82,10 @@ export default function StoreUpdate() {
                             <Typography component="h1" variant="h5">
                                 Update Existing Branch
                             </Typography>
-                            <form className={ classes.form } Validate>
+                            { props.branchList.map((row) => (
+                                <form className={ classes.form } Validate>
 
-                                <TextField
+                                    <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -89,7 +96,7 @@ export default function StoreUpdate() {
 							autoComplete="bName"
 
 						/>
-                                <TextField
+                                    <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -100,7 +107,7 @@ export default function StoreUpdate() {
 							id="location"
 
 						/>
-                                <TextField
+                                    <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -111,7 +118,7 @@ export default function StoreUpdate() {
 							id="tpNo"
 						/>
 
-                                <TextField
+                                    <TextField
 							variant="outlined"
 							margin="normal"
 							fullWidth
@@ -121,19 +128,21 @@ export default function StoreUpdate() {
 							id="noofEmployees"
 						/>
 
-                                <Button
+                                    <Button
 							type="submit"
 							variant="contained"
 							color="primary"
 							className={ classes.submit }
 						>
-                                    Update Branch
-                                </Button>
+                                        Update Branch
+                                    </Button>
 
-                                <Box mt={ 8 }>
-                                    <Copyright />
-                                </Box>
-                            </form>
+                                    <Box mt={ 8 }>
+                                        <Copyright />
+                                    </Box>
+                                </form>
+								))
+							}
                         </div>
                     </Grid>
                 </Grid>
@@ -142,3 +151,4 @@ export default function StoreUpdate() {
     </div>
 	);
 }
+export default StoreUpdate;

@@ -114,7 +114,7 @@ function storeAdd() {
 
 		if (add.tpNo.length === 0 || initialFieldValues.tpNoWarning.length !== 0)
 		{
-			ToastContainer(TOAST_ERROR, 'Please Branch TelePhone Number ');
+			ToastContainer(TOAST_ERROR, 'Please enter Branch TelePhone Number ');
 			return;
 		}
 

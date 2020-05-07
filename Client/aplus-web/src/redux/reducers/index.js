@@ -19,7 +19,7 @@ const reducers = combineReducers(
 		transaction : transactionReducer,
 		request     : requestReducer,
 		branch      : branchReducer,
-    supplier    : supplierReducer
+   		supplier    : supplierReducer
 	});
 
 export default reducers;	

@@ -12,7 +12,6 @@ import TableRow from '@material-ui/core/TableRow';
 import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import InputBase from '@material-ui/core/InputBase';
