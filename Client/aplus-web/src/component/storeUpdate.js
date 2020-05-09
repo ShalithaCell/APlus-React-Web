@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect  } from 'react';
+import { connect } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +15,7 @@ import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
 import storeAdd from './storeAdd';
 import TableBody from '@material-ui/core/TableBody';
+import { getBranchInformation, removeBranch } from '../redux/branchActions';
 
 function Copyright() {
 	return (
@@ -58,13 +60,29 @@ const useStyles = makeStyles((theme) => ({
 		margin : theme.spacing(6, 0, 2)
 	}
 }));
-function StoreUpdate() {
+const StoreUpdate = ( props ) => {
+
 	const classes = useStyles();
+
+	const Updatebranch = (id) => {
+		console.log(id);
+		props.removeBranch(id);
+		props.getBranchInformation();
+	}
+
+	const [ update, setupdate ] = useState({ bName: '', location: '', tpNo: '', noofEmployees: '' });
+
+	const onChange = (e) =>
+	{
+		e.persist();
+		setupdate({ ...update, [ e.target.name ]: e.target.value })
+
+	}
 
 	useEffect(() => {
 		console.log('DDDD');
 		props.getBranchInformation();
-	}, []);
+	}, [ 1 ]);
 
 	return (
     <div>
@@ -79,11 +97,13 @@ function StoreUpdate() {
                             <Avatar className={ classes.avatar }>
                                 <HouseTwoToneIcon />
                             </Avatar>
+
                             <Typography component="h1" variant="h5">
                                 Update Existing Branch
                             </Typography>
-                            { props.branchList.map((row) => (
-                                <form className={ classes.form } Validate>
+                            { props.branchList.map((line) => (
+
+                                <div className={ classes.form } >
 
                                     <TextField
 							variant="outlined"
@@ -94,6 +114,8 @@ function StoreUpdate() {
 							label="Branch Name"
 							name="bName"
 							autoComplete="bName"
+							value={ update.bName }
+							onChange={ onChange }
 
 						/>
                                     <TextField
@@ -140,7 +162,7 @@ function StoreUpdate() {
                                     <Box mt={ 8 }>
                                         <Copyright />
                                     </Box>
-                                </form>
+                                </div>
 								))
 							}
                         </div>
@@ -150,5 +172,9 @@ function StoreUpdate() {
         </div>
     </div>
 	);
+
 }
-export default StoreUpdate;
+const mapStateToProps = (state) => ({
+	branchList : state.branch.branchList
+})
+export default connect(mapStateToProps, { getBranchInformation })(StoreUpdate);

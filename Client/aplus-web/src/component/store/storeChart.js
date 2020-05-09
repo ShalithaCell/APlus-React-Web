@@ -18,6 +18,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
 import { getBranchInformation, removeBranch } from '../../redux/branchActions';
 import storeAdd from '../storeAdd';
+//import Link from 'next/link'
 
 // Generate Order Data
 function createData(id, BranchName, Location, PhoneNo, NoofEmployees, Update, Delete) {
@@ -118,6 +119,12 @@ const StoreChart = ( props ) => {
 		props.getBranchInformation();
 	}
 
+	const Updatebranch = (id) => {
+		console.log(id);
+		props.updateInventory(id);
+		props.getBranchInformation();
+	}
+
 	useEffect(() => {
 		console.log("DDDD");
 	 	props.getBranchInformation();
@@ -176,6 +183,7 @@ const StoreChart = ( props ) => {
 								color="primary"
 								className={ classes.button }
 								startIcon={ <EditIcon /> }
+								onClick={ Updatebranch.bind(null, row.id) }
 							>
 
                             </Button>
