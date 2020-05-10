@@ -55,11 +55,11 @@ export default function Orders()
         <Table size="small">
             <TableHead>
                 <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Supplier Name</TableCell>
-                    <TableCell>Description</TableCell>
+                    <TableCell>Product Name</TableCell>
+                    <TableCell>Product Code</TableCell>
+                    <TableCell>Supplier Name </TableCell>
                     <TableCell>Quantity</TableCell>
-                    <TableCell>Total Price</TableCell>
+                    <TableCell>Unit Price</TableCell>
                     <TableCell align="right">Delete</TableCell>
                 </TableRow>
             </TableHead>
