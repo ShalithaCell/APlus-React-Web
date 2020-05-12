@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -16,13 +17,19 @@ import Navbar from './navbar';
 import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
-import { ADD_BRANCH_ENDPOINT, TOAST_ERROR } from '../config';
+import { ADD_BRANCH_ENDPOINT, TOAST_ERROR, TOAST_WARN } from '../config';
 import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
 import { useDispatch } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import { useToasts } from 'react-toast-notifications';
 import { ToastContainer } from './dialogs/ToastContainer';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import TableRow from '@material-ui/core/TableRow';
 
 function Copyright() {
 	return (
@@ -83,8 +90,28 @@ function storeAdd() {
 	const dispatch = useDispatch();
 	// eslint-disable-next-line
 	const classes = useStyles();
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const history = useHistory();
 	// eslint-disable-next-line
 	const [ add, setadd ] = useState({ bName: '', orgName: '', location: '', tpNo: '', noofEmployees: '' });
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const [ open, setOpen ] = React.useState(false);
+
+	const storeRoute = () => {
+		// eslint-disable-next-line no-use-before-define
+
+		const path = 'storeDashboard';
+		history.push(path);
+	}
+	const handleClickOpen = () =>
+	{
+		setOpen(true);
+	};
+
+	const handleClose = () =>
+	{
+		setOpen(false);
+	};
 
 	const onChange = (e) =>
 	{
@@ -158,6 +185,7 @@ function storeAdd() {
 					}
 					throw error;
 				});
+		handleClickOpen();
 	}
 	
 	return (
@@ -254,7 +282,24 @@ function storeAdd() {
 						>
                                     Add Branch
                                 </Button>
+                                <Dialog
+									open={ open }
+									onClose={ handleClose }
+									aria-labelledby="alert-dialog-title"
+									aria-describedby="alert-dialog-description"
+								>
+                                    <DialogTitle id="alert-dialog-title">{'Successfully Added'}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="alert-dialog-description">
 
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={ storeRoute } color="primary">
+                                            Ok !!!
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
                                 <Box mt={ 4 }>
                                     <Copyright />
                                 </Box>

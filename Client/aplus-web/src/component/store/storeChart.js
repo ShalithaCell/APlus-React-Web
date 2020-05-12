@@ -17,8 +17,17 @@ import AppBar from '@material-ui/core/AppBar';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
 import { getBranchInformation, removeBranch } from '../../redux/branchActions';
+import { useHistory } from 'react-router-dom';
 import storeAdd from '../storeAdd';
-//import Link from 'next/link'
+import Router, { useRouter }  from 'next/router';
+import { createUrl as router } from 'next/dist/pages/_app';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import Dialog from '@material-ui/core/Dialog';
+import { ToastContainer } from '../dialogs/ToastContainer';
+import { TOAST_ERROR, TOAST_SUCCESS, TOAST_SUCCESSFUL } from '../../config';
 
 // Generate Order Data
 function createData(id, BranchName, Location, PhoneNo, NoofEmployees, Update, Delete) {
@@ -112,11 +121,30 @@ const useStyles = makeStyles((theme) => ({
 const StoreChart = ( props ) => {
 
 	const classes = useStyles();
+	const history = useHistory();
+	const [ open, setOpen ] = React.useState(false);
+	//const navigateTo = () => history.push('/storeUpdate');
+
+	const updateRoute = () => {
+		const path = 'storeUpdate';
+		history.push(path);
+	}
+	const handleClickOpen = () =>
+	{
+		setOpen(true);
+	};
+
+	const handleClose = () =>
+	{
+		setOpen(false);
+	};
 
 	const Deletebranch = (id) => {
 		console.log(id);
 		props.removeBranch(id);
 		props.getBranchInformation();
+		handleClose();
+		ToastContainer(TOAST_SUCCESS, 'Successfully Deleted!');
 	}
 
 	const Updatebranch = (id) => {
@@ -126,9 +154,9 @@ const StoreChart = ( props ) => {
 	}
 
 	useEffect(() => {
-		console.log("DDDD");
+		console.log('DDDD');
 	 	props.getBranchInformation();
-	}, []);
+	}, [ props ]);
 	
 	return (
     <React.Fragment>
@@ -178,12 +206,12 @@ const StoreChart = ( props ) => {
                         <TableCell>{ row.branchPhone }</TableCell>
                         <TableCell>{ row.noofEmployees }</TableCell>
                         <TableCell>{ 
-                            <Button href="http://localhost:3000/storeUpdate"
+                            <Button
 								variant="contained"
 								color="primary"
 								className={ classes.button }
 								startIcon={ <EditIcon /> }
-								onClick={ Updatebranch.bind(null, row.id) }
+								onClick={ updateRoute }
 							>
 
                             </Button>
@@ -194,11 +222,32 @@ const StoreChart = ( props ) => {
 								tooltip = 'Click here to remove user'
 								className={ classes.button }
 								startIcon={ <DeleteIcon /> }
-								onClick={ Deletebranch.bind(null, row.id) }
+								onClick={ handleClickOpen }
 							>
 
                         </Button>
 							} </TableCell>
+                        <Dialog
+							open={ open }
+							onClose={ handleClose }
+							aria-labelledby="alert-dialog-title"
+							aria-describedby="alert-dialog-description"
+						>
+                            <DialogTitle id="alert-dialog-title">{'Are you sure you want delete this Branch?'}</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={ Deletebranch.bind(null, row.id) } color="primary">
+                                    Yes
+                                </Button>
+                                <Button onClick={ handleClose } color="primary" autoFocus>
+                                    No
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
 
                     </TableRow>
 					))

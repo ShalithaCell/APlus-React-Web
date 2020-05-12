@@ -15,7 +15,7 @@ import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
 import storeAdd from './storeAdd';
 import TableBody from '@material-ui/core/TableBody';
-import { getBranchInformation, removeBranch } from '../redux/branchActions';
+import { getBranchInformation } from '../redux/branchActions';
 
 function Copyright() {
 	return (
@@ -82,7 +82,7 @@ const StoreUpdate = ( props ) => {
 	useEffect(() => {
 		console.log('DDDD');
 		props.getBranchInformation();
-	}, [ 1 ]);
+	}, [ props ]);
 
 	return (
     <div>
@@ -94,6 +94,7 @@ const StoreUpdate = ( props ) => {
                     <Grid item xs={ false } sm={ 10 } md={ 7 } className={ classes.image } />
                     <Grid item xs={ 12 } sm={ 10 } md={ 5 } component={ Paper } elevation={ 20 } square>
                         <div className={ classes.paper }>
+							
                             <Avatar className={ classes.avatar }>
                                 <HouseTwoToneIcon />
                             </Avatar>
@@ -101,11 +102,10 @@ const StoreUpdate = ( props ) => {
                             <Typography component="h1" variant="h5">
                                 Update Existing Branch
                             </Typography>
-                            { props.branchList.map((line) => (
 
-                                <div className={ classes.form } >
+                            <div className={ classes.form } >
 
-                                    <TextField
+                                <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -118,7 +118,7 @@ const StoreUpdate = ( props ) => {
 							onChange={ onChange }
 
 						/>
-                                    <TextField
+                                <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -127,9 +127,10 @@ const StoreUpdate = ( props ) => {
 							label="Location"
 							type="location"
 							id="location"
+							value={ update.location }
 
 						/>
-                                    <TextField
+                                <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -138,9 +139,9 @@ const StoreUpdate = ( props ) => {
 							label="Phone No"
 							type="tpNo"
 							id="tpNo"
+							value={ update.tpNo }
 						/>
-
-                                    <TextField
+                                <TextField
 							variant="outlined"
 							margin="normal"
 							fullWidth
@@ -148,23 +149,23 @@ const StoreUpdate = ( props ) => {
 							label="No of Employees"
 							type="noofEmployees"
 							id="noofEmployees"
+							value={ update.noofEmployees }
 						/>
-
-                                    <Button
+						
+                                <Button
 							type="submit"
 							variant="contained"
 							color="primary"
 							className={ classes.submit }
 						>
-                                        Update Branch
-                                    </Button>
+                                    Update Branch
+                                </Button>
 
-                                    <Box mt={ 8 }>
-                                        <Copyright />
-                                    </Box>
-                                </div>
-								))
-							}
+                                <Box mt={ 8 }>
+                                    <Copyright />
+                                </Box>
+									
+                            </div>
                         </div>
                     </Grid>
                 </Grid>
