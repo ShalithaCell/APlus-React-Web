@@ -20,6 +20,9 @@ import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
 import { removeInventory, updateInventory, getInventoryDetails } from '../redux/InventoryActions';
+import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 function preventDefault(event) {
 	event.preventDefault();
@@ -105,10 +108,10 @@ const InventoryList = ( props ) => {
 	}
 
 	useEffect(() => {
-		console.log("getinfo");
+		console.log('getinfo');
 		props.getInventoryDetails();
 
-	}, []);
+	}, [ props ]);
 
 	//const updateInventory = (inventoryData) =>
 	//{
@@ -127,6 +130,11 @@ const InventoryList = ( props ) => {
                             <div className={ classes.root }>
                                 <AppBar color="primary" position="relative">
                                     <Toolbar>
+                                        <IconButton color="inherit" href={ 'http://localhost:3000/addinventory' }>
+                                            <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
+                                                <AddIcon />
+                                            </Fab>
+                                        </IconButton>
                                         <Typography className={ classes.title } variant="h6" noWrap>
                                             Inventory Details
                                         </Typography>
