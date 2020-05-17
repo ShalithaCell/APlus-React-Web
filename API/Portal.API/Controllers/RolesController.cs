@@ -43,6 +43,20 @@ namespace Portal.API.Controllers
             return Ok(roleList);
         }
 
+        [AllowAnonymous]
+        [HttpGet("getRolesMobile")]
+        public async Task<IActionResult> GetAllRoleListMobile()
+        {
+            var roleList = _context.Roles.Select(o => new
+            {
+                ID = o.Id,
+                roleName = o.Name,
+                roleDisplayName = o.DisplayName,
+                Editable = o.Editable
+            }).OrderBy(o => o.ID).ToList();
+            return Ok(roleList);
+        }
+
         [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
         [HttpPost("registerRole")]
         public async Task<IActionResult> RegisterNewRole([FromBody] NewRoleModel dataModel)

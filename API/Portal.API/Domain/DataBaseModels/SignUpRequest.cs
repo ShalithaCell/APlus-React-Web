@@ -7,25 +7,13 @@ using System.Threading.Tasks;
 
 namespace Portal.API.Domain.DataBaseModels
 {
-    public class Attendances: BaseEntity
+    public class SignUpRequest : BaseEntity
     {
         [Required]
         public string Name { get; set; }
-
-        public string Role { get; set; }
-
-        
-
         [Required]
-        public DateTime ClockOnTime { get; set; }
-
-
+        public string Email { get; set; }
         [Required]
-        public DateTime ClockOutTime { get; set; }
-
-        [Required]
-        public DateTime WorkingHours { get; set; }
-
-       
+        public int RoleID { get; set; }
     }
 }

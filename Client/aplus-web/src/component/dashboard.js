@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import AddIcon from '@material-ui/icons/Add';
+import HomeIcon from '@material-ui/icons/Home';
 import DashCard1 from './Inventory/dashCard1';
 import DashCard2 from './Inventory/dashCard2';
 import DashCard3 from './Inventory/dashCard3';
@@ -111,6 +112,11 @@ export default function DashboardInventory() {
         <div className={ classes.root }>
             <AppBar position="absolute" className={ clsx(classes.appBar, open && classes.appBarShift) }>
                 <Toolbar className={ classes.toolbar }>
+                    <IconButton color="inherit" href={ 'http://localhost:3000/home' }>
+                        <Fab size="small" color="primary" aria-label="add" className={ classes.margin }>
+                            <HomeIcon/>
+                        </Fab>
+                    </IconButton>
                     <Typography component="h1" variant="h5" color="inherit" noWrap className={ classes.title }>
                         Inventory
                     </Typography>

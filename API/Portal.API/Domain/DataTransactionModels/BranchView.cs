@@ -11,6 +11,7 @@ namespace Portal.API.Domain.DataTransactionModels
 
         public string BranchName { get; set; }
 
+
         public string OrgName { get; set; }
 
         public string BranchLocation { get; set; }

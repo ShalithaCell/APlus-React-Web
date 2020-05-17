@@ -90,8 +90,7 @@ namespace Portal.API
             services.AddCors();
             services.AddControllers().AddNewtonsoftJson();
 
-            services.AddMvc()
-            .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+            
 
             services.AddAutoMapper(typeof(MapperProfiles));
 
@@ -116,9 +115,12 @@ namespace Portal.API
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
                 };
             });
+
+            services.AddMvc()
+            .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
             //Dependencies
             services.AddScoped<IAuthenticationServices, AuthenticationServices>();

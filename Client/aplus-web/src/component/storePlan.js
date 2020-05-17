@@ -24,6 +24,8 @@ import ColorLens from '@material-ui/icons/ColorLens';
 import { withStyles } from '@material-ui/core/styles';
 import { owners } from './store/tasks';
 import { Button, Container } from '@material-ui/core';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 const appointments = [
 	{
@@ -251,6 +253,7 @@ const CellBase = React.memo(({
 	const formatOptions = isFirstMonthDay
 		? { day: 'numeric', month: 'long' }
 		: { day: 'numeric' };
+
 	return (
     <TableCell
 			tabIndex={ 0 }
@@ -297,10 +300,10 @@ const FlexibleSpace = withStyles(styles, { name: 'ToolbarRoot' })(({ classes, ..
 				color="primary"
 				> back</Button>
         </div>
+        
     </Toolbar.FlexibleSpace>
 ));
-
-export default class Demo extends React.PureComponent {
+ class Demo extends React.PureComponent {
 	// #FOLD_BLOCK
 	constructor(props) {
 		super(props);
@@ -332,7 +335,18 @@ export default class Demo extends React.PureComponent {
 	}
 
 	render() {
-		const { data } = this.state;
+		const { currentDate, data, startDayHour,
+			endDayHour } = this.state;
+		const { classes } = this.props;
+		//const AppointmentFormContainer = withStyles(containerStyles, { name: 'AppointmentFormContainer' })(AppointmentFormContainerBasic);
+
+		const styles = (theme) => ({
+			addButton : {
+				position : 'absolute',
+				bottom   : theme.spacing(1) * 3,
+				right    : theme.spacing(1) * 4
+			}
+		});
 
 		return (
 
@@ -374,9 +388,13 @@ export default class Demo extends React.PureComponent {
 					/>
             <AppointmentForm />
             <DragDropProvider />
+
         </Scheduler>
+        
     </Paper>
 
 		);
 	}
 }
+
+export default Demo;
