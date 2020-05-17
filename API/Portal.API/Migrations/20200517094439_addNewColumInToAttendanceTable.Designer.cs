@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
 
 namespace Portal.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200517094439_addNewColumInToAttendanceTable")]
+    partial class addNewColumInToAttendanceTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,6 +133,9 @@ namespace Portal.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("ClockOutTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
@@ -284,7 +289,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Report",
                             PermissionCode = "RE",
-                            RegistedDate = new DateTime(2020, 5, 17, 18, 13, 8, 494, DateTimeKind.Local).AddTicks(4804)
+                            RegistedDate = new DateTime(2020, 5, 17, 15, 14, 38, 751, DateTimeKind.Local).AddTicks(2669)
                         },
                         new
                         {
@@ -292,7 +297,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Sales",
                             PermissionCode = "SE",
-                            RegistedDate = new DateTime(2020, 5, 17, 18, 13, 8, 495, DateTimeKind.Local).AddTicks(2128)
+                            RegistedDate = new DateTime(2020, 5, 17, 15, 14, 38, 751, DateTimeKind.Local).AddTicks(9557)
                         },
                         new
                         {
@@ -300,7 +305,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory View",
                             PermissionCode = "IV",
-                            RegistedDate = new DateTime(2020, 5, 17, 18, 13, 8, 495, DateTimeKind.Local).AddTicks(2158)
+                            RegistedDate = new DateTime(2020, 5, 17, 15, 14, 38, 751, DateTimeKind.Local).AddTicks(9578)
                         },
                         new
                         {
@@ -308,7 +313,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Add",
                             PermissionCode = "IA",
-                            RegistedDate = new DateTime(2020, 5, 17, 18, 13, 8, 495, DateTimeKind.Local).AddTicks(2160)
+                            RegistedDate = new DateTime(2020, 5, 17, 15, 14, 38, 751, DateTimeKind.Local).AddTicks(9580)
                         },
                         new
                         {
@@ -316,7 +321,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Update",
                             PermissionCode = "IU",
-                            RegistedDate = new DateTime(2020, 5, 17, 18, 13, 8, 495, DateTimeKind.Local).AddTicks(2161)
+                            RegistedDate = new DateTime(2020, 5, 17, 15, 14, 38, 751, DateTimeKind.Local).AddTicks(9581)
                         },
                         new
                         {
@@ -324,7 +329,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Delete",
                             PermissionCode = "ID",
-                            RegistedDate = new DateTime(2020, 5, 17, 18, 13, 8, 495, DateTimeKind.Local).AddTicks(2162)
+                            RegistedDate = new DateTime(2020, 5, 17, 15, 14, 38, 751, DateTimeKind.Local).AddTicks(9582)
                         },
                         new
                         {
@@ -332,7 +337,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Customer Handling",
                             PermissionCode = "CH",
-                            RegistedDate = new DateTime(2020, 5, 17, 18, 13, 8, 495, DateTimeKind.Local).AddTicks(2164)
+                            RegistedDate = new DateTime(2020, 5, 17, 15, 14, 38, 751, DateTimeKind.Local).AddTicks(9584)
                         });
                 });
 

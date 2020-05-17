@@ -20,6 +20,8 @@ import Navbar from './navbar';
 import { connect } from 'react-redux';
 import { REMOVE_REQUEST_ENDPOINT } from '../config';
 import { removeRequest, getRequestInformation } from '../redux/requestActions';
+import { ToastContainer } from './dialogs/ToastContainer';
+import { TOAST_ERROR, TOAST_SUCCESS } from '../config';
 
 const useStyles = makeStyles({
   table : {
@@ -44,11 +46,22 @@ const rows = [
     //setOpen(true);
   //const handleClose = () => {
     //setOpen(false);
-   
+    const [ open, setOpen ] = React.useState(false);
+
+	const handleCloseEmployeeRequest = () => {
+		setOpen(false);
+	};
+
+	const handleClickOpenEmployeeRequest = () =>
+	{
+		setOpen(true);
+	};
     const DeleteRequest = (id) => {
         console.log(id);
         props.removeRequest(id);
         props.getRequestInformation();
+        handleCloseEmployeeRequest();
+        ToastContainer(TOAST_SUCCESS, "Successfully Deleted")
     }
     useEffect( () => {
         console.log("DDDD");
@@ -111,10 +124,30 @@ return (
                                     ADD
                                 </Button>}</TableCell>
 
-                                <TableCell>{<Button variant="contained" color="primary" size="small" onClick={ DeleteRequest.bind(null, row.id) } >
+                                <TableCell>{<Button variant="contained" color="primary" size="small" onClick={ handleClickOpenEmployeeRequest } >
                                     DELETE
                                 </Button>}</TableCell>
-                            
+                                <Dialog
+								open={ open }
+								onClose={ handleCloseEmployeeRequest }
+								aria-labelledby="alert-dialog-title"
+								aria-describedby="alert-dialog-description"
+							>
+                                    <DialogTitle id="alert-dialog-title">{'Are you sure you want delete this order?'}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="alert-dialog-description">
+
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={ DeleteRequest.bind(null, row.id) } color="primary">
+                                            Yes
+                                        </Button>
+                                        <Button onClick={ handleCloseEmployeeRequest } color="primary" autoFocus>
+                                            No
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
                                 <TableCell>{ <Button variant="contained" color="primary" size="small" href="http://localhost:3000/UpdateRequest"
 >
                                     UPDATE

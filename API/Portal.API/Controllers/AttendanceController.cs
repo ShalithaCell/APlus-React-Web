@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
 using Portal.API.Domain.IdentityModel;
@@ -38,20 +39,54 @@ namespace Portal.API.Controllers
                 IsActive = true,
                 RegistedDate = DateTime.Now,
                 Name = dataAddAttendance.name,
-                Date = dataAddAttendance.date,
+                Role = dataAddAttendance.role,
                 ClockOnTime = dataAddAttendance.onTime,
                 ClockOutTime = dataAddAttendance.outTime,
                 WorkingHours = dataAddAttendance.wHours,
-                
-             
+
+
             };
             _context.attendances.Add(attendanceAdd);
             await _context.SaveChangesAsync();
             return Ok();
 
         }
-       // [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        //[HttpPost("addAttendance")]
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("getAttendanceInfomation")]
+        public async Task<IActionResult> GetAttendanceInformation()
+        {
+            var attendanceInfo = _context.attendances.Where(o => o.IsActive == true).ToList();
+
+            return Ok(attendanceInfo);
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("getAttendance")]
+        public async Task<IActionResult> GetAttendance()
+        {
+            var attendances = _context.attendances.Where(o => o.IsActive == true).ToList();
+            return Ok(attendances);
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("removeAttendance")]
+        public async Task<IActionResult> RemoveAttendance([FromBody] JObject attendanceRes)
+        {
+
+            Attendances attendance = _context.attendances.Where(o => o.ID == Convert.ToInt32(attendanceRes["attendanceId"].ToString())).FirstOrDefault();
+
+            if (attendance == null)
+            {
+                return BadRequest();
+            }
+
+
+            _context.attendances.Remove(attendance);
+            _context.SaveChanges(true);
+
+            return Ok();
+
+        }
 
     }
 
