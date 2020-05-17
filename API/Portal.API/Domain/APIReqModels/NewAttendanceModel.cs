@@ -11,8 +11,8 @@ namespace Portal.API.Domain.APIReqModels
         [Required(ErrorMessage = "Name is Required")]
         public string name { get; set; }
 
-        [Required(ErrorMessage = "Date is Required")]
-        public DateTime date { get; set; }
+        [Required(ErrorMessage = "Name is Required")]
+        public string role { get; set; }
 
         [Required(ErrorMessage = "ClockOnTime is Required")]
         public DateTime onTime { get; set; }

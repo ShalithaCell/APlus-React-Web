@@ -15,7 +15,12 @@ import DashCard02 from './attendanceDash/DashCard02';
 import DashCard03 from './attendanceDash/DashCard03';
 import DashCard04 from './attendanceDash/DashCard04';
 import Button from '@material-ui/core/Button';
-
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
+import { mainListItems, secondaryListItems } from './attendanceDash/DashListItems';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import List from '@material-ui/core/List';
+import MenuIcon from '@material-ui/icons/Menu';
 import Navbar from './navbar';
 
 const drawerWidth = 240;
@@ -96,12 +101,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
 	const classes = useStyles();
-	const [ open, setOpen ] = React.useState(false);
+	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+	const [ open, setOpen ] = React.useState(true);
 	const handleDrawerOpen = () => {
+		setOpen(true);
+	};
+	
+	const handleDrawerClose = () => {
 		setOpen(false);
 	};
-	const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+	//const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+//
 	return (
     <Container component="main" maxWidth="sx">
         <Navbar/> 
@@ -109,12 +120,36 @@ export default function Dashboard() {
             <CssBaseline />
             <AppBar position="absolute" className={ clsx(classes.appBar, open && classes.appBarShift) }>
                 <Toolbar className={ classes.toolbar }>
+                    <IconButton
+						edge="start"
+						color="inherit"
+						aria-label="open drawer"
+						onClick={ handleDrawerOpen }
+						className={ clsx(classes.menuButton, open && classes.menuButtonHidden) }
+					>
+                        <MenuIcon />
+                    </IconButton>
                     <Typography component="h1" variant="h5" color="inherit" noWrap className={ classes.title }>
                         Employee  Attendance  Dashboard
                     </Typography>
                     
                 </Toolbar>
             </AppBar>
+            <Drawer
+				                  variant="permanent"
+				                classes={ {
+					            paper : clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
+				                } }
+				                open={ open }
+		                             	>
+                <div className={ classes.toolbarIcon }>
+                    <IconButton onClick={ handleDrawerClose }>
+                        <ChevronLeftIcon />
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>{mainListItems}</List>
+            </Drawer>
             <main className={ classes.content }>
                 <div className={ classes.appBarSpacer } />
                 <Container maxWidth="lg" className={ classes.container }>

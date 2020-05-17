@@ -9,6 +9,7 @@ import customerReducers from './customerReducers';
 import requestReducer from './requestReducer';
 import branchReducer from './branchReducer';
 import orgReducer from './orgReducer';
+import attendanceReducer from './attendanceReducer';
 
 const reducers = combineReducers(
 	{
@@ -21,7 +22,8 @@ const reducers = combineReducers(
 		request     : requestReducer,
 		branch      : branchReducer,
 		org         : orgReducer,
-   		supplier    : supplierReducer
+   	supplier    : supplierReducer,
+	  attendance  : attendanceReducer
 	});
 
 export default reducers;	

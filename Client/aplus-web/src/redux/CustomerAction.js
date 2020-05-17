@@ -4,7 +4,7 @@ import axios from 'axios';
 import { LIST_CUSTOMER } from '../config';
 import { GET_CUSTOMER_ENDPOINT } from '../config';
 import { REMOVE_CUSTOMER_ENDPOINT } from '../config';
-import { SET_SESSION_EXPIRED } from './actionTypes';
+import { SET_SESSION_EXPIRED, UPDATE_CUSTOMER_LIST } from './actionTypes';
 
 export const CustomerActions = (customer)  => async () =>
 {
@@ -45,20 +45,22 @@ export const CustomerActions = (customer)  => async () =>
 
 export const getcustomerDetails = () => async  ( dispatch ) => {
 
-	console.log("List");
+	console.log('List');
 	const localData = JSON.parse(GetSession());
 	let token =localData.sessionData.token;
-	token = decrypt(token);
+	token = decrypt(token);//decrypt thr token
 
 	let responseData;
 
 	//API call
-	await axios({
+	axios({
 		method  : 'get',
 		url     : GET_CUSTOMER_ENDPOINT,
-		headers : { Authorization: 'Bearer ' + token }
+		headers : { 
+			Authorization : 'Bearer ' + token
+		}
 	})
-		.then(function (response)
+		.then(function(response)
 		{
 			dispatch({
 				type    : UPDATE_CUSTOMER_LIST,
@@ -72,13 +74,15 @@ export const getcustomerDetails = () => async  ( dispatch ) => {
 					type    : SET_SESSION_EXPIRED,
 					payload : true
 				});
+
 			}
+			throw error;
 		});
 }
 
-export const removeCustomer = (customerId) => async (dispatch) => {
+export const removecustomer = (customerId) => async (dispatch) => {
 
-	console.log("abcde")
+	console.log('abcde')
 	const localData = JSON.parse(GetSession());
 	let token = localData.sessionData.token;
 	token = decrypt(token); //decrypt the token
