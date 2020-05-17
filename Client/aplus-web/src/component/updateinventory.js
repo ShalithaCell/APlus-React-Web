@@ -20,6 +20,16 @@ import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
 import { removeInventory, updateInventory, getInventoryDetails } from '../redux/InventoryActions';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import { ToastContainer } from './dialogs/ToastContainer';
+import { TOAST_ERROR, TOAST_SUCCESS } from '../config';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import Dialog from '@material-ui/core/Dialog';
 import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -99,15 +109,31 @@ const useStyles = makeStyles((theme) => ({
 const InventoryList = ( props ) => {
 
 	const classes = useStyles();
+	const [ open, setOpen ] = React.useState(false);
+
+	const handleOpenInventory = () =>
+	{
+		setOpen(true);
+	};
+
+	const handleCloseInventory = () => {
+		setOpen(false);
+	};
 
 	const removeInventory = (inventoryId) =>
 	{
 		console.log(inventoryId);
 		props.removeInventory(inventoryId);
 		props.getInventoryDetails();
+		handleCloseInventory();
+		ToastContainer(TOAST_SUCCESS, "Successfully Deleted")
 	}
 
 	useEffect(() => {
+		console.log('success');
+		props.getInventoryDetails();
+
+	}, [ props ]);
 		console.log('getinfo');
 		props.getInventoryDetails();
 
@@ -163,8 +189,8 @@ const InventoryList = ( props ) => {
                                         <TableCell>Unit Price</TableCell>
                                         <TableCell>Supplier Name</TableCell>
                                         <TableCell>Supplier Email</TableCell>
-                                        <TableCell>Date</TableCell>
                                         <TableCell>Edit</TableCell>
+                                        <TableCell>Delete</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -190,11 +216,32 @@ const InventoryList = ( props ) => {
 												color="secondary"
 												className={ classes.button }
 												startIcon={ <DeleteIcon /> }
-												onClick={ removeInventory.bind(null, row.id) }
+												onClick={ handleOpenInventory }
 											>
 
                                             </Button>
 											}</TableCell>
+                                            <Dialog
+                                            	open={ open }
+                                            	onClose={ handleCloseInventory }
+                                            	aria-labelledby="alert-dialog-title"
+                                            	aria-describedby="alert-dialog-description"
+                                            >
+                                                <DialogTitle id="alert-dialog-title">{'Are you sure you want delete this order?'}</DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText id="alert-dialog-description">
+											
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={ removeInventory.bind(null, row.id) } color="primary">
+                                                        Yes
+                                                    </Button>
+                                                    <Button onClick={ handleCloseInventory } color="primary" autoFocus>
+                                                        No
+                                                    </Button>
+                                                </DialogActions>
+                                            </Dialog>
                                         </TableRow>
 									))
 									}

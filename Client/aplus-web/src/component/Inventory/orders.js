@@ -19,8 +19,8 @@ function createData(date, SupplireName, Description, Qty, Tprice, Delete) {
 }
 
 const rows = [
-	createData(3-2-2020, 'Peter', 'MilkPower', '2000', '30000'),
-	createData(13-2-2020, 'John', 'Green Tea', '500', '45000')
+	createData('03-02.2020', 'Peter', 'MilkPower', '2000', '30000'),
+	createData('29-03-2020', 'Frank', 'Anchor', '200', '90000')
 	
 ];
 
