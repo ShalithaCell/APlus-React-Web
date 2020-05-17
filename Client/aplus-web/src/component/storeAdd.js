@@ -21,6 +21,7 @@ import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
 import { useDispatch } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+//import { useToasts } from 'react-toast-notifications';
 import { ToastContainer } from './dialogs/ToastContainer';
 
 function Copyright() {
