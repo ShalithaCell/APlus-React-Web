@@ -20,7 +20,7 @@ export default function Deposits() {
     <React.Fragment>
         <Title>Present</Title>
         <Typography component="p" variant="h4">
-            <Button variant="contained" size='small'>
+            <Button variant="contained" size='small' href="http://localhost:3000/Attendance" >
                 Show All
             </Button>
         </Typography>

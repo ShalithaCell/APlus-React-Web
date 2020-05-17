@@ -18,19 +18,19 @@ const useStyles = makeStyles((theme) => ({
 		alignItems    : 'center'
 	},
 	avatar : {
-		margin          : theme.spacing(1),
+		margin          : theme.spacing(2),
 		backgroundColor : theme.palette.secondary.main
 	},
 	form : {
 		width     : '100%',
 		marginTop : theme.spacing(3)
 	},
-	submit : {
+	update : {
 		margin : theme.spacing(3, 0, 2)
 	}
 }));
 
-export default function AddInventory() {
+export default function UpdateInventoryTable() {
 	const classes = useStyles();
 	return (
     <Container component="main" maxWidth="xs">
@@ -120,7 +120,7 @@ export default function AddInventory() {
 						type="submit"
 						variant="contained"
 						color="primary"
-						className={ classes.submit }
+						className={ classes.update }
 					>
                     UPDATE
                 </Button>

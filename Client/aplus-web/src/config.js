@@ -51,11 +51,21 @@ export const GET_REQUEST_ENDPOINT = API_TARGET +'requestAdd/getRequestInfomation
 export const UPDATE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/addRequests';
 export const REMOVE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/removeRequest';
 
+export const ADD_ATTENDANCE = API_TARGET +'attendance/addAttendance';
+export const GET_ATTENDANCE_ENDPOINT = API_TARGET +'attendance/getAttendanceInfomation';
+export const UPDATE_ATTENDANCE_ENDPOINT = API_TARGET +'attendance/updateAttendance';
+export const REMOVE_ATTENDANCE_ENDPOINT = API_TARGET +'attendance/removeAttendance';
+
 export const ADD_BRANCH_ENDPOINT = API_TARGET+'branch/addBranch';
 export const GET_BRANCH_ENDPOINT = API_TARGET+'branch/getBranch';
 export const UPDATE_BRANCH_DETAILS_ENDPOINT = API_TARGET+ 'branch/updateBranch';
 export const UPDATE_BRANCH_ENDPOINT = API_TARGET+ 'branch/updateBranch';
 export const REMOVE_BRANCH_ENDPOINT = API_TARGET+ 'branch/deleteBranch';
+
+export const ADD_ORG_ENDPOINT = API_TARGET+'org/addOrg';
+export const GET_ORG_ENDPOINT = API_TARGET+'org/getOrg';
+export const UPDATE_ORG_DETAILS_ENDPOINT = API_TARGET+ 'org/updateOrg';
+export const REMOVE_ORG_ENDPOINT = API_TARGET+ 'org/deleteOrg';
 
 export const ADD_BRANCH = API_TARGET+'branch/addBranch';
 export const ADD_INVENTORY_ENDPOINT = API_TARGET +'inventory/addInventory';
@@ -69,4 +79,3 @@ export const LIST_CUSTOMER = API_TARGET+'customer/listcustomer';
 
 export const GET_CUSTOMER_ENDPOINT = API_TARGET+'customer/getcustomer';
 export const REMOVE_CUSTOMER_ENDPOINT = API_TARGET+'customer/removecustomer';
-export const ADD_ATTENDANCE = API_TARGET +'attendance/addAttendance';

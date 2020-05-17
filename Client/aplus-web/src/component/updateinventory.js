@@ -30,6 +30,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 function preventDefault(event) {
 	event.preventDefault();
@@ -131,6 +134,16 @@ const InventoryList = ( props ) => {
 		props.getInventoryDetails();
 
 	}, [ props ]);
+		console.log('getinfo');
+		props.getInventoryDetails();
+
+	}, [ props ]);
+
+	//const updateInventory = (inventoryData) =>
+	//{
+		//console.log(inventoryData);
+		//props.updateInventory(inventoryData);
+	//}
 
 	return (
     <div>
