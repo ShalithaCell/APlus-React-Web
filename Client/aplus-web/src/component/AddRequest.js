@@ -61,7 +61,6 @@ const initialFieldValues = {
 	addressWarning     : '',
   phoneNumberWarning : '',
   roleWarning        : '',
-  passwordWarning    : '',
   passwordWarning    : ''
 
 }

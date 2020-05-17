@@ -57,6 +57,11 @@ export const UPDATE_BRANCH_DETAILS_ENDPOINT = API_TARGET+ 'branch/updateBranch';
 export const UPDATE_BRANCH_ENDPOINT = API_TARGET+ 'branch/updateBranch';
 export const REMOVE_BRANCH_ENDPOINT = API_TARGET+ 'branch/deleteBranch';
 
+export const ADD_ORG_ENDPOINT = API_TARGET+'org/addOrg';
+export const GET_ORG_ENDPOINT = API_TARGET+'org/getOrg';
+export const UPDATE_ORG_DETAILS_ENDPOINT = API_TARGET+ 'org/updateOrg';
+export const REMOVE_ORG_ENDPOINT = API_TARGET+ 'org/deleteOrg';
+
 export const ADD_BRANCH = API_TARGET+'branch/addBranch';
 export const ADD_INVENTORY_ENDPOINT = API_TARGET +'inventory/addInventory';
 export const UPDATE_INVENTORY_ENDPOINT = API_TARGET + 'inventory/updateInventory';

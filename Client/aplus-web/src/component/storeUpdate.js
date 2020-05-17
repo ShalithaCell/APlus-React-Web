@@ -15,7 +15,7 @@ import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
 import storeAdd from './storeAdd';
 import TableBody from '@material-ui/core/TableBody';
-import { getBranchInformation } from '../redux/branchActions';
+import { getBranchInformation, updateBranch } from '../redux/branchActions';
 
 function Copyright() {
 	return (
@@ -63,14 +63,15 @@ const useStyles = makeStyles((theme) => ({
 const StoreUpdate = ( props ) => {
 
 	const classes = useStyles();
+	const [ currentbranch, setcurrentbranch ] = useState({ branch: null });
+	
+	const [ update, setupdate ] = useState({ bName: '', location: '', tpNo: '', noofEmployees: '' });
 
 	const Updatebranch = (id) => {
 		console.log(id);
-		props.removeBranch(id);
+		props.updateBranch(id)
 		props.getBranchInformation();
 	}
-
-	const [ update, setupdate ] = useState({ bName: '', location: '', tpNo: '', noofEmployees: '' });
 
 	const onChange = (e) =>
 	{
@@ -82,7 +83,13 @@ const StoreUpdate = ( props ) => {
 	useEffect(() => {
 		console.log('DDDD');
 		props.getBranchInformation();
-	}, [ props ]);
+		console.log(props.branchList);
+		{props.branchList.map(function(item, i) {
+			console.log(item);
+
+		})}
+
+	}, [ 2 ]);
 
 	return (
     <div>
@@ -178,4 +185,4 @@ const StoreUpdate = ( props ) => {
 const mapStateToProps = (state) => ({
 	branchList : state.branch.branchList
 })
-export default connect(mapStateToProps, { getBranchInformation })(StoreUpdate);
+export default connect(mapStateToProps, { getBranchInformation, updateBranch })(StoreUpdate);

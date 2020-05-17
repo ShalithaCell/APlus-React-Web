@@ -22,7 +22,6 @@ import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
 import { useDispatch } from 'react-redux';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import { useToasts } from 'react-toast-notifications';
 import { ToastContainer } from './dialogs/ToastContainer';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -80,6 +79,7 @@ const initialFieldValues = {
 	orgNameWarning      : '',
 	locationWarning     : '',
 	tpNoWarning         : '',
+	locationError       : '',
 	noofEmployeeWarning : ''
 
 }
@@ -94,6 +94,7 @@ function storeAdd() {
 	const history = useHistory();
 	// eslint-disable-next-line
 	const [ add, setadd ] = useState({ bName: '', orgName: '', location: '', tpNo: '', noofEmployees: '' });
+
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [ open, setOpen ] = React.useState(false);
 
@@ -118,7 +119,7 @@ function storeAdd() {
 		e.persist();
 		setadd({ ...add, [ e.target.name ]: e.target.value })
 
-		}
+	 }
 
 	async function Insertbranch(){
 
@@ -160,7 +161,7 @@ function storeAdd() {
 				Org_Name   : add.orgName,
 				B_Location : add.location,
 				B_Phone    : add.tpNo,
-				B_Employee : add.noofEmployee
+				B_Employee : add.noofEmployees
 			}
 
 			//API call
@@ -265,6 +266,7 @@ function storeAdd() {
 						variant="outlined"
 						margin="normal"
 						fullWidth
+						required
 						name="noofEmployees"
 						label="No of Employees"
 						type="noofEmployees"
@@ -296,7 +298,7 @@ function storeAdd() {
                                     </DialogContent>
                                     <DialogActions>
                                         <Button onClick={ storeRoute } color="primary">
-                                            Ok !!!
+                                            OK
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
