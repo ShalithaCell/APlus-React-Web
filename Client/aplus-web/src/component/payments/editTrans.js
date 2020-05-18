@@ -13,6 +13,18 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Navbar from '../navbar';
+import { useState, useEffect } from 'react';
+import { updateTrans } from '../../redux/transactionActions'
+import { useDispatch } from 'react-redux'
+import { GetSession } from '../../services/sessionManagement';
+import { decrypt } from '../../services/EncryptionService';
+import axios from 'axios';
+import { UPDATE_TRANSACTION_ENDPOINT } from '../../config';
+import { SET_SESSION_EXPIRED } from '../../redux/actionTypes';
+import { connect } from 'react-redux';
+import { transactionReducer } from '../../redux/reducers/transactionReducer';
+import withStyles from '@material-ui/core/styles/withStyles';
+import   transactions  from './transactions';
 
 function Copyright() {
   return (
@@ -47,9 +59,17 @@ const useStyles = makeStyles((theme) => ({
     padding    : '5%' 
   }
 }));
+const EditTransaction = ({ ...props }) => { 
 
-export default function SignUp() {
+  const [ values, setvalues ] = useState()
+  
   const classes = useStyles();
+  useEffect(() => {
+    // if( props.currentId != 0)
+    // setvalues({
+    //   ...props.list.find( x.id == props.currentId  )
+    // })
+  }), [ props.currentId ]
 
   return (
       <Container component="main" maxWidth="sx">
@@ -69,13 +89,13 @@ export default function SignUp() {
                               <Grid container spacing={ 2 }>
                                   <Grid item xs={ 12 } sm={ 6 }>
                                       <TextField
-                autoComplete="transid"
-                name="Transaction ID"
+                autoComplete="description"
+                name="description"
                 variant="outlined"
                 required
                 fullWidth
-                id="transid"                                                       
-                label="Transaction ID"
+                id="description"                                                       
+                label="Description"
                 autoFocus
               />
                                   </Grid>
@@ -91,30 +111,7 @@ export default function SignUp() {
                 autoComplete="userid"
               />
                                   </Grid>
-                                  <Grid item xs={ 12 } sm={ 6 }>
-                                      <TextField
-                autoComplete="date"
-                name="Date"
-                variant="outlined"
-                required
-                fullWidth
-                id="date"                                                       
-                label="Date"
-                autoFocus
-              />
-                                  </Grid>
-                                  <Grid item xs={ 12 } sm={ 6 }>
-                                      <TextField
-                variant="time"
-                required
-                fullWidth
-                id="time"
-                variant="outlined"
-                label="Time"
-                name="time"
-                autoComplete="time"
-              />
-                                  </Grid>
+                                  
                                   <Grid item xs={ 12 } sm={ 6 }>
                                       <TextField
                 autoComplete="qty"
@@ -159,7 +156,7 @@ export default function SignUp() {
             color="primary"
             className={ classes.submit }
           >
-                                  Add
+                                  Update
                               </Button>
                               <Grid container justify="flex-end">
                               </Grid>
@@ -174,3 +171,4 @@ export default function SignUp() {
       </Container> 
   );
 }
+export default connect(null, { updateTrans })(withStyles(useStyles)(EditTransaction));

@@ -8,6 +8,7 @@ import transactionReducer from './transactionReducer'
 import customerReducers from './customerReducers';
 import requestReducer from './requestReducer';
 import branchReducer from './branchReducer';
+import salaryReducer from './salaryReducer';
 import orgReducer from './orgReducer';
 import attendanceReducer from './attendanceReducer';
 
@@ -21,6 +22,8 @@ const reducers = combineReducers(
 		transaction : transactionReducer,
 		request     : requestReducer,
 		branch      : branchReducer,
+		supplier    : supplierReducer,
+		salary      : salaryReducer,
 		org         : orgReducer,
    	supplier    : supplierReducer,
 	  attendance  : attendanceReducer

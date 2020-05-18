@@ -36,19 +36,18 @@ namespace Portal.API.Controllers
             {
                 SalaryDetails salaryDetails = new SalaryDetails
                 {
-                    Salary_ID = dataModel.salary_ID,
                     Name = dataModel.name,
+                    Designation = dataModel.designation,
                     Eid = dataModel.eid,
                     Basic = dataModel.basic,
                     Bonus = dataModel.bonus,
                     Attendance = dataModel.attendance,
-                    Paid_date = dataModel.paid_date,
                     For_month = dataModel.for_month,
                     Total = dataModel.total,
                 };
 
                 _context.SalaryDetails.Add(salaryDetails);
-                _ = _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
                 return Ok();
             }
@@ -58,6 +57,53 @@ namespace Portal.API.Controllers
             }
         }
 
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("getSalaryInfomation")]
+        public async Task<IActionResult> GetSalaryInformation()
+        {
+            var salaries = _context.SalaryDetails.Where(o => o.IsActive == true).ToList();
 
+            return Ok(salaries);
+
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("viewSalaries")]
+        public async Task<IActionResult> GetAllSalaries()
+        {
+            var salaryList = _context.SalaryDetails.Select(o => new
+            {
+
+                ID = o.ID,
+                RegistedDate = DateTime.Now,
+                IsActive = true,
+                name = o.Name,
+                designation = o.Designation,
+                eid = o.Eid,
+                basic = o.Basic,
+                bonus = o.Bonus,
+                attendance = o.Attendance,
+                for_month = o.For_month,
+                total = o.Total
+
+
+            }).OrderBy(o => o.ID).ToList();
+            return Ok(salaryList);
+        }
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("deleteSalaries")]
+        public async Task<IActionResult> RemoveSalary([FromBody]JObject salaryRes)
+        {
+            SalaryDetails salaries = _context.SalaryDetails.Where(o => o.ID == Convert.ToInt32(salaryRes["id"].ToString())).FirstOrDefault();
+            if (salaries == null)
+            {
+                return BadRequest();
+            }
+
+            _context.SalaryDetails.Remove(salaries);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
