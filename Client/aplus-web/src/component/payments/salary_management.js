@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Title from './title'
 import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
@@ -17,6 +18,17 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, Container } from '@material-ui/core';
 import Navbar from '../navbar';
 import { useEffect, useState } from 'react';
+//import { connect } from 'formik';
+import { connect } from 'react-redux';
+import { ADD_SALARY, VIEW_SALARY, DELETE_SALARY } from '../../redux/actionTypes';
+import { addSalary, viewSalary, deleteSal } from '../../redux/salaryActions';
+import { salaryReducer } from '../../redux/reducers/salaryReducer';
+import '../../redux/reducers/index';
+import EditIcon from '@material-ui/icons/EditTwoTone';
+import AddIcon from '@material-ui/icons/Add';
+import './editTrans';
+import Icon from '@material-ui/core/Icon';
+import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
 
 const useStyles =  makeStyles((theme) => ({
   table : {
@@ -25,7 +37,8 @@ const useStyles =  makeStyles((theme) => ({
     padding   : '5%' 
   },
   title : {
-    align : 'left'
+    align : 'left',
+    width : '100px'
   },
   root : {
     flexGrow  : 5,
@@ -73,7 +86,7 @@ const useStyles =  makeStyles((theme) => ({
 	}
 }));
 
-export default function MaterialTableDemo() {
+/*const ViewSalaries = (props) => {
   const [ state, setState ] = React.useState({
     columns : [
       { title: 'Salary ID', field: 'salary_id', type: 'numeric' },
@@ -94,29 +107,16 @@ export default function MaterialTableDemo() {
     ],
     data : [
         { 
-            salary_id   : 1001,
-            name        : 'Mehmt dias',
-            eid         : 100001,
-            basic       : 15000.00,
-            bonus       : 500.00,
-            designation : 63,
-            attendance  : 20,
-            paid_date   : "2020.03.03",
-            for_month   : 3, 
-            total       : 15500.00
-          },
-      {
-        salary_id   : 1002,
-        name        : 'Zerya Betül',
-        eid         : 20002,
-        basic       : 25000.00,
-        bonus       : 2000.00,
-        designation : 34,
-        attendance  : 20,
-        paid_date   : "2020.03.03",
-        for_month   : 3, 
-        total       : 27000.00
-      }
+            eid          : 100001,
+            basic        : 15000.00,
+            bonus        : 500.00,
+            designation  : 63,
+            attendance   : 20,
+            registedDate : '2020.03.03',
+            for_month    : 3, 
+            total        : 15500.00
+          }
+          
     ]
   });
 
@@ -127,6 +127,10 @@ export default function MaterialTableDemo() {
     e.persist();
     setadd( { ...add, [ e.target.name ]: e.target.value })
   }
+  useEffect(() => {
+		console.log('Data');
+	 	props.viewSalary();
+	}, []);
   return (
       <Container component="main" maxWidth="sx">
           <Navbar/>
@@ -194,3 +198,165 @@ export default function MaterialTableDemo() {
       </Container> 
   );
 }
+const mapStateToProps = (state) => {
+  return { list: state.salary.list }
+}
+export default connect(mapStateToProps, { viewSalary })(ViewSalaries);
+*/
+const ViewSalaries = (props) => {
+  const classes = useStyles();
+  const [ activeStep, setActiveStep ] = React.useState(0);
+
+  const handleNext = () => {
+      setActiveStep(activeStep + 1);
+  };
+
+  const handleBack = () => {
+      setActiveStep(activeStep - 1);
+  };
+
+   const deleteSalary = (id) => {
+       console.log(id);
+       props.deleteSal(id);
+       props.viewSalary();
+   }
+
+  const [ values, setvalues ] = useState ()
+
+  useEffect(() => {
+      console.log('aaa');
+      props.viewSalary();
+  }, [ props ])
+
+  return (
+
+      <Container component="main" maxWidth="sx">
+          <Navbar />
+          <Container maxWidth="$" >
+              // eslint-disable-next-line react/jsx-indent
+              <Typography component="div" className={ classes.table } />
+              <React.Fragment>
+                  <div className={ classes.root }>
+                      <AppBar position="relative">
+                          <div>
+                              <navbar />
+                          </div>
+                          <Toolbar>
+                              <Typography className={ classes.title } variant="h7" noWrap>
+                                  Salary Management Details
+                              </Typography>
+                              <div className={ classes.search }>
+                                  <div className={ classes.searchIcon }>
+                                      <SearchIcon />
+                                  </div>
+                                  <InputBase
+                                      placeholder="Search…"
+                                      classes={ {
+                                          root  : classes.inputRoot,
+                                          input : classes.inputInput
+                                      } }
+                                      inputProps={ { 'aria-label': 'search' } }
+                                  />
+                              </div>
+                              <Button
+                                                        variant="contained"
+                                                        color="purple"
+                                                        onClick={ (event) =>  window.location.href='/addSalary' }
+                                                        className={ classes.button }>
+                                  <AddIcon/>
+                              </Button>
+                          </Toolbar>
+                      </AppBar>
+                  </div>
+                  <TableContainer component={ Paper }>
+                      <Table className={ classes.table } aria-label="spanning table">
+                          <TableHead>
+                              <TableRow>
+                                  <TableCell align="center" colSpan={ 5 }>
+                                      Details
+                                  </TableCell>
+                                  <TableCell align="right" colSpan={ 5 }>Price</TableCell>
+                              </TableRow>
+                              <TableRow >
+                                  <TableCell>Edit / Delete</TableCell>
+                                  <TableCell>Salary_id</TableCell>
+                                  <TableCell>Name</TableCell>
+                                  <TableCell>Designation</TableCell>
+                                  <TableCell>Employee ID</TableCell>
+                                  <TableCell align="right">Basic</TableCell>
+                                  <TableCell>Attendance</TableCell>
+                                  <TableCell align="right">Bonus</TableCell>
+                                  <TableCell align="right">For_month</TableCell>
+                                  <TableCell align="right">Paid_date</TableCell>
+                                  <TableCell align="right">Total</TableCell>
+
+                              </TableRow>
+                          </TableHead>
+                          <TableBody>
+                              { props.list.map((row) => {
+                                  return(
+                                      <TableRow  key= { row.id }>
+                                          <TableCell>
+                                              <React.Fragment>
+                                                  <Button
+                                                      variant="contained"
+                                                      color="purple"
+                                                      onClick={ (event) =>  window.location.href='/editSalary' }
+                                                      >
+                                                      < EditIcon /> 
+                                                  </Button>
+
+                                                  <Button
+                                                      variant="contained"
+                                                      color="secondary"
+                                                      onClick={ deleteSalary.bind(null, row.id) }
+                                                      className={ classes.button }>
+                                                      <DeleteIcon /> 
+                                                  </Button>
+                                                 
+                                              </React.Fragment>
+                                          </TableCell>
+
+                                          <TableCell>{row.id}</TableCell>
+                                          <TableCell>{row.name}</TableCell>
+                                          <TableCell>{row.designation}</TableCell>
+                                          <TableCell>{row.eid}</TableCell>
+                                          <TableCell>{row.basic}</TableCell>
+                                          <TableCell>{row.attendance}</TableCell>
+                                          <TableCell>{row.bonus}</TableCell>
+                                          <TableCell align="right">{row.for_month}</TableCell>
+                                          <TableCell align="right">{row.registedDate}</TableCell>
+                                          <TableCell align="right">{(row.total)}</TableCell>
+                                      </TableRow>)
+                              }
+                              )}
+   
+                              {/* <TableRow align="right">
+                                  <TableCell rowSpan={ 3 } />
+                                  <TableCell colSpan={ 6 } align="right">Subtotal</TableCell>
+                                  <TableCell colSpan={ 5 } align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
+                              </TableRow>
+                              <TableRow align="right">
+                                  <TableCell colSpan={ 6 } align="right">Tax</TableCell>
+                                  <TableCell colSpan={ 1 } align="right">{`${ (TAX_RATE * 100).toFixed(0) } %`}</TableCell>
+                                  <TableCell colSpan={ 3 } align="right">{ccyFormat(invoiceTaxes)}</TableCell>
+                              </TableRow>
+                              <TableRow align="right">
+                                  <TableCell colSpan={ 6 } align="right">Total</TableCell>
+                                  <TableCell colSpan={ 5 } align="right" >{ccyFormat(invoiceTotal)}</TableCell>
+                              </TableRow> */}
+                          </TableBody>
+                      </Table>
+                  </TableContainer>
+              </React.Fragment>
+          </Container>
+      </Container>
+  );
+}
+const mapStateToProps = (state) => {
+  return { list: state.salary.list }
+}
+// mapActionToProps = {
+//     viewTrans : ViewTransaction
+// }
+export default connect(mapStateToProps, { viewSalary, deleteSal })(ViewSalaries);
