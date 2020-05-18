@@ -15,9 +15,6 @@ namespace Portal.API.Domain.DataBaseModels
         [Required]
         public String User_ID { get; set; }
         [Required]
-        public DateTime Date { get; set; }
-        [Required]
-        public DateTime Time { get; set; }
         public int Quantity { get; set; }
         public Double Unit_price { get; set; }
         [Required]

@@ -54,7 +54,7 @@ export const addTrans = (values) => async (dispatch) => {
 
 }
 
-export const viewTrans = (data) => async (dispatch) => {
+export const viewTrans = () => async (dispatch) => {
 	const localData = JSON.parse(GetSession());
 	let token = localData.sessionData.token;
 	token = decrypt(token);
@@ -64,8 +64,7 @@ export const viewTrans = (data) => async (dispatch) => {
 	axios({
 		method  : 'get',
 		url     : VIEW_TRANSACTION_ENDPOINT,
-		headers : { Authorization: 'Bearer ' + token },
-		data    : data
+		headers : { Authorization: 'Bearer ' + token }
 	})
 		.then(function (response) {
 			dispatch({
@@ -77,8 +76,8 @@ export const viewTrans = (data) => async (dispatch) => {
 		})
 		.catch(function (error) {
 			console.log(error);
-			/*
-									if(error.response.status === 401){
+			
+/*									if(error.response.status === 401){
 			
 										dispatch({
 											type    : SET_SESSION_EXPIRED,
@@ -86,8 +85,8 @@ export const viewTrans = (data) => async (dispatch) => {
 										});
 										return
 									}
-									throw error;*/
-		}
+									throw error;
+								*/}
 
 		);
 }
@@ -100,11 +99,12 @@ export const viewTrans = (data) => async (dispatch) => {
 //  	});
 //  }
 
-export const updateTrans = (transData) => async (dispatch) => {
+export const updateTrans = (transid, transData) => async (dispatch) => {
 
 	const localData = JSON.parse(GetSession());
 	let token = localData.sessionData.token;
 	token = decrypt(token); //decrypt the token
+	let responseData;
 
 	//spinner
 	// dispatch({
@@ -114,10 +114,10 @@ export const updateTrans = (transData) => async (dispatch) => {
 
 	//API call
 	axios({
-		method  : 'get',
+		method  : 'post',
 		url     : UPDATE_TRANSACTION_ENDPOINT,
 		headers : { Authorization: 'Bearer ' + token },
-		data    : transData
+		data    : { transid, transData }
 	})
 		.then(function (response) {
 			dispatch({

@@ -51,6 +51,8 @@ import inventoryUpdateTable from './component/inventoryUpdateTable';
 import storeTable from './component/store/storeTable';
 import storepie from './component/store/storepie';
 import storeBar from './component/store/storeBar';
+import addSalary from './component/payments/addSalary';
+import editSalary from './component/payments/editSalary'
 
 class App extends Component {
 
@@ -105,9 +107,11 @@ class App extends Component {
                     <Route exact path='/editTrans' component={ editTrans } />
                     <Route exact path='/deleteTrans' component={ deleteTrans } />
                     <Route exact path='/addTrans' component={ addTrans } />
+                    <Route exact path='/addSalary' component={ addSalary } />
                     <Route exact path='/tableInventory' component={ inventoryUpdateTable }/>
                     <Route exact path= '/storeBar' component={ storeBar }/>
                     <Route exact path= '/storepie' component={ storepie }/>
+                    <Route exact path= '/editSalary' component={ editSalary }/>
                 </Switch>
 						:
                 <Switch>

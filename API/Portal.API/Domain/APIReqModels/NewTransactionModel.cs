@@ -12,10 +12,6 @@ namespace Portal.API.Domain.APIReqModels
             public String Description { get; set; }
             [Required(ErrorMessage = "User Id is required.")]
             public String User_ID { get; set; }
-            [Required(ErrorMessage = "Date is required.")]
-            public DateTime Date { get; set; }
-            [Required(ErrorMessage = "Time Id is required.")]
-            public DateTime Time { get; set; }
             public int Quantity { get; set; }
             public Double Unit_price { get; set; }
             [Required(ErrorMessage = "Total Id is required.")]
