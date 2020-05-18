@@ -9,6 +9,9 @@ import customerReducers from './customerReducers';
 import requestReducer from './requestReducer';
 import branchReducer from './branchReducer';
 import billReducer from './billReducer';
+import orgReducer from './orgReducer';
+import attendanceReducer from './attendanceReducer';
+
 const reducers = combineReducers(
 	{
 		user        : userReducer,
@@ -20,7 +23,10 @@ const reducers = combineReducers(
 		request     : requestReducer,
 		branch      : branchReducer,
     supplier    : supplierReducer,
-		bill        : billReducer
+		bill        : billReducer,
+		org         : orgReducer,
+   	supplier    : supplierReducer,
+	  attendance  : attendanceReducer
 	});
 
 export default reducers;	

@@ -12,8 +12,9 @@ namespace Portal.API.Domain.DataBaseModels
         [Required]
         public string Name { get; set; }
 
-        [Required]
-        public DateTime Date { get; set; }
+        public string Role { get; set; }
+
+        
 
         [Required]
         public DateTime ClockOnTime { get; set; }

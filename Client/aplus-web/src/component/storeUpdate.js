@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect  } from 'react';
+import { connect } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +13,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
+import storeAdd from './storeAdd';
+import TableBody from '@material-ui/core/TableBody';
+import { getBranchInformation, updateBranch } from '../redux/branchActions';
 
 function Copyright() {
 	return (
@@ -56,9 +60,36 @@ const useStyles = makeStyles((theme) => ({
 		margin : theme.spacing(6, 0, 2)
 	}
 }));
+const StoreUpdate = ( props ) => {
 
-export default function StoreUpdate() {
 	const classes = useStyles();
+	const [ currentbranch, setcurrentbranch ] = useState({ branch: null });
+	
+	const [ update, setupdate ] = useState({ bName: '', location: '', tpNo: '', noofEmployees: '' });
+
+	const Updatebranch = (id) => {
+		console.log(id);
+		props.updateBranch(id)
+		props.getBranchInformation();
+	}
+
+	const onChange = (e) =>
+	{
+		e.persist();
+		setupdate({ ...update, [ e.target.name ]: e.target.value })
+
+	}
+
+	useEffect(() => {
+		console.log('DDDD');
+		props.getBranchInformation();
+		console.log(props.branchList);
+		{props.branchList.map(function(item, i) {
+			console.log(item);
+
+		})}
+
+	}, [ 2 ]);
 
 	return (
     <div>
@@ -70,13 +101,16 @@ export default function StoreUpdate() {
                     <Grid item xs={ false } sm={ 10 } md={ 7 } className={ classes.image } />
                     <Grid item xs={ 12 } sm={ 10 } md={ 5 } component={ Paper } elevation={ 20 } square>
                         <div className={ classes.paper }>
+							
                             <Avatar className={ classes.avatar }>
                                 <HouseTwoToneIcon />
                             </Avatar>
+
                             <Typography component="h1" variant="h5">
                                 Update Existing Branch
                             </Typography>
-                            <form className={ classes.form } Validate>
+
+                            <div className={ classes.form } >
 
                                 <TextField
 							variant="outlined"
@@ -87,6 +121,8 @@ export default function StoreUpdate() {
 							label="Branch Name"
 							name="bName"
 							autoComplete="bName"
+							value={ update.bName }
+							onChange={ onChange }
 
 						/>
                                 <TextField
@@ -98,6 +134,7 @@ export default function StoreUpdate() {
 							label="Location"
 							type="location"
 							id="location"
+							value={ update.location }
 
 						/>
                                 <TextField
@@ -109,8 +146,8 @@ export default function StoreUpdate() {
 							label="Phone No"
 							type="tpNo"
 							id="tpNo"
+							value={ update.tpNo }
 						/>
-
                                 <TextField
 							variant="outlined"
 							margin="normal"
@@ -119,8 +156,9 @@ export default function StoreUpdate() {
 							label="No of Employees"
 							type="noofEmployees"
 							id="noofEmployees"
+							value={ update.noofEmployees }
 						/>
-
+						
                                 <Button
 							type="submit"
 							variant="contained"
@@ -133,7 +171,8 @@ export default function StoreUpdate() {
                                 <Box mt={ 8 }>
                                     <Copyright />
                                 </Box>
-                            </form>
+									
+                            </div>
                         </div>
                     </Grid>
                 </Grid>
@@ -141,4 +180,9 @@ export default function StoreUpdate() {
         </div>
     </div>
 	);
+
 }
+const mapStateToProps = (state) => ({
+	branchList : state.branch.branchList
+})
+export default connect(mapStateToProps, { getBranchInformation, updateBranch })(StoreUpdate);
