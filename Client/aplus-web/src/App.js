@@ -51,6 +51,7 @@ import inventoryUpdateTable from './component/inventoryUpdateTable';
 import storeTable from './component/store/storeTable';
 import storepie from './component/store/storepie';
 import storeBar from './component/store/storeBar';
+import ListOfBills from './component/ListOfBills';
 import orgTable from './component/store/orgTable';
 import addOrg from './component/addOrg';
 import AddAttendance from './component/AddAttendance'
@@ -112,6 +113,7 @@ class App extends Component {
                     <Route exact path='/tableInventory' component={ inventoryUpdateTable }/>
                     <Route exact path= '/storeBar' component={ storeBar }/>
                     <Route exact path= '/storepie' component={ storepie }/>
+                    <Route exact path= '/ListOfBills' component={ ListOfBills }/>
                     <Route exact path= '/organization' component={ addOrg }/>
                     <Route exact path= '/orgTable' component={ orgTable }/>
                     <Route exact path= '/AddAttendance' component={ AddAttendance }/>

@@ -2,7 +2,6 @@ import React, { useState, useEffect  } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -17,15 +16,26 @@ import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
-import { getSupplier, removeSupplier } from '../redux/supplierActions';
+import { getbill, removebill } from '../redux/billActions';
+import { useDispatch } from 'react-redux';
 import Navbar from './navbar';
+import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { ToastContainer } from './dialogs/ToastContainer';
+import { TOAST_ERROR, TOAST_SUCCESS } from '../config';
 
 // Generate Order Data
-function createData(id, FirstName, LastName, Email, Category, Area, PhoneNo, Update, Delete) {
-	return { id, FirstName, LastName, Email, Category, Area, PhoneNo, Update, Delete };
+function createData(id, Description, Qty, UnitPrice, Sum, SubTotal, Discount, Total, Delete) {
+	return { id, Description, Qty, UnitPrice, Sum, SubTotal, Discount, Total, Delete };
 }
 
 function preventDefault(event) {
@@ -112,18 +122,30 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
- const SupplierList = ( props ) => {
+const BillList = ( props ) => {
+	const [ open, setOpen ] = React.useState(false);
+
+	const handleclosebillwarning = () => {
+		setOpen(false);
+	};
+
+	const handleClickOpenBillWarning= () =>
+	{
+		setOpen(true);
+	};
 	const classes = useStyles();
 
-	const DeleteSupplier = (id) => {
+	const Deletebill = (id) => {
 		console.log(id);
-		props.removeSupplier(id);
-		props.getSupplier();
+		props.removebill(id);
+		props.getbill();
+		handleclosebillwarning();
+		ToastContainer(TOAST_SUCCESS, "Successfully Deleted Bill")
 	}
 
 	useEffect(() => {
 		console.log('Hi');
-		props.getSupplier();
+		props.getbill();
 	}, [ props ]);
 
 	return (
@@ -139,9 +161,13 @@ const useStyles = makeStyles((theme) => ({
                                 <AppBar color="primary" position="relative">
 
                                     <Toolbar>
-
+                                        <IconButton color="inherit" href={ 'http://localhost:3000/home' }>
+                                            <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
+                                                <AddIcon />
+                                            </Fab>
+                                        </IconButton>
                                         <Typography className={ classes.title } variant="h6" noWrap>
-                                            Supplier Details
+                                            List of All Bills
                                         </Typography>
                                         <div className={ classes.search }>
                                             <div className={ classes.searchIcon }>
@@ -162,48 +188,60 @@ const useStyles = makeStyles((theme) => ({
                             <Table size="small">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Supplier ID</TableCell>
-                                        <TableCell>First Name</TableCell>
-                                        <TableCell>Last Name</TableCell>
-                                        <TableCell>Email</TableCell>
-                                        <TableCell>Category</TableCell>
-                                        <TableCell>Area</TableCell>
-                                        <TableCell>Phone Number</TableCell>
-                                        <TableCell>Edit</TableCell>
+                                        <TableCell>ID</TableCell>
+                                        <TableCell>Description</TableCell>
+                                        <TableCell>Qty</TableCell>
+                                        <TableCell>UnitPrice</TableCell>
+                                        <TableCell>Sum</TableCell>
+                                        <TableCell>SubTotal</TableCell>
+                                        <TableCell>Discount</TableCell>
+                                        <TableCell>Total</TableCell>
                                         <TableCell>Delete</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    { props.supplierLists.map((row) => (
+                                    { props.billLists.map((row) => (
                                         <TableRow key={ row.id }>
                                             <TableCell>{ row.id }</TableCell>
-                                            <TableCell>{ row.fname }</TableCell>
-                                            <TableCell>{ row.lname }</TableCell>
-                                            <TableCell>{ row.email }</TableCell>
-                                            <TableCell>{ row.category }</TableCell>
-                                            <TableCell>{ row.area }</TableCell>
-                                            <TableCell>{ row.phoNumber }</TableCell>
-                                            <TableCell>{
-                                                <Button href=""
-										variant="contained"
-										color="primary"
-										className={ classes.button }
-										startIcon={ <EditIcon /> }
-								>
-
-                                                </Button>
-							}</TableCell>
-                                            <TableCell>{ <Button
+                                            <TableCell>{ row.description }</TableCell>
+                                            <TableCell>{ row.qty }</TableCell>
+                                            <TableCell>{ row.unitPrice }</TableCell>
+                                            <TableCell>{ row.sum }</TableCell>
+                                            <TableCell>{ row.subTotal }</TableCell>
+                                            <TableCell>{ row.discount }</TableCell>
+                                            <TableCell>{ row.total }</TableCell>
+                                            <TableCell align='left'>{ <Button
 								variant="contained"
 								color="secondary"
-								tooltip = 'Click here to remove supplier'
+								tooltip = 'Click here to remove bill'
 								className={ classes.button }
 								startIcon={ <DeleteIcon /> }
-								onClick={ DeleteSupplier.bind(null, row.id) }
+								onClick={ handleClickOpenBillWarning }
 							>
 
                                             </Button>
 							} </TableCell>
+                                            <Dialog
+												open={ open }
+												onClose={ handleclosebillwarning }
+												aria-labelledby="alert-dialog-title"
+												aria-describedby="alert-dialog-description"
+											>
+                                                <DialogTitle id="alert-dialog-title">{'Delete with Super-Admin Permission?'}</DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText id="alert-dialog-description">
+
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={ Deletebill.bind(null, row.id) } color="primary">
+                                                        Yes
+                                                    </Button>
+                                                    <Button onClick={ handleclosebillwarning } color="primary" autoFocus>
+                                                        No
+                                                    </Button>
+                                                </DialogActions>
+                                            </Dialog>
 
                                         </TableRow>
 					))
@@ -216,11 +254,10 @@ const useStyles = makeStyles((theme) => ({
             </Container>
         </div>
     </div>
-
 	);
 }
 const mapStateToProps = (state) => ({
-	supplierLists : state.supplier.supplierLists
+	billLists : state.bill.billLists
 })
 
-export default connect(mapStateToProps, { removeSupplier, getSupplier })(SupplierList);
+export default connect(mapStateToProps, { removebill, getbill })(BillList);

@@ -1,16 +1,16 @@
 import {
 	SET_SESSION_EXPIRED,
-	UPDATE_SUPPLIER_DETAILS_LIST
+	UPDATE_BILL_DETAILS_LIST
 } from './actionTypes';
 
 import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
 import {
-	ADD_SUPPLIER_ENDPOINT, GET_SUPPLIER_ENDPOINT, REMOVE_SUPPLIER_ENDPOINT,
-	UPDATE_SUPPLIER_ENDPOINT
+	GET_BILL_ENDPOINT, REMOVE_BILL_ENDPOINT
 } from '../config';
 
+/*
 export const addBranchDetails = ()  => async (dispatch) =>
 {
 	const localData = JSON.parse(GetSession());
@@ -46,10 +46,11 @@ export const addBranchDetails = ()  => async (dispatch) =>
 			console.log(error);
 		});
 }
+*/
 
-export const getSupplier = () => async (dispatch) => {
+export const getbill = () => async (dispatch) => {
 
-	console.log('abcd');
+	console.log('Bill');
 	const localData = JSON.parse(GetSession());
 	let token = localData.sessionData.token;
 	token = decrypt(token); //decrypt the token
@@ -59,7 +60,7 @@ export const getSupplier = () => async (dispatch) => {
 	//API call
 	axios({
 		method  : 'get',
-		url     : GET_SUPPLIER_ENDPOINT,
+		url     : GET_BILL_ENDPOINT,
 		headers : {
 			Authorization : 'Bearer ' + token
 		}
@@ -67,7 +68,7 @@ export const getSupplier = () => async (dispatch) => {
 		.then(function(response)
 		{
 			dispatch({
-				type    : UPDATE_SUPPLIER_DETAILS_LIST,
+				type    : UPDATE_BILL_DETAILS_LIST,
 				payload : response.data
 			});
 		})
@@ -85,9 +86,9 @@ export const getSupplier = () => async (dispatch) => {
 
 }
 
-export const removeSupplier = (supplierId) => async (dispatch) =>
+export const removebill = (billID) => async (dispatch) =>
 {
-	console.log('test');
+	console.log('removebills');
 	const localData = JSON.parse(GetSession());
 	let token = localData.sessionData.token;
 	token = decrypt(token); //decrypt the token
@@ -97,11 +98,11 @@ export const removeSupplier = (supplierId) => async (dispatch) =>
 	//API call
 	await axios({
 		method  : 'post',
-		url     : REMOVE_SUPPLIER_ENDPOINT,
+		url     : REMOVE_BILL_ENDPOINT,
 		headers : {
 			Authorization : 'Bearer ' + token
 		},
-		data : { supplierId }
+		data : { billID }
 	})
 		.then(function(response)
 		{
