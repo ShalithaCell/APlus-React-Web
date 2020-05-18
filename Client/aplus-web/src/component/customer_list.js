@@ -1,4 +1,4 @@
-import React, { UseState, UseEffect } from 'react';
+import React, { UseState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -13,11 +13,18 @@ import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
+import Navbar from './navbar';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
-import { getcustomerDetails, removeCustomer } from '../redux/CustomerAction';
+import { getcustomerDetails, removecustomer } from '../redux/CustomerAction';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import Fab from '@material-ui/core/Fab';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 // Generate Order Data
 function createData(id, FirstName, LastName, Email, nicnum,  PhoneNo, Update, Delete) {
@@ -109,35 +116,47 @@ const useStyles = makeStyles((theme) => ({
 }));
 
  const CustomerLlist = ( props ) => {
-  const classes = UseStyles();
+  const classes = useStyles();
 
-	const DeleteCustomer = (id) => {
-		console.log(id);
-		props.removecustomer(id);
+	const removecustomer = (customerId) => {
+		console.log(customerId);
+		// eslint-disable-next-line react/prop-types
+		props.removecustomer(customerId);
+		// eslint-disable-next-line react/prop-types
 		props.getcustomerDetails();
 	}
 
-	UseEffect(() => {
+	useEffect(() => {
 		console.log('Hi');
 		props.getcustomerDetails();
-	}, []);
+	}, [ props ]);
 
 	return (
-    <React.Fragment>
+    <div>
+        <Navbar/>
+        <div className={ 'top-5pres' }>
+            <Container fixed>
+                <Grid item xs={ 12 }>
+                    <Paper className={ classes.paper }>
+                        <React.Fragment>
 
-        <div className={ classes.root }>
-            <AppBar color="primary" position="relative">
+                            <div className={ classes.root }>
+                                <AppBar color="primary" position="relative">
 
-                <Toolbar>
-
-                    <Typography className={ classes.title } variant="h6" noWrap>
-                        Customer Details
-                    </Typography>
-                    <div className={ classes.search }>
-                        <div className={ classes.searchIcon }>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
+                                    <Toolbar>
+                                        <IconButton color="inherit" href={ 'http://localhost:3000/customeradd' }>
+                                            <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
+                                                <AddIcon />
+                                            </Fab>
+                                        </IconButton>
+                                        <Typography className={ classes.title } variant="h6" noWrap>
+                                            Customers 
+                                        </Typography>
+                                        <div className={ classes.search }>
+                                            <div className={ classes.searchIcon }>
+                                                <SearchIcon />
+                                            </div>
+                                            <InputBase
 								placeholder="Search…"
 								classes={ {
 									root  : classes.inputRoot,
@@ -145,65 +164,69 @@ const useStyles = makeStyles((theme) => ({
 								} }
 								inputProps={ { 'aria-label': 'search' } }
 							/>
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </div>
-        <Table size="small">
-            <TableHead>
-                <TableRow>
-                    <TableCell>customet ID</TableCell>
-                    <TableCell>First Name</TableCell>
-                    <TableCell>Last Name</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>nic</TableCell>
-                    <TableCell>Phone Number</TableCell>
-                    <TableCell>Edit</TableCell>
-                    <TableCell>Delete</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                { props.customerlist.map((row) => (
-                    <TableRow key={ row.id }>
-                        <TableCell>{ row.id }</TableCell>
-                        <TableCell>{ row.fname }</TableCell>
-                        <TableCell>{ row.lname }</TableCell>
-                        <TableCell>{ row.email }</TableCell>
-                        <TableCell>{ row.nicnum}</TableCell>
-                        <TableCell>{ row.PhoneNo }</TableCell>
-                        <TableCell>{
-                            <Button href="http://localhost:3000/customerllist"
+                                        </div>
+                                    </Toolbar>
+                                </AppBar>
+                            </div>
+                            <Table size="small">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Customet ID</TableCell>
+                                        <TableCell>First Name</TableCell>
+                                        <TableCell>Last Name</TableCell>
+                                        <TableCell>Email</TableCell>
+                                        <TableCell>NIC</TableCell>
+                                        <TableCell>Phone Number</TableCell>
+                                        <TableCell>Edit</TableCell>
+                                        <TableCell>Delete</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    { props.customerlist.map((row) => (
+                                        <TableRow key={ row.id }>
+                                            <TableCell>{ row.id }</TableCell>
+                                            <TableCell>{ row.fname }</TableCell>
+                                            <TableCell>{ row.lname }</TableCell>
+                                            <TableCell>{ row.email }</TableCell>
+                                            <TableCell>{ row.id_number}</TableCell>
+                                            <TableCell>{ row.phone_number }</TableCell>
+                                            <TableCell>{
+                                                <Button href="http://localhost:3000/customerllist"
 										variant="contained"
 										color="primary"
 										className={ classes.button }
 										startIcon={ <EditIcon /> }
 								>
 
-                            </Button>
+                                                </Button>
 							}</TableCell>
-                        <TableCell>{ <Button
+                                            <TableCell>{ <Button
 								variant="contained"
 								color="secondary"
 								tooltip = 'Click here to remove user'
 								className={ classes.button }
 								startIcon={ <DeleteIcon /> }
-								onClick={ DeleteCustomer.bind(null, row.id) }
+								onClick={ removecustomer.bind(null, row.id) }
 							>
 
-                        </Button>
+                                            </Button>
 							} </TableCell>
 
-                    </TableRow>
+                                        </TableRow>
 					))
 					}
-            </TableBody>
-        </Table>
-    </React.Fragment>
-
+                                </TableBody>
+                            </Table>
+                        </React.Fragment>
+                    </Paper>
+                </Grid>
+            </Container>
+        </div>
+    </div>
 	);
 }
 const mapStateToProps = (state) => ({
 	customerlist : state.customer.customerlist
 })
 
-export default connect(mapStateToProps, { removeCustomer, getcustomerDetails })(CustomerLlist);
+export default connect(mapStateToProps, { removecustomer, getcustomerDetails })(CustomerLlist);

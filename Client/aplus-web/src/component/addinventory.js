@@ -12,10 +12,9 @@ import Navbar from './navbar';
 import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
-import { ADD_INVENTORY_ENDPOINT, TOAST_ERROR } from '../config';
+import { ADD_INVENTORY_ENDPOINT, TOAST_ERROR, TOAST_SUCCESS } from '../config';
 import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
 import { useDispatch } from 'react-redux';
-import { addInventory } from  '../redux/InventoryActions';
 import { ToastContainer } from './dialogs/ToastContainer';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,21 +47,22 @@ const initialFieldValues = {
 }
 
 export default function AddInventory() {
+    const dispatch = useDispatch();
   const classes = useStyles();
-  const [ add, setadd ] =  useState({ pname: '', pcode: '', qty: '', uprice: '', sname: '', semail: '', inventoryWarning: '' });
+  const [ add, setadd ] =  useState({ pname: '', pcode: '', qty: '', uprice: '', sname: '', semail: '' });
 
     const onChangeInventory = (event) => {
       event.persist();
       setadd({ ...add, [ event.target.name ]: event.target.value });
         console.log(event);
 
-        if(event.target.id === 'pname'){
-            if(event.target.id === ''){
-                add.inventoryWarning({
-                    inventoryWarning : 'Product name is required'
-                })
-            }
-        }
+        // if(event.target.id === 'pname'){
+        //     if(event.target.id === ''){
+        //         add.inventoryWarning({
+        //             inventoryWarning : 'Product name is required'
+        //         })
+        //     }
+        // }
     };
 
     async function InsertInventory()
@@ -107,6 +107,7 @@ export default function AddInventory() {
         const localData = JSON.parse(GetSession());
         let token = localData.sessionData.token;
         token = decrypt(token);
+        ToastContainer(TOAST_SUCCESS, "Inventory Added Successfully!");
 
         //console.log('ABC');
         let success = false;
@@ -159,7 +160,7 @@ export default function AddInventory() {
               <Typography component="h1" variant="h5">
                   Add Inventory
               </Typography>
-              <div className={ classes.form } noValidate>
+              <div className={ classes.form } >
                   <Grid container spacing={ 2 }>
                       <Grid item xs={ 12 } sm={ 6 }>
                           <TextField
@@ -169,7 +170,7 @@ export default function AddInventory() {
                 required
                 fullWidth
                 label="Product Name"
-                helperText={ add.inventoryWarning }
+                //helperText={ add.inventoryWarning }
                 value={ add.pname }
                 autoFocus
                 onChange={ onChangeInventory }

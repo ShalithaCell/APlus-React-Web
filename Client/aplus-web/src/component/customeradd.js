@@ -71,7 +71,7 @@ export default function Customeradd() {
 			let token = localData.sessionData.token;
 			token = decrypt(token);
 
-			//console.log('ABC');
+			console.log('ABC');
 			const success = false;
 			let resData;
 
@@ -93,7 +93,7 @@ export default function Customeradd() {
 				method  : 'post',
 				url     : ADD_CUSTOMER,
 				headers : { Authorization: 'Bearer ' + token },
-				data    : { cu: customerObj }
+				data    : customerObj 
 			})
 				.then(function(response)
 				{
@@ -125,7 +125,7 @@ export default function Customeradd() {
                     <HouseTwoToneIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    ADD CUSTOMER
+                    ADD_CUSTOMER 
                 </Typography>
                 <div className={ classes.form } >
 
