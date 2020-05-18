@@ -40,8 +40,6 @@ namespace Portal.API.Controllers
                 IsActive = true,
                 description = o.Description,
                 user_ID = o.User_ID,
-                date = o.Date,
-                time = o.Time,
                 quantity = o.Quantity,
                 unit_price = o.Unit_price,
                 total = o.Total
@@ -62,8 +60,6 @@ namespace Portal.API.Controllers
                     IsActive = true,
                     Description = dataModel.Description,
                     User_ID = dataModel.User_ID,
-                    Date = dataModel.Date,
-                    Time = dataModel.Time,
                     Quantity = dataModel.Quantity,
                     Unit_price = dataModel.Unit_price,
                     Total = dataModel.Total,
@@ -90,57 +86,44 @@ namespace Portal.API.Controllers
             return Ok(transactions);
 
         }
-        //[Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        //[HttpPost("updateTransactions")]
-        //public async Task<IActionResult> UpdateTransactionInformation(string id, [FromBody] NewTransactionModel dataModel)
-        //{
-        //try
-        //{
-        //    try
-        //    {
-        //        TransactionDetails transactionDetails = new TransactionDetails()
-        //        {
-        //            Transaction_ID = dataModel.Transaction_ID
-        //        };
-        //        dataModel.Transaction_ID = id;
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("updateTransactions")]
+        public async Task<IActionResult> UpdateTransactionInformation([FromBody]JObject transRes)
+        {
+           
+                    TransactionDetails transaction = _context.TransactionDetails.Where(o => o.ID == Convert.ToInt32(transRes["transId"].ToString())).FirstOrDefault();
+                    if (transaction == null)
+                    {
+                        return BadRequest();
+                    }
+                   
+                    _context.Entry(transaction).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.TransactionDetails.Update(transaction);
+                    await _context.SaveChangesAsync();
 
-        //        _context.Entry(dataModel).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-        //        _context.TransactionDetails.Update(transactionDetails);
-        //        _ = _context.SaveChangesAsync();
+                    return Ok();
+                
 
-        //        return Ok();
-        //    }
-        //    catch
-        //    {
-        //        if (dataModel.Transaction_ID != id)
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-        //}
-        //catch (Exception e)
-        //{
-        //    throw e;
-        //}
-        //  }
-        //[Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
-        //[HttpPost("deleteTransactions")]
-        //public async Task<IActionResult> RemoveTransaction([FromBody]JObject transRes)
-        //{
-        //    NewTransactionModel transaction = _context.TransactionDetails.Where(o => o.ID == Convert.ToInt32(transRes["transId"].ToString())).FirstOrDefault();
-        //    if (transaction == null)
-        //    {
-        //        return NotFound();
-        //    }
+            
+           
+        }
 
-        //    _context.TransactionDetails.Remove(transaction);
-        //    await _context.SaveChangesAsync();
 
-        //    return Ok();
-        //}
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("deleteTransactions")]
+        public async Task<IActionResult> RemoveTransaction([FromBody]JObject transRes)
+        {
+            TransactionDetails  transaction = _context.TransactionDetails.Where(o => o.ID == Convert.ToInt32(transRes["transId"].ToString())).FirstOrDefault();
+            if (transaction == null)
+            {
+                return BadRequest();
+            }
+
+            _context.TransactionDetails.Remove(transaction);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
+
