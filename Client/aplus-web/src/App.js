@@ -51,6 +51,7 @@ import inventoryUpdateTable from './component/inventoryUpdateTable';
 import storeTable from './component/store/storeTable';
 import storepie from './component/store/storepie';
 import storeBar from './component/store/storeBar';
+import ListOfBills from './component/ListOfBills';
 
 class App extends Component {
 
@@ -108,6 +109,7 @@ class App extends Component {
                     <Route exact path='/tableInventory' component={ inventoryUpdateTable }/>
                     <Route exact path= '/storeBar' component={ storeBar }/>
                     <Route exact path= '/storepie' component={ storepie }/>
+                    <Route exact path= '/ListOfBills' component={ ListOfBills }/>
                 </Switch>
 						:
                 <Switch>
