@@ -83,3 +83,6 @@ export const LIST_CUSTOMER = API_TARGET+'customer/listcustomer';
 
 export const GET_CUSTOMER_ENDPOINT = API_TARGET+'customer/getcustomer';
 export const REMOVE_CUSTOMER_ENDPOINT = API_TARGET+'customer/removecustomer';
+export const ADD_ATTENDANCE = API_TARGET +'attendance/addAttendance';
+export const GET_BILL_ENDPOINT = API_TARGET+'cashier/getbill';
+export const REMOVE_BILL_ENDPOINT = API_TARGET+'cashier/removebill';
