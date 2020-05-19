@@ -160,7 +160,6 @@ const orgTable = ( props ) => {
 
 	const Updatebranch = (id) => {
 		console.log(id);
-
 		props.getOrgInformation();
 	}
 
@@ -168,7 +167,7 @@ const orgTable = ( props ) => {
 	useEffect(() => {
 		console.log('DDDD');
 		props.getOrgInformation();
-	}, [ props ]);
+	}, [ 1 ]);
 
 	return (
     <div>
@@ -185,7 +184,7 @@ const orgTable = ( props ) => {
                                         <Toolbar>
 
                                             <Typography className={ classes.title } variant="h6" noWrap>
-                                                Branch Details
+                                                Orgnization Details
                                             </Typography>
                                             <Button href="http://localhost:3000/organization"
 											variant="contained"

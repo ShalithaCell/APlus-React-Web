@@ -117,7 +117,7 @@ function storeAdd() {
 	const onChange = (e) =>
 	{
 		e.persist();
-		setadd({ ...add, [ e.target.name ]: e.target.value })
+		setadd({ ...add, [ e.target.name ]: e.target.value } );
 
 	 }
 
@@ -144,6 +144,17 @@ function storeAdd() {
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Branch TelePhone Number ');
 			return;
+		}
+
+		if (add.tpNo.length !== 10 )
+		{
+			ToastContainer(TOAST_WARN, 'Invalid TelePhone Number ');
+			return;
+		}
+		if(initialFieldValues.locationError.length !== 0 ){
+			ToastContainer(TOAST_WARN, 'Invalid Input ');
+			return;
+
 		}
 
 			const localData = JSON.parse(GetSession());
