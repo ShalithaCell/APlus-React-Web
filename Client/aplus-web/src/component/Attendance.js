@@ -27,18 +27,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import { TOAST_ERROR, TOAST_SUCCESS } from '../config';
 import { ToastContainer } from './dialogs/ToastContainer';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import { useHistory } from 'react-router-dom';
 
 function createData(FirstName, Date, ClockonTime, ClockoutTime, WorkingHours, Edit, Delete) {
 	return { FirstName, Date, ClockonTime, ClockoutTime, WorkingHours, Edit, Delete };
 }
-
-const rows = [
-	createData( 'Peter', '2020.05.10', '08:00', '08:00'),
-	createData( 'John', '2020.05.10', '08:00', '08:00'),
-	createData( 'Peter', '2020.05.10', '08:00', '08:00'),
-	createData( 'John', '2020.05.10', '08:00', '08:00')
-		
-];
 
 function preventDefault(event) {
 	event.preventDefault();
@@ -115,23 +111,9 @@ const useStyles = makeStyles((theme) => ({
 const AttendanceList = ( props ) => {
 
 	const classes = useStyles();
-
-	const removeAttendance = (attendanceId) =>
-	{
-		console.log(attendanceId);
-		props.removeAttendance(attendanceId);
-		props.getAttendanceInformation();
-		removeAttendance();
-		ToastContainer(TOAST_SUCCESS, "Successfully Deleted")
-	}
-
-	useEffect(() => {
-		console.log("getinfo");
-		props.getAttendanceInformation();
-
-	}, []);
+	const history = useHistory();
 	const [ open, setOpen ] = React.useState(false);
-
+	
 	const handleCloseAttendance = () => {
 		setOpen(false);
 	};
@@ -140,12 +122,26 @@ const AttendanceList = ( props ) => {
 	{
 		setOpen(true);
 	};
-	//const updateInventory = (inventoryData) =>
-	//{
-		//console.log(inventoryData);
-		//props.updateInventory(inventoryData);
-	//}
 
+	const DeleteAttendance = (attendanceId) =>
+	{
+		console.log(attendanceId);
+		props.removeAttendance(attendanceId);
+		props.getAttendanceInformation();
+		handleCloseAttendance();
+		ToastContainer(TOAST_SUCCESS, "Successfully Deleted")
+	}
+	const updateRouteAttendance = (data) => {
+		console.log(data);
+		const path = 'UpdateAttendance';
+		history.push(path, data);
+	}
+	useEffect(() => {
+		console.log("getinfo");
+		props.getAttendanceInformation();
+
+	}, []);
+	
 	return (
     <div>
         <Navbar/>
@@ -157,6 +153,11 @@ const AttendanceList = ( props ) => {
                             <div className={ classes.root }>
                                 <AppBar color="primary" position="relative">
                                     <Toolbar>
+                                        <IconButton color="inherit" href={ 'http://localhost:3000/AddAttendance' }>
+                                            <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
+                                                <AddIcon />
+                                            </Fab>
+                                        </IconButton>
                                         <Typography className={ classes.title } variant="h6" noWrap>
                                             Attendance Details
                                         </Typography>
@@ -182,7 +183,7 @@ const AttendanceList = ( props ) => {
                                         <TableCell>First Name</TableCell>
                                         <TableCell>Role</TableCell>
                                         <TableCell>Clock on Time</TableCell>
-                                        <TableCell>Clock out Time</TableCell>
+                                        <TableCell>Clock out Time</TableCell>                                        
                                         <TableCell>Working Hours</TableCell>
                                         <TableCell>Edit</TableCell>
                                         <TableCell>Delete</TableCell>
@@ -192,16 +193,17 @@ const AttendanceList = ( props ) => {
 
                                     { props.attendanceList.map((row) => (
                                         <TableRow key={ row.id }>
-                                            <TableCell>{ row.firstName }</TableCell>
+                                            <TableCell>{ row.name }</TableCell>
                                             <TableCell>{ row.role }</TableCell>
                                             <TableCell>{ row.clockOnTime }</TableCell>
                                             <TableCell>{ row.clockOutTime }</TableCell>
-                                            <TableCell>{ row.hours }</TableCell>
-                                            <TableCell>{ <Button href="http://localhost:3000/UpdateAttendance"
+                                            <TableCell>{ ((new Date(row.clockOutTime) - new Date( row.clockOnTime )) /36e5) }</TableCell>
+                                            <TableCell>{ <Button 
 												variant="contained"
 												color="primary"
 												className={ classes.button }
 												startIcon={ <EditIcon /> }
+											    onClick={ () => updateRouteAttendance(row) } 
 											>
                                             </Button>
 											}</TableCell>
@@ -225,7 +227,7 @@ const AttendanceList = ( props ) => {
         </DialogContentText>
     </DialogContent>
     <DialogActions>
-        <Button onClick={ removeAttendance.bind(null, row.id) } color="primary">
+        <Button onClick={ DeleteAttendance.bind(null, row.id) } color="primary">
             Yes
         </Button>
         <Button onClick={ handleCloseAttendance } color="primary" autoFocus>
