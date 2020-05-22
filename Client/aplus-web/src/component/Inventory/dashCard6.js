@@ -19,7 +19,7 @@ export default function Card6() {
     <React.Fragment>
         <Title>Product of the Month</Title>
         <Typography component="p" variant="h4">
-            ___
+            July
         </Typography>
         <Typography component="p" variant="h6">
             Month

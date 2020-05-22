@@ -30,13 +30,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
-import IconButton from '@material-ui/core/IconButton';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-
-function preventDefault(event) {
-	event.preventDefault();
-}
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 	seeMore : {
@@ -111,6 +105,8 @@ const InventoryList = ( props ) => {
 	const classes = useStyles();
 	const [ open, setOpen ] = React.useState(false);
 
+	const history = useHistory();
+
 	const handleOpenInventory = () =>
 	{
 		setOpen(true);
@@ -129,21 +125,17 @@ const InventoryList = ( props ) => {
 		ToastContainer(TOAST_SUCCESS, "Successfully Deleted")
 	}
 
+	const updateRouteInventory = (inventoryId) => {
+		console.log(inventoryId);
+		const path = 'tableInventory';
+		history.push(path, inventoryId);
+	}
+
 	useEffect(() => {
 		console.log('success');
 		props.getInventoryDetails();
 
-	}, [ props ]);
-		console.log('getinfo');
-		props.getInventoryDetails();
-
-	}, [ props ]);
-
-	//const updateInventory = (inventoryData) =>
-	//{
-		//console.log(inventoryData);
-		//props.updateInventory(inventoryData);
-	//}
+	}, [ 1 ]);
 
 	return (
     <div>
@@ -203,7 +195,8 @@ const InventoryList = ( props ) => {
                                             <TableCell>{ row.unitPrice }</TableCell>
                                             <TableCell>{ row.supplireName }</TableCell>
                                             <TableCell>{ row.supplireEmail }</TableCell>
-                                            <TableCell>{ <Button href="http://localhost:3000/tableInventory"
+                                            <TableCell>{ <Button
+												onClick={ () => updateRouteInventory(row) }
 												variant="contained"
 												color="primary"
 												className={ classes.button }
@@ -225,13 +218,10 @@ const InventoryList = ( props ) => {
                                             	open={ open }
                                             	onClose={ handleCloseInventory }
                                             	aria-labelledby="alert-dialog-title"
-                                            	aria-describedby="alert-dialog-description"
-                                            >
-                                                <DialogTitle id="alert-dialog-title">{'Are you sure you want delete this order?'}</DialogTitle>
+                                            	aria-describedby="alert-dialog-description">
+                                                <DialogTitle id="alert-dialog-title">{'Are you sure you want delete this inventory?'}</DialogTitle>
                                                 <DialogContent>
-                                                    <DialogContentText id="alert-dialog-description">
-											
-                                                    </DialogContentText>
+                                                    <DialogContentText id="alert-dialog-description"> </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
                                                     <Button onClick={ removeInventory.bind(null, row.id) } color="primary">
