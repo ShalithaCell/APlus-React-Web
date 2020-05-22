@@ -25,10 +25,8 @@ const reducers = combineReducers(
 		branch      : branchReducer,
     supplier    : supplierReducer,
 		bill        : billReducer,
-		supplier    : supplierReducer,
 		salary      : salaryReducer,
 		org         : orgReducer,
-   	supplier    : supplierReducer,
 	  attendance  : attendanceReducer
 	});
 

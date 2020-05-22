@@ -70,9 +70,10 @@ class Navbar extends Component
                                 <NavLink tag={ Link } className="gn-icon" to="/roles"><i className="fa fa-university" aria-hidden="true"/> Roles</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/transactions"><i className="fa fa-users" aria-hidden="true"/> Transactions</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/salary_management"><i className="fa fa-users" aria-hidden="true"/> salary Management</NavLink>
-                                <NavLink tag={ Link } className="gn-icon" to="/users"><i className="fa fa-users" aria-hidden="true"/> Users</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/SupplierList"><i className="fa fa-users" aria-hidden="true"/> Suppliers</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/dashboardInventory"><i className="fa fa-university" aria-hidden="true"/> Inventory</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/orgTable"><i className="fa fa-university" aria-hidden="true"/> Organization</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/ListOfBills"><i className="fa fa-university" aria-hidden="true"/> AllLists</NavLink>
                             </li>
 
                         </ul>
