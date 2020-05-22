@@ -84,11 +84,7 @@ namespace Portal.API.Controllers
         [HttpPost("updateOrg")]
         public async Task<IActionResult> UpdateOrg(int id, OrgModel orgView)
         {
-            if (id != orgView.Id)
-            {
-                return BadRequest();
-            }
-
+           
             var orgUpdate = await _context.organizations.FindAsync(id);
             if (orgUpdate == null)
             {
@@ -101,7 +97,8 @@ namespace Portal.API.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                _context.organizations.Update(orgUpdate);
+                _context.SaveChangesAsync();
             }
             catch (Exception e)
             {

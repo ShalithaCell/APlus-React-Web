@@ -22,6 +22,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import { ToastContainer } from './dialogs/ToastContainer';
 import { TOAST_ERROR, TOAST_WARN } from '../config';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
 	return (
@@ -81,31 +82,31 @@ const StoreUpdate = ( props ) => {
 
 	const classes = useStyles();
 	//const [ currentbranch, setcurrentbranch ] = useState({ branch: null });
-	
+	const history = useHistory();
 	// eslint-disable-next-line react/prop-types
 	const [ update, setupdate ] = useState({ bName: props.location.state.branchName, location: props.location.state.branchLocation, tpNo: props.location.state.branchPhone, noofEmployees: props.location.state.noofEmployees });
 
 	const Updatebranch = (id) => {
 		console.log(id);
 
-		if (add.bName.length === 0 || initialFieldValues.branchnameWarning.length !== 0)
+		if (update.bName.length === 0 || initialFieldValues.branchnameWarning.length !== 0)
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Branch Name');
 			return;
 		}
-		if (add.location.length === 0 || initialFieldValues.locationWarning.length !== 0)
+		if (update.location.length === 0 || initialFieldValues.locationWarning.length !== 0)
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Branch location');
 			return;
 		}
 
-		if (add.tpNo.length === 0 || initialFieldValues.tpNoWarning.length !== 0)
+		if (update.tpNo.length === 0 || initialFieldValues.tpNoWarning.length !== 0)
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Branch TelePhone Number ');
 			return;
 		}
 
-		if (add.tpNo.length !== 10 )
+		if (update.tpNo.length !== 10 )
 		{
 			ToastContainer(TOAST_WARN, 'Invalid TelePhone Number ');
 			return;
@@ -122,6 +123,8 @@ const StoreUpdate = ( props ) => {
 
 		props.updateBranch(branchView);
 		props.getBranchInformation();
+		// eslint-disable-next-line no-use-before-define
+		handleClickOpen();
 	}
 	const [ open, setOpen ] = React.useState(false);
 	const handleClose = () =>
@@ -238,7 +241,7 @@ const StoreUpdate = ( props ) => {
 									aria-labelledby="alert-dialog-title"
 									aria-describedby="alert-dialog-description"
 								>
-                                    <DialogTitle id="alert-dialog-title">{'Successfully Added'}</DialogTitle>
+                                    <DialogTitle id="alert-dialog-title">{'Successfully Updated!!'}</DialogTitle>
                                     <DialogContent>
                                         <DialogContentText id="alert-dialog-description">
 

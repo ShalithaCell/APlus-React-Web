@@ -48,7 +48,7 @@ export default class storepie extends React.PureComponent {
 						argumentField="country"
 					/>
                         <Title
-						text="Monthly profit"
+						text="Last week"
 					/>
                         <Animation />
                     </Chart>

@@ -151,7 +151,7 @@ export const getOrgInformation = (orgId) => async (dispatch) => {
 		.then(function(response)
 		{
 			dispatch({
-				type    : UPDATE_ORG_DETAILS_ENDPOINT,
+				type    : UPDATE_ORG_DETAILS_LIST,
 				payload : response.data
 			});
 		})
