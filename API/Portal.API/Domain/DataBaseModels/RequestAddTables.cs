@@ -21,10 +21,6 @@ namespace Portal.API.Domain.DataBaseModels
         public string PhoneNumber { get; set; }
         [Required]
         public string Role { get; set; }
-        [Required]
-        public string password { get; set; }
-        [Required]
-        public string passwordConfirm { get; set; }
-
+       
     }
 }

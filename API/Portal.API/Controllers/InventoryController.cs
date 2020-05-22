@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
+using Portal.API.Domain.DataTransactionModels;
 using Portal.API.Domain.IdentityModel;
 using Portal.API.Infrastructure;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
@@ -70,16 +71,35 @@ namespace Portal.API.Controllers
         [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
         [HttpPost("updateInventory")]
 
-        public async Task<IActionResult> UpdateInventory([FromBody] JObject inventoryRes)
+        public async Task<IActionResult> UpdateInventory(InventoryView inventoryView)
         {
-            Inventories inventory = _context.Inventories.Where(o => o.ProductName == inventoryRes["Pname"].ToString()).FirstOrDefault();
+            var inventoryUpdate = await _context.Inventories.FindAsync(inventoryView.ID);
 
-            //add to 
+            if (inventoryUpdate == null) 
+            {
+                return NotFound();
+            }
 
-            _context.Inventories.Update(inventory);
-            _context.SaveChanges();
+            inventoryUpdate.ID = inventoryView.ID;
+            inventoryUpdate.ProductName = inventoryView.PName;
+            inventoryUpdate.ProductCode = inventoryView.Pcode;
+            inventoryUpdate.Qty = inventoryView.Qty_;
+            inventoryUpdate.UnitPrice = inventoryView.Uprice;
+            inventoryUpdate.SupplireName = inventoryView.SName;
+            inventoryUpdate.SupplireEmail = inventoryView.SEmail;
 
-            return Ok();
+            try
+            {
+                _context.Inventories.Update(inventoryUpdate);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return NoContent();
+        
         }
 
         [Authorize]

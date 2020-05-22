@@ -54,21 +54,22 @@ export default function Deposits() {
                     </Grid>
                 </TableCell>
                 <TableCell>
-                    <Title>Number of Branches</Title>
+
+                    <Title>Sales today</Title>
                 </TableCell>
             </TableRow>
         </Table>
 
         <Typography component="p" variant="h4">
-            5
+            2020/05/19
         </Typography>
 
         <div>
             <IconButton color="inherit">
-                <Button href="http://localhost:3000/storeAdd"
+                <Button href="http://localhost:3000/home"
 							variant="contained"
 							color="#ffffff"
-					> Add</Button>
+					> View</Button>
             </IconButton>
         </div>
 

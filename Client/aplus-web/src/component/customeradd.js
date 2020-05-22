@@ -14,22 +14,18 @@ import Navbar from './navbar';
 import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
-import { ADD_CUSTOMER } from '../config';
+import { ADD_CUSTOMER, TOAST_ERROR } from '../config';
 import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
 import { useDispatch } from 'react-redux';
 import Container from '@material-ui/core/Container';
+import { Background } from 'devextreme-react/range-selector';
+import { ToastContainer } from './dialogs/ToastContainer';
+import {  TOAST_WARN, TOAST_SUCCESS } from '../config';
 
 const useStyles = makeStyles((theme) => ({
 	root : {
 		height : '100vh'
-	},
-	image : {
-		backgroundImage  : 'url(http://www.iconarchive.com/show/oxygen-icons-by-oxygen-icons.org/Actions-list-add-user-icon.html)',
-		backgroundRepeat : 'no-repeat',
-		backgroundColor  :
-			theme.palette.type === 'light' ? theme.palette.grey[ 50 ] : theme.palette.grey[ 900 ],
-		backgroundSize     : 'cover',
-    backgroundPosition : 'center'
+
 	},
 	paper : {
 		margin        : theme.spacing(8, 4),
@@ -43,13 +39,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 	form : {
 		width     : '100%', // Fix IE 11 issue.
-		marginTop : theme.spacing(5)
+		marginTop : theme.spacing(1)
 	},
 	submit : {
 		margin : theme.spacing(6, 0, 2)
 	}
 }));
-
+const initialFieldValues = {
+	firstnameWarning   : '',
+	lastnameWarning    : '',
+	emailWarning       : '',
+	nicWarning         : '',
+  	phonenumberWarning : ''
+}
 export default function Customeradd() {
 
 	// eslint-disable-next-line react-hooks/rules-of-hooks
@@ -66,10 +68,48 @@ export default function Customeradd() {
 	}
 
 	async function Insertcustomer(){
+  
+    if (add.cfName.length === 0 || initialFieldValues.firstnameWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter First Name');
+			return;
+    }
+    if (add.clName.length === 0 || initialFieldValues.lastnameWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Last Name');
+			return;
+    }
+    if (add.cemail.length === 0 || initialFieldValues.emailWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter E-Mail');
+			return;
+    }
+    if (add.cidnumber.length === 0 || initialFieldValues.nicWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter NIC Number');
+			return;
+    }
+    if (add.cphonenumber.length === 0 || initialFieldValues.phonenumberWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter  Phone Number');
+			return;
+	}
+	if (add.cphonenumber.length !== 10)
+	{
+		ToastContainer(TOAST_WARN, 'Invalid Phone Number ');
+		return;
+	}
+	if (add.cidnumber.length !== 9)
+	{
+		ToastContainer(TOAST_WARN, 'Invalid NIC Number ');
+		return;
+	}
 
 			const localData = JSON.parse(GetSession());
 			let token = localData.sessionData.token;
 			token = decrypt(token);
+
+			ToastContainer(TOAST_SUCCESS, "Customer Added Successfully")
 
 			console.log('ABC');
 			const success = false;
@@ -115,21 +155,22 @@ export default function Customeradd() {
 	}
 
 	return (
-    <Grid container component="main" className={ classes.root }>
+    <Container component="main" maxWidth="xs">
         <Navbar/>
         <CssBaseline />
-        <Grid item xs={ false } sm={ 10 } md={ 7 } className={ classes.image } />
-        <Grid item xs={ 12 } sm={ 10 } md={ 5 } component={ Paper } elevation={ 20 } square>
-            <div className={ classes.paper }>
-                <Avatar className={ classes.avatar }>
-                    <HouseTwoToneIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    ADD_CUSTOMER 
-                </Typography>
-                <div className={ classes.form } >
-
-                    <TextField
+        
+        <div className={ classes.paper }>
+            <Avatar className={ classes.avatar }>
+                <HouseTwoToneIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+                ADD CUSTOMER 
+            </Typography>
+            <div className={ classes.form } >
+                <Grid container spacing={ 2 }>
+                    <Grid item xs={ 12 } >
+						
+                        <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -141,8 +182,9 @@ export default function Customeradd() {
 							onChange={ onChange }
 							value={ add.cfName }
 
-						/>
-                    <TextField
+						/></Grid>
+                    <Grid item xs={ 12 } >
+                        <TextField
 						variant="outlined"
 						margin="normal"
 						required
@@ -154,8 +196,9 @@ export default function Customeradd() {
 						onChange={ onChange }
 						value={ add.clName }
 
-					/>
-                    <TextField
+					/></Grid>
+                    <Grid item xs={ 12 } >
+                        <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -167,8 +210,9 @@ export default function Customeradd() {
 							onChange={ onChange }
 							value={ add.cemail }
 
-						/>
-                    <TextField
+						/></Grid>
+                    <Grid item xs={ 12 } >
+                        <TextField
 							variant="outlined"
 							margin="normal"
 							required
@@ -179,9 +223,9 @@ export default function Customeradd() {
 							id="id"
 							onChange={ onChange }
 							value={ add.cidnumber }
-					/>
-
-                    <TextField
+					/></Grid>
+                    <Grid item xs={ 12 } >
+                        <TextField
 						variant="outlined"
 						margin="normal"
 						fullWidth
@@ -192,23 +236,22 @@ export default function Customeradd() {
 						onChange={ onChange }
 						value={ add.cphonenumber }
 					/>
-
-                    <Button
-							type="submit"
+                    </Grid>
+                </Grid>
+                <Button
 							variant="contained"
 							color="primary"
-							className={ classes.submit }
 							onClick={ Insertcustomer }
 						>
-                        Add Customer
-                    </Button>
+                    Add Customer
+                </Button>
 
-                    <Box mt={ 8 }>
-                        <Copyright />
-                    </Box>
-                </div>
+                <Box mt={ 8 }>
+                    <Copyright />
+                </Box>
             </div>
-        </Grid>
-    </Grid>
+        </div>
+        
+    </Container>
 	);
 }

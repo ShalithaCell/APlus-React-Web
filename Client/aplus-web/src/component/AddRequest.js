@@ -17,9 +17,10 @@ import { Aggregation } from 'devextreme-react/chart';
 import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
-import { ADD_REQUEST, TOAST_ERROR } from '../config';
+import { ADD_REQUEST, TOAST_ERROR, TOAST_WARN } from '../config';
 import { useDispatch } from 'react-redux';
 import { ToastContainer } from './dialogs/ToastContainer';
+import {  TOAST_SUCCESS } from '../config';
 function Copyright() {
   return (
       
@@ -54,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     margin : theme.spacing(3, 0, 2)
   }
 }));
+
 const initialFieldValues = {
 	firstnameWarning   : '',
 	lastNameWarning    : '',
@@ -69,11 +71,13 @@ export default function AddRequest() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [ add, setadd ] = useState( { fname: '', lname: '', remail: '', rAddress: '', rPhonenumber: '', arole: '',  rpassword: '', rConfimpassword: '' });
+ 
   const onChangeAddRequest = (event) => {
     event.persist();
     setadd({ ...add, [ event.target.name ]: event.target.value });
-     };
 
+     };
+     
   async function AddRequests()
   {
     if (add.fname.length === 0 || initialFieldValues.firstnameWarning .length !== 0)
@@ -83,15 +87,14 @@ export default function AddRequest() {
     }
     if (add.lname.length === 0 || initialFieldValues.lastNameWarning.length !== 0)
 		{
-			ToastContainer(TOAST_ERROR, 'Please enter Last Name');
-			return;
+      ToastContainer(TOAST_ERROR, 'Please enter Last Name');
+      return;
     }
     if (add.remail.length === 0 || initialFieldValues.emailWarning .length !== 0)
 		{
-			ToastContainer(TOAST_ERROR, 'Please enter Email ');
-			return;
+      ToastContainer(TOAST_ERROR, 'Please enter Email ');
     }
-    	
+  	
     if (add.rAddress.length === 0 || initialFieldValues.addressWarning.length !== 0)
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Address');
@@ -101,28 +104,24 @@ export default function AddRequest() {
     if (add.rPhonenumber.length === 0 || initialFieldValues.phoneNumberWarning .length !== 0)
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Phone Number');
-			return;
-    }
-    
+      return;
+     }
     if (add.arole.length === 0 || initialFieldValues.roleWarning .length !== 0)
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Role Name');
 			return;
     }
-    
-    if (add.rpassword.length === 0 || initialFieldValues.passwordWarning.length !== 0)
+   
+    if (add.rPhonenumber.length !== 10)
 		{
-			ToastContainer(TOAST_ERROR, 'Please enter Password');
+			ToastContainer(TOAST_WARN, 'Invalid TelePhone Number ');
 			return;
     }
-    if (add.rConfimpassword.length === 0 || initialFieldValues.passwordWarning.length !== 0)
-		{
-			ToastContainer(TOAST_ERROR, 'Please enter Password');
-			return;
-		}
+  
       const localData = JSON.parse(GetSession());
       let token = localData.sessionData.token;
       token = decrypt(token);
+      ToastContainer(TOAST_SUCCESS, "Successfully Added Request")
 
       //console.log('ABC');
       let success = false;
@@ -131,16 +130,14 @@ export default function AddRequest() {
       console.log(token);
 
       const userObj = {
-        fname     : add.fname,
-        lname     : add.lname,
-        email     : add.remail,
-        address   : add.rAddress,
-        phoneno   : add.rPhonenumber,
-        role      : add.arole,
-        pw        : add.rpassword,
-        pwconfirm : add.rConfimpassword
+        fname   : add.fname,
+        lname   : add.lname,
+        email   : add.remail,
+        address : add.rAddress,
+        phoneno : add.rPhonenumber,
+        role    : add.arole
+       
       }
-
       //API call
       await axios({
         method  : 'post',
@@ -214,11 +211,11 @@ export default function AddRequest() {
                 label="Email "
                 name="remail"
                 autoComplete="email"
+                type="email"
                 value={ add.remail }
                 onChange={ onChangeAddRequest }
-              />
+              /> 
                       </Grid>
-                     
                       <Grid item xs={ 12 }>
                           <TextField
                 variant="outlined"
@@ -263,41 +260,6 @@ export default function AddRequest() {
                 onChange={ onChangeAddRequest }
               />
                       </Grid>
-                      <Grid item xs={ 12 }>
-                          <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="rpassword"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="password"
-                value={ add.rpassword }
-                onChange={ onChangeAddRequest }
-              />
-                      </Grid>
-                      <Grid item xs={ 12 }>
-                          <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="rConfimpassword"
-                label="passwordConfirm "
-                type="passwordConfirm "
-                id="passwordConfirm "
-                autoComplete="passwordConfirm "
-                value={ add.rConfimpassword }
-                onChange={ onChangeAddRequest }
-              />
-                      </Grid>
-                      
-                      <Grid item xs={ 12 }>
-                          <FormControlLabel
-                control={ <Checkbox value="allowExtraEmails" color="primary" /> }
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-                      </Grid>
                   </Grid>
                   <Button
             type="submit"
@@ -315,4 +277,4 @@ export default function AddRequest() {
           
       </Container>
   );
-}
+  }

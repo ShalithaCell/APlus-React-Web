@@ -51,7 +51,7 @@ export const RESET_USER_PASSWORD_ENDPOINT = API_TARGET +'users/resentUserPasswor
 export const ADD_REQUEST = API_TARGET +'requestAdd/addRequests';
 export const GET_REQUEST_ENDPOINT = API_TARGET +'requestAdd/getRequestInfomation';
 //export const GET_REQUEST_ENDPOINT = API_TARGET +'requestAdd/addRequests';
-export const UPDATE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/addRequests';
+export const UPDATE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/updateRequest';
 export const REMOVE_REQUEST_ENDPOINT = API_TARGET +'requestAdd/removeRequest';
 
 export const ADD_ATTENDANCE = API_TARGET +'attendance/addAttendance';
@@ -82,6 +82,7 @@ export const LIST_CUSTOMER = API_TARGET+'customer/listcustomer';
 
 export const GET_CUSTOMER_ENDPOINT = API_TARGET+'customer/getcustomer';
 export const REMOVE_CUSTOMER_ENDPOINT = API_TARGET+'customer/removecustomer';
+
 export const GET_BILL_ENDPOINT = API_TARGET+'cashier/getbill';
 export const REMOVE_BILL_ENDPOINT = API_TARGET+'cashier/removebill';
 export const UPDATE_SUPPLIER_ENDPOINT = API_TARGET+'supplier/updateSupplier';

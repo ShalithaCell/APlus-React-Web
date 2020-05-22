@@ -19,7 +19,7 @@ export default function Card1() {
     <React.Fragment>
         <Title>Total Products</Title>
         <Typography component="p" variant="h4">
-            ___
+            05
         </Typography>
     </React.Fragment>
 	);

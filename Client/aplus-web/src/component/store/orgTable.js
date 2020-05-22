@@ -19,8 +19,6 @@ import { fade } from '@material-ui/core';
 import { getBranchInformation, removeBranch } from '../../redux/branchActions';
 import { useHistory } from 'react-router-dom';
 import storeAdd from '../storeAdd';
-import Router, { useRouter }  from 'next/router';
-import { createUrl as router } from 'next/dist/pages/_app';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -157,18 +155,21 @@ const orgTable = ( props ) => {
 		handleClose();
 		ToastContainer(TOAST_SUCCESS, 'Successfully Deleted!');
 	}
-
-	const Updatebranch = (id) => {
-		console.log(id);
-
-		props.getOrgInformation();
+	const updateRoute = (data) => {
+		console.log(data);
+		const path = 'updateOrganization';
+		history.push(path, data);
 	}
+	// const Updatebranch = (id) => {
+	// 	console.log(id);
+	// 	props.getOrgInformation();
+	// }
 
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	useEffect(() => {
 		console.log('DDDD');
 		props.getOrgInformation();
-	}, [ props ]);
+	}, [ 1 ]);
 
 	return (
     <div>
@@ -185,7 +186,7 @@ const orgTable = ( props ) => {
                                         <Toolbar>
 
                                             <Typography className={ classes.title } variant="h6" noWrap>
-                                                Branch Details
+                                                Orgnization Details
                                             </Typography>
                                             <Button href="http://localhost:3000/organization"
 											variant="contained"
@@ -209,7 +210,8 @@ const orgTable = ( props ) => {
                                         { props.orgList.map((row) => (
                                             <TableRow key={ row.id }>
                                                 <TableCell>{ row.id }</TableCell>
-                                                <TableCell>{ row.orgName }</TableCell>
+                                                <TableCell><Button href="http://localhost:3000/storeDashboard"
+																   variant="contained">{ row.orgName }</Button></TableCell>
                                                 <TableCell>{ row.orgLocation }</TableCell>
 
                                                 <TableCell>{
@@ -218,7 +220,7 @@ const orgTable = ( props ) => {
 													color="primary"
 													className={ classes.button }
 													startIcon={ <EditIcon /> }
-													onClick= { 'http://localhost:3000/storeDashboard' }
+													onClick={ () => updateRoute(row) }
 												>
 
                                                     </Button>

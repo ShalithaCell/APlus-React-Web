@@ -104,6 +104,7 @@ export const updateBranchDetails = ()  => async (dispatch) =>
 
 export const updateBranch = (branchData) => async (dispatch) =>
 {
+	console.log(branchData);
 	const localData = JSON.parse(GetSession());
 	let token = localData.sessionData.token;
 	token = decrypt(token); //decrypt the token
@@ -167,7 +168,7 @@ export const getBranchInformation = (branchId) => async (dispatch) => {
 			}
 			throw error;
 		});
-
+	return responseData;
 }
 
 export const removeBranch = (branchId) => async (dispatch) => {

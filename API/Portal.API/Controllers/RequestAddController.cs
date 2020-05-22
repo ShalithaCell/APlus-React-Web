@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
+using Portal.API.Domain.DataTransactionModels;
 using Portal.API.Domain.IdentityModel;
 using Portal.API.Infrastructure;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
@@ -45,8 +46,7 @@ namespace Portal.API.Controllers
                     Address = dataAddRequest.address,
                     PhoneNumber = dataAddRequest.phoneno,
                     Role = dataAddRequest.role,
-                    password = dataAddRequest.pw,
-                    passwordConfirm = dataAddRequest.pwconfirm,
+        
                 };
                 _context.requestAddTable.Add(requestsAdd);
                 _context.SaveChanges(true);
@@ -90,10 +90,41 @@ namespace Portal.API.Controllers
             return Ok();
 
         }
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("updateRequest")]
+        public async Task<IActionResult> UpdateRequest(RequestView requestView)
+        {
+
+            var requestUpdate = await _context.requestAddTable.FindAsync(requestView.Id);
+            if (requestUpdate == null)
+            {
+                return NotFound();
+            }
+            requestUpdate.ID = requestView.Id;
+            requestUpdate.FirstName = requestView.FirstName;
+            requestUpdate.LastName = requestView.LastName;
+            requestUpdate.Email = requestView.Email;
+            requestUpdate.Address = requestView.Address;
+            requestUpdate.PhoneNumber = requestView.PhoneNumber;
+            requestUpdate.Role = requestView.Role;
+
+            try
+            {
+                _context.requestAddTable.Update(requestUpdate);
+                _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return NoContent();
+        }
 
     }
+
+}
 
        
     
     
-}
