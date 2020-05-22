@@ -38,6 +38,7 @@ export const DELETE_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/deleteTrans
 export const ADD_SALARY_ENDPOINT = API_TARGET + 'salary/addSalary';
 export const VIEW_SALARY_ENDPOINT = API_TARGET + 'salary/getSalaryInfomation';
 export const DELETE_SALARY_ENDPOINT = API_TARGET + 'salary/deleteSalaries';
+export const UPDATE_SALARY_ENDPOINT = API_TARGET + 'salary/updateSalaries';
 
 export const SYNC_USER_LIST_ENDPOINT = API_TARGET +'users/getAllUsers';
 export const SYNC_USER_Name_LIST_ENDPOINT = API_TARGET +'users/getUserNames';
