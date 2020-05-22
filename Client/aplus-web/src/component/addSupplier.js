@@ -15,8 +15,9 @@ import { useDispatch } from 'react-redux';
 import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
-import { ADD_SUPPLIER_ENDPOINT } from '../config';
+import { ADD_SUPPLIER_ENDPOINT, TOAST_SUCCESS } from '../config';
 import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
+import { ToastContainer } from './dialogs/ToastContainer';
 
 function Copyright() {
   return (
@@ -73,6 +74,7 @@ export default function AddSupplier() {
       const localData = JSON.parse(GetSession());
       let token = localData.sessionData.token;
       token = decrypt(token); //decrypt the token
+      ToastContainer(TOAST_SUCCESS, "Successfully Added Supplier")
 
       const success = false;
       let resData;

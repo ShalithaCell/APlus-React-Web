@@ -58,9 +58,9 @@ import orgTable from './component/store/orgTable';
 import addOrg from './component/addOrg';
 import AddAttendance from './component/AddAttendance'
 import UpdateAttendance from './component/UpdateAttendance'
+import updateSupplier from './component/updateSupplier';
 import orgUpdate from './component/store/orgUpdate';
 import CustomerUpdate from './component/CustomerUpdate'
-
 
 class App extends Component {
 
@@ -125,6 +125,7 @@ class App extends Component {
                     <Route exact path= '/orgTable' component={ orgTable }/>
                     <Route exact path= '/AddAttendance' component={ AddAttendance }/>
                     <Route exact path= '/UpdateAttendance' component={ UpdateAttendance }/>
+                    <Route exact path= '/updateSupplier' component={ updateSupplier }/>
                     <Route exact path= '/updateOrganization' component={ orgUpdate } />
                     <Route exact path='/customerupdate' component={ CustomerUpdate } />
                 </Switch>

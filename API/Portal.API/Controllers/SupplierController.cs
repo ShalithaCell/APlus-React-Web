@@ -79,5 +79,37 @@ namespace Portal.API.Controllers
             return Ok(suppliers);
         }
 
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("updateSupplier")]
+        public async Task<IActionResult> UpdateSupplier(SupplierModel supplierup)
+        {
+
+            var supplierUpdate = await _context.supplierDetailsTables.FindAsync(supplierup.ID);
+            if (supplierUpdate == null)
+            {
+                return NotFound();
+            }
+            supplierUpdate.ID = supplierup.ID;
+            supplierUpdate.fname = supplierup.Finame;
+            supplierUpdate.lname = supplierup.Laname;
+            supplierUpdate.Email = supplierup.email;
+            supplierUpdate.category = supplierup.CAtegory;
+            supplierUpdate.area = supplierup.ARea;
+            supplierUpdate.phoNumber = supplierup.PHoNumber;
+
+            try
+            {
+                _context.supplierDetailsTables.Update(supplierUpdate);
+                _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return NoContent();
+        }
+
     }
 }

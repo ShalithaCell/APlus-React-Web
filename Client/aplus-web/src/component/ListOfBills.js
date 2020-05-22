@@ -144,7 +144,7 @@ const BillList = ( props ) => {
 	}
 
 	useEffect(() => {
-		console.log('Hi');
+		//console.log('Hi');
 		props.getbill();
 	}, [ props ]);
 

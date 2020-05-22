@@ -22,6 +22,10 @@ import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import { useHistory } from 'react-router-dom';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
 
 // Generate Order Data
 function createData(id, FirstName, LastName, Email, Category, Area, PhoneNo, Update, Delete) {
@@ -114,15 +118,21 @@ const useStyles = makeStyles((theme) => ({
 
  const SupplierList = ( props ) => {
 	const classes = useStyles();
+	 const history = useHistory();
 
 	const DeleteSupplier = (id) => {
 		console.log(id);
 		props.removeSupplier(id);
 		props.getSupplier();
 	}
+	 const updateRouteSupplier = (data) => {
+		 console.log(data);
+		 const path = 'updateSupplier';
+		 history.push(path, data);
+	 }
 
 	useEffect(() => {
-		console.log('Hi');
+		//console.log('Hi');
 		props.getSupplier();
 	}, [ props ]);
 
@@ -139,6 +149,11 @@ const useStyles = makeStyles((theme) => ({
                                 <AppBar color="primary" position="relative">
 
                                     <Toolbar>
+                                        <IconButton color="inherit" href={ 'http://localhost:3000/addSupplier' }>
+                                            <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
+                                                <AddIcon />
+                                            </Fab>
+                                        </IconButton>
 
                                         <Typography className={ classes.title } variant="h6" noWrap>
                                             Supplier Details
@@ -184,12 +199,13 @@ const useStyles = makeStyles((theme) => ({
                                             <TableCell>{ row.area }</TableCell>
                                             <TableCell>{ row.phoNumber }</TableCell>
                                             <TableCell>{
-                                                <Button href=""
+                                                <Button
 										variant="contained"
 										color="primary"
 										className={ classes.button }
 										startIcon={ <EditIcon /> }
-								>
+														onClick={ () => updateRouteSupplier(row) }
+												>
 
                                                 </Button>
 							}</TableCell>
