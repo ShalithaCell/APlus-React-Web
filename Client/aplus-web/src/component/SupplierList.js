@@ -18,6 +18,10 @@ import AppBar from '@material-ui/core/AppBar';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
 import { getSupplier, removeSupplier } from '../redux/supplierActions';
+import Navbar from './navbar';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 // Generate Order Data
 function createData(id, FirstName, LastName, Email, Category, Area, PhoneNo, Update, Delete) {
@@ -120,24 +124,30 @@ const useStyles = makeStyles((theme) => ({
 	useEffect(() => {
 		console.log('Hi');
 		props.getSupplier();
-	}, []);
+	}, [ props ]);
 
 	return (
-    <React.Fragment>
+    <div>
+        <Navbar/>
+        <div className={ 'top-5pres' }>
+            <Container fixed>
+                <Grid item xs={ 12 }>
+                    <Paper className={ classes.paper }>
+                        <React.Fragment>
 
-        <div className={ classes.root }>
-            <AppBar color="primary" position="relative">
+                            <div className={ classes.root }>
+                                <AppBar color="primary" position="relative">
 
-                <Toolbar>
+                                    <Toolbar>
 
-                    <Typography className={ classes.title } variant="h6" noWrap>
-                        Supplier Details
-                    </Typography>
-                    <div className={ classes.search }>
-                        <div className={ classes.searchIcon }>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
+                                        <Typography className={ classes.title } variant="h6" noWrap>
+                                            Supplier Details
+                                        </Typography>
+                                        <div className={ classes.search }>
+                                            <div className={ classes.searchIcon }>
+                                                <SearchIcon />
+                                            </div>
+                                            <InputBase
 								placeholder="Search…"
 								classes={ {
 									root  : classes.inputRoot,
@@ -145,62 +155,67 @@ const useStyles = makeStyles((theme) => ({
 								} }
 								inputProps={ { 'aria-label': 'search' } }
 							/>
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </div>
-        <Table size="small">
-            <TableHead>
-                <TableRow>
-                    <TableCell>Supplier ID</TableCell>
-                    <TableCell>First Name</TableCell>
-                    <TableCell>Last Name</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Category</TableCell>
-                    <TableCell>Area</TableCell>
-                    <TableCell>Phone Number</TableCell>
-                    <TableCell>Edit</TableCell>
-                    <TableCell>Delete</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                { props.supplierLists.map((row) => (
-                    <TableRow key={ row.id }>
-                        <TableCell>{ row.id }</TableCell>
-                        <TableCell>{ row.fname }</TableCell>
-                        <TableCell>{ row.lname }</TableCell>
-                        <TableCell>{ row.email }</TableCell>
-                        <TableCell>{ row.category }</TableCell>
-                        <TableCell>{ row.area }</TableCell>
-                        <TableCell>{ row.phoNumber }</TableCell>
-                        <TableCell>{
-                            <Button href="http://localhost:3000/storeUpdate"
+                                        </div>
+                                    </Toolbar>
+                                </AppBar>
+                            </div>
+                            <Table size="small">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Supplier ID</TableCell>
+                                        <TableCell>First Name</TableCell>
+                                        <TableCell>Last Name</TableCell>
+                                        <TableCell>Email</TableCell>
+                                        <TableCell>Category</TableCell>
+                                        <TableCell>Area</TableCell>
+                                        <TableCell>Phone Number</TableCell>
+                                        <TableCell>Edit</TableCell>
+                                        <TableCell>Delete</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    { props.supplierLists.map((row) => (
+                                        <TableRow key={ row.id }>
+                                            <TableCell>{ row.id }</TableCell>
+                                            <TableCell>{ row.fname }</TableCell>
+                                            <TableCell>{ row.lname }</TableCell>
+                                            <TableCell>{ row.email }</TableCell>
+                                            <TableCell>{ row.category }</TableCell>
+                                            <TableCell>{ row.area }</TableCell>
+                                            <TableCell>{ row.phoNumber }</TableCell>
+                                            <TableCell>{
+                                                <Button href=""
 										variant="contained"
 										color="primary"
 										className={ classes.button }
 										startIcon={ <EditIcon /> }
 								>
 
-                            </Button>
+                                                </Button>
 							}</TableCell>
-                        <TableCell>{ <Button
+                                            <TableCell>{ <Button
 								variant="contained"
 								color="secondary"
-								tooltip = 'Click here to remove user'
+								tooltip = 'Click here to remove supplier'
 								className={ classes.button }
 								startIcon={ <DeleteIcon /> }
 								onClick={ DeleteSupplier.bind(null, row.id) }
 							>
 
-                        </Button>
+                                            </Button>
 							} </TableCell>
 
-                    </TableRow>
+                                        </TableRow>
 					))
 					}
-            </TableBody>
-        </Table>
-    </React.Fragment>
+                                </TableBody>
+                            </Table>
+                        </React.Fragment>
+                    </Paper>
+                </Grid>
+            </Container>
+        </div>
+    </div>
 
 	);
 }

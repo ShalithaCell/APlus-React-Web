@@ -32,6 +32,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Dialog from '@material-ui/core/Dialog';
 import { useHistory } from 'react-router-dom';
 
+function preventDefault(event) {
+	event.preventDefault();
+}
+
 const useStyles = makeStyles((theme) => ({
 	seeMore : {
 		marginTop : theme.spacing(3)
@@ -134,8 +138,8 @@ const InventoryList = ( props ) => {
 	useEffect(() => {
 		console.log('success');
 		props.getInventoryDetails();
-
 	}, [ 1 ]);
+
 
 	return (
     <div>

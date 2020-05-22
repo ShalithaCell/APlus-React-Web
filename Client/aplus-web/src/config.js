@@ -29,12 +29,16 @@ export const REMOVE_SUPPLIER_ENDPOINT = API_TARGET +'supplier/removeSupplier';
 export const GET_SUPPLIER_ENDPOINT = API_TARGET +'supplier/getSupplier';
 export const UPDATE_SUPPLIER_ENDPOINT = API_TARGET +'supplier/addSupplier';
 export const UPDATE_SUPPLIER_DETAILS_ENDPOINT = API_TARGET +'supplier/addSupplier';
+
 export const ADD_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/addTransaction';
 export const VIEW_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/getTransactionInfomation';
 export const UPDATE_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/updateTransactions';
 export const DELETE_TRANSACTION_ENDPOINT = API_TARGET + 'transaction/deleteTransactions';
 
 export const ADD_SALARY_ENDPOINT = API_TARGET + 'salary/addSalary';
+export const VIEW_SALARY_ENDPOINT = API_TARGET + 'salary/getSalaryInfomation';
+export const DELETE_SALARY_ENDPOINT = API_TARGET + 'salary/deleteSalaries';
+
 export const SYNC_USER_LIST_ENDPOINT = API_TARGET +'users/getAllUsers';
 export const SYNC_USER_Name_LIST_ENDPOINT = API_TARGET +'users/getUserNames';
 export const REGISTER_USER_ENDPOINT = API_TARGET +'users/registerUser';
@@ -79,3 +83,6 @@ export const LIST_CUSTOMER = API_TARGET+'customer/listcustomer';
 
 export const GET_CUSTOMER_ENDPOINT = API_TARGET+'customer/getcustomer';
 export const REMOVE_CUSTOMER_ENDPOINT = API_TARGET+'customer/removecustomer';
+
+export const GET_BILL_ENDPOINT = API_TARGET+'cashier/getbill';
+export const REMOVE_BILL_ENDPOINT = API_TARGET+'cashier/removebill';

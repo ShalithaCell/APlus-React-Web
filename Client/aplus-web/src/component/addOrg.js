@@ -199,6 +199,24 @@ function addOrg () {
 					>
                                 Add
                             </Button>
+                            <Dialog
+								open={ open }
+								onClose={ handleClose }
+								aria-labelledby="alert-dialog-title"
+								aria-describedby="alert-dialog-description"
+							>
+                                <DialogTitle id="alert-dialog-title">{'Successfully Added'}</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
+
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={ storeRoute } color="primary">
+                                        OK
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
 
                         </div>
                     </div>
