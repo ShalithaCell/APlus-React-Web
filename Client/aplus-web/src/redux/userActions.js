@@ -1,7 +1,14 @@
-import { DO_LOGIN, DO_LOGOUT, POPUP_SPINNER, SET_SESSION_EXPIRED, UPDATE_USER_LIST } from './actionTypes';
+import {
+	DO_LOGIN,
+	DO_LOGOUT,
+	POPUP_SPINNER,
+	SET_PERMISSON_LIST,
+	SET_SESSION_EXPIRED,
+	UPDATE_USER_LIST
+} from './actionTypes';
 import axios from 'axios';
 import {
-	CONFIRM_EMAIL_USER_ENDPOINT, CONFIRM_PASSWORD_RESET_TOKEN_ENDPOINT,
+	CONFIRM_EMAIL_USER_ENDPOINT, CONFIRM_PASSWORD_RESET_TOKEN_ENDPOINT, GET_PERMISSON_LEVELS__ENDPOINT,
 	GET_USER_ENDPOINT,
 	LOGIN_ENDPOINT,
 	PASSWORD_RESET_ENDPOINT,
@@ -468,4 +475,45 @@ export const resetPassword = (token, password) => async (dispatch) => {
 		});
 
 	return result;
+}
+
+export const getPermissonLevels = (userID) => async (dispatch) => {
+
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	//API call
+	await axios({
+		method  : 'post',
+		url     : GET_PERMISSON_LEVELS__ENDPOINT,
+		headers : { Authorization: 'Bearer ' + token },
+		data    : { userID }
+	})
+		.then(function(response)
+		{
+
+			dispatch({
+				type    : SET_PERMISSON_LIST,
+				payload : response.data[ 0 ]
+			});
+		})
+		.catch(function(error)
+		{
+			//spinner
+			dispatch({
+				type    : POPUP_SPINNER,
+				payload : false
+			});
+
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}
+			throw error;
+		});
+
 }

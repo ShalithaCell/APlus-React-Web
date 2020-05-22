@@ -603,6 +603,16 @@ namespace Portal.API.Controllers
         }
 
 
+        [HttpPost("getPermissonSet")]
+        public async Task<IActionResult> GetPermissonSet([FromBody] JObject obj)
+        {
+            var dataSet = _context.customRolePermissionLevels.Where(o => o.ID == Convert.ToInt32(obj["userID"].ToString())).ToList();
+            
+
+            return Ok(dataSet);
+        }
+
+
 
 
     }

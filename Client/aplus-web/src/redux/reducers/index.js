@@ -23,11 +23,11 @@ const reducers = combineReducers(
 		transaction : transactionReducer,
 		request     : requestReducer,
 		branch      : branchReducer,
-    supplier    : supplierReducer,
 		bill        : billReducer,
+		supplier    : supplierReducer,
 		salary      : salaryReducer,
 		org         : orgReducer,
-	  attendance  : attendanceReducer
+	  	attendance  : attendanceReducer
 	});
 
 export default reducers;	

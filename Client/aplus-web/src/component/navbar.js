@@ -112,7 +112,8 @@ class Navbar extends Component
 }
 
 const mapStateToProps = (state) => ({
-    items : state.user
+    items       : state.user,
+    permissions : state.system
 })
 
 export default withRouter(connect(mapStateToProps, { doLogOut })(Navbar));

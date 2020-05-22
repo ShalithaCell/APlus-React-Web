@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { doLogin } from '../redux/userActions';
+import { doLogin, getPermissonLevels } from '../redux/userActions';
 import { popupPasswordResetDialog } from '../redux/systemActions'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -60,6 +60,9 @@ class login extends Component
 											};
 											console.log(sessionObj);
 											SetSession(sessionObj);
+
+											//set permissons
+											this.props.getPermissonLevels(result.data.userID);
 
 											const { from } = this.props.location.state || { from: { pathname: '/home' } };
 											this.props.history.push(from);
@@ -132,4 +135,4 @@ const mapStateToProps = (state) => ({
 	forgotPwPop : state.system.popupForgotpwDialog
 })
 
-export default connect(mapStateToProps, { doLogin, popupPasswordResetDialog })(login);
+export default connect(mapStateToProps, { doLogin, popupPasswordResetDialog, getPermissonLevels })(login);
