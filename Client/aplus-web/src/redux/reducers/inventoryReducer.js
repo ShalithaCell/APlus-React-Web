@@ -1,7 +1,8 @@
 import { UPDATE_INVENTORY_LIST } from '../actionTypes';
 
 const initialState = {
-	inventoryList : []
+	inventoryList  : [],
+	ReceivedOrders : []
 }
 
 export default function(state = initialState, action)
@@ -10,7 +11,8 @@ export default function(state = initialState, action)
 		case UPDATE_INVENTORY_LIST:
 			return {
 				...state,
-				inventoryList : action.payload
+				inventoryList  : action.payload,
+				ReceivedOrders : action.payload
 			}
 			break;
 		default :

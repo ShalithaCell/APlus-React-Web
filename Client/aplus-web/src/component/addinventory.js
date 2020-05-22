@@ -19,7 +19,7 @@ import { ToastContainer } from './dialogs/ToastContainer';
 
 const useStyles = makeStyles((theme) => ({
   paper : {
-    marginTop     : theme.spacing(8),
+    marginTop     : theme.spacing(10),
     display       : 'flex',
     flexDirection : 'column',
     alignItems    : 'center'
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   form : {
     width     : '100%', 
-    marginTop : theme.spacing(3)
+    marginTop : theme.spacing(5)
   },
   submit : {
     margin : theme.spacing(3, 0, 2)
@@ -56,13 +56,6 @@ export default function AddInventory() {
       setadd({ ...add, [ event.target.name ]: event.target.value });
         console.log(event);
 
-        // if(event.target.id === 'pname'){
-        //     if(event.target.id === ''){
-        //         add.inventoryWarning({
-        //             inventoryWarning : 'Product name is required'
-        //         })
-        //     }
-        // }
     };
 
     async function InsertInventory()
@@ -108,10 +101,6 @@ export default function AddInventory() {
         let token = localData.sessionData.token;
         token = decrypt(token);
         ToastContainer(TOAST_SUCCESS, "Inventory Added Successfully!");
-
-        //console.log('ABC');
-        let success = false;
-        let resData;
 
         console.log(token);
 
