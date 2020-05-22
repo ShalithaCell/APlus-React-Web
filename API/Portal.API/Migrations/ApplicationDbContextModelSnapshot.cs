@@ -566,12 +566,17 @@ namespace Portal.API.Migrations
                     b.Property<double>("Bonus")
                         .HasColumnType("float");
 
+                    b.Property<string>("Designation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Eid")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("For_month")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("For_month")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -582,24 +587,13 @@ namespace Portal.API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Paid_date")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("RegistedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
 
-                    b.Property<string>("Salary_ID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("Total")
                         .HasColumnType("float");
-
-                    b.Property<string>("designation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -691,9 +685,6 @@ namespace Portal.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -710,9 +701,6 @@ namespace Portal.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("datetime2");
 
                     b.Property<double>("Total")
                         .HasColumnType("float");
@@ -768,7 +756,7 @@ namespace Portal.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("customers");
+                    b.ToTable("customer");
                 });
 
             modelBuilder.Entity("Portal.API.Domain.IdentityModel.AppRole", b =>

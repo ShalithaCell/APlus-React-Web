@@ -21,8 +21,8 @@
         case UPDATE_TRANS :
             return{
                 ...state,
-                list : action.payload 
-            }
+                list : state.list.map((x) => x.id == action.payload.id ? action.payload : x)
+            } 
 
  		default :
  			return state;

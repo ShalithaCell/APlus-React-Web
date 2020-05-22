@@ -24,6 +24,9 @@ import { SET_SESSION_EXPIRED } from '../../redux/actionTypes';
 import { connect } from 'react-redux';
 import { transactionReducer } from '../../redux/reducers/transactionReducer';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { useToasts } from 'react-toast-notifications';
+import { ToastContainer } from '../../component/dialogs/ToastContainer';
+import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 
 function Copyright() {
   return (
@@ -64,9 +67,9 @@ const useStyles = makeStyles((theme) => ({
 const initialValues ={
   description : '',
   userid      : '',
-  qty         : '', 
-  unit        : '',
-  total       : ''
+  qty         : '0', 
+  unit        : '0',
+  total       : '0'
 }
 
 const AddTransaction = ({ ...props }) => {
@@ -74,6 +77,8 @@ const AddTransaction = ({ ...props }) => {
   const classes = useStyles();
 
   const [ values, setvalues ] = useState (initialValues) 
+  const [ errors, seterrors ] = useState({})
+
   const transObj = {
     Description : values.description,
     User_ID     : values.userid,
@@ -81,86 +86,37 @@ const AddTransaction = ({ ...props }) => {
     Unit_price  : values.unit,
     Total       : values.total
   }
-
-  ///
-
-  // const [ errors, seterrors ] = useState ({}) 
-  //  const validate = () => {
-  //    const temt = {}
-  //    temp.description = values.description ? '' : 'This field is required.'
-  //    temp.userid = values.userid ? '' : 'This field is required.'
-  //    temp.date = values.date ? '' : 'This field is required.'
-  //    temp.time = values.time ? '' : 'This field is required.'
-  //    temp.qty = values.qty ? '' : 'This field is required.'
-  //    temp.unit = values.unit ? '' : 'This field is required.'
-  //    temp.total = values.total ? '' : 'This field is required.'
-  //     seterrors({
-  //       ...temp
-  //     })
-  //    return object.values(temp).every( (x) => x == '')
-  //  }
-
-   ///
+  const validate = (fieldValues = values) => {
+    const temp = {}
+    temp.description = fieldValues.description?'':'This field is required.'
+    temp.userid = fieldValues.userid?'':'This field is required.'
+    temp.total = fieldValues.total?'':'This field is required.'
+    seterrors({
+      ...temp
+    })
+if(fieldValues == values)
+    { return Object.values(temp).every((x) => x == '') }
+  }
 
   const OnChange = (e) => {
     e.persist();
-		setvalues({ ...values, [ e.target.name ]: e.target.value })
+     const { name, value } = e.target
+    const fieldValue = { [ name ]: value }
+    setvalues({ ...values, ...fieldValue
+       
+      })
+    validate(fieldValue)
   }
- //addTrans(userObj);
 
   const handleClick = (e) => {
     e.preventDefault()
     // props.addTrans(userObj);
     props.addTrans(values);
     console.log(values) ;
-
-    // if(validate()){
-    //   window.alert('validation succeeded')
-    // } 
+    if(validate()){
+      window.alert('Validation Succeeded.')
+    }
   }
-
-  ////////////////////////////
-  //    const localData = JSON.parse(GetSession());
-  //    let token = localData.sessionData.token;
-  //    token = decrypt(token);
-
-  //    const success = false;
-  //    let resData;
-
-  //   console.log(token);
-
-  //   const userObj = {
-  //     Transaction_ID : values.transid,
-  //     Description    : values.description,
-  //     User_ID        : values.userid,
-  //     Date           : values.date,
-  //     Time           : values.time,
-  //     Quantity       : values.qty,
-  //     Unit_price     : values.unit,
-  //     Total          : values.total
-  //   }
-
-  //   //API call
-  //   await axios({
-  //     method  : 'POST',
-  //     url     : ADD_TRANSACTION_ENDPOINT,
-  //     headers : { Authorization: 'Bearer ' + token  },
-  //     data    : userObj
-  //   })
-
-  //        .then(function( response ){
-  //          console.log(response);
-  //        })
-  //       .catch(function(error){
-  //         console.log(error);
-  //          if(error.response.status === 401){
-  //           dispatch({
-  //              type    : SET_SESSION_EXPIRED,
-  //              payload : true
-  //            })
-  //          }
-  //            throw error;
-  //       });
 
   return (
       <Container component="main" maxWidth="xs">
@@ -189,6 +145,7 @@ const AddTransaction = ({ ...props }) => {
                 autoComplete="description"
                 value = { values.description }
                 onChange = { OnChange }
+                { ...(errors.description && { error: true, helperText: errors.description }) }
               /> }
                                   </Grid> }
                                   <Grid item xs={ 12 } sm={ 6 }>
@@ -203,6 +160,8 @@ const AddTransaction = ({ ...props }) => {
                 autoComplete="userid"
                 value = { values.userid }
                 onChange = { OnChange }
+                { ...(errors.userid && { error: true, helperText: errors.userid }) }
+
               />
                                   </Grid>
                                   
@@ -214,35 +173,46 @@ const AddTransaction = ({ ...props }) => {
                 id="qty"
                 label=" Quantity"
                 name="qty"
+                outputFormat="int"
                 autoComplete="Quantity"
                 value = { values.qty }
                 onChange = { OnChange }
               />
                                   </Grid>
                                   <Grid item xs={ 12 } sm={ 6 }>
-                                      <TextField
+                                      <CurrencyTextField
                 variant="outlined"
                 required
                 fullWidth
                 id="unit"
                 label="Unit Price"
                 name="unit"
+                currencySymbol="$"
+                outputFormat="string"
+                decimalCharacter="."
+		            digitGroupSeparator="," 
                 autoComplete="unit"
                 value = { values.unit }
                 onChange = { OnChange }
               />
                                   </Grid>
                                   <Grid item xs={ 12 }>    
-                                      <TextField
+                                      <CurrencyTextField
                 variant="outlined"
                 required
                 fullWidth
                 id="total"
                 label="Total"
                 name="total"
+                currencySymbol="$"
+                outputFormat="string"
+                decimalCharacter="."
+		            digitGroupSeparator=","
                 autoComplete="total"
-                value = { values.total }
+                value = {  values.unit * values.qty }
                 onChange = { OnChange }
+                { ...(errors.total && { error: true, helperText: errors.total }) }
+
               />
                                   </Grid>
                               </Grid>

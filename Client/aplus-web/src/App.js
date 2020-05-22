@@ -51,10 +51,16 @@ import inventoryUpdateTable from './component/inventoryUpdateTable';
 import storeTable from './component/store/storeTable';
 import storepie from './component/store/storepie';
 import storeBar from './component/store/storeBar';
+import ListOfBills from './component/ListOfBills';
+import addSalary from './component/payments/addSalary';
+import editSalary from './component/payments/editSalary'
 import orgTable from './component/store/orgTable';
 import addOrg from './component/addOrg';
 import AddAttendance from './component/AddAttendance'
 import UpdateAttendance from './component/UpdateAttendance'
+import orgUpdate from './component/store/orgUpdate';
+import CustomerUpdate from './component/CustomerUpdate'
+
 
 class App extends Component {
 
@@ -109,13 +115,18 @@ class App extends Component {
                     <Route exact path='/editTrans' component={ editTrans } />
                     <Route exact path='/deleteTrans' component={ deleteTrans } />
                     <Route exact path='/addTrans' component={ addTrans } />
+                    <Route exact path='/addSalary' component={ addSalary } />
                     <Route exact path='/tableInventory' component={ inventoryUpdateTable }/>
                     <Route exact path= '/storeBar' component={ storeBar }/>
                     <Route exact path= '/storepie' component={ storepie }/>
+                    <Route exact path= '/ListOfBills' component={ ListOfBills }/>
+                    <Route exact path= '/editSalary' component={ editSalary }/>
                     <Route exact path= '/organization' component={ addOrg }/>
                     <Route exact path= '/orgTable' component={ orgTable }/>
                     <Route exact path= '/AddAttendance' component={ AddAttendance }/>
                     <Route exact path= '/UpdateAttendance' component={ UpdateAttendance }/>
+                    <Route exact path= '/updateOrganization' component={ orgUpdate } />
+                    <Route exact path='/customerupdate' component={ CustomerUpdate } />
                 </Switch>
 						:
                 <Switch>

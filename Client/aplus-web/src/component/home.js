@@ -170,44 +170,45 @@ export default function AddBills() {
 		}
 
 	return (
-
-    <Grid container component="main" className={ classes.root }>
-        <CssBaseline />
+    <div>
         <Navbar />
-        <Grid item xs={ false } sm={ 4 } md={ 7 }>
-            <div className={ classes.paper }>
-                <Container className={ classes.cardGrid } maxWidth="md">
-                    {/* End hero unit */}
-                    <Grid container spacing={ 4 }>
-                        { cards.map((card) => (
-                            <Grid item key={ card } xs={ 12 } sm={ 6 } md={ 4 }>
-                                <Card className={ classes.card }>
-                                    <CardMedia
+        <Grid container component="main" className={ classes.root }>
+            <CssBaseline />
+      
+            <Grid item xs={ false } sm={ 4 } md={ 7 }>
+                <div className={ classes.paper }>
+                    <Container className={ classes.cardGrid } maxWidth="md">
+                        {/* End hero unit */}
+                        <Grid container spacing={ 4 }>
+                            { cards.map((card) => (
+                                <Grid item key={ card } xs={ 12 } sm={ 6 } md={ 4 }>
+                                    <Card className={ classes.card }>
+                                        <CardMedia
 										className={ classes.cardMedia }
 										image="https://source.unsplash.com/random"
 										title="Image title"
 									/>
-                                    <CardContent className={ classes.cardContent }>
-                                        <Typography >
-                                            Product Name
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button variant="contained" size="small" color="secondary">
-                                            Buy
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
+                                        <CardContent className={ classes.cardContent }>
+                                            <Typography >
+                                                Product Name
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Button variant="contained" size="small" color="secondary">
+                                                Buy
+                                            </Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
 						))}
-                    </Grid>
-                </Container>
-            </div>
-        </Grid>
+                        </Grid>
+                    </Container>
+                </div>
+            </Grid>
 
-        <Grid item xs={ 12 } sm={ 8 } md={ 5 } component={ Paper } elevation={ 6 } square>
-            <Table className={ classes.table } >
-                <MaterialTable
+            <Grid item xs={ 12 } sm={ 8 } md={ 5 } component={ Paper } elevation={ 6 } square>
+                <Table className={ classes.table } >
+                    <MaterialTable
 					title="PriceList"
 					columns={ state.columns }
 					data={ state.data }
@@ -250,62 +251,63 @@ export default function AddBills() {
 					} }
 				/>
 
-            </Table>
+                </Table>
 			
-            <Grid item xs={ 12 } sm={ 8 } md={ 5 } component={ Paper } elevation={ 6 } square>
-                <ButtonGroup variant="contained" orientation="horizontal" color="primary" aria-label="horizontal contained primary button group">
-                    <Button size="large" variant="contained">1</Button>
-                    <Button>2</Button>
-                    <Button>3</Button>
-                    <Button>c</Button>
-                    <Button>Qty</Button>
-                    <Button>Sec1</Button>
-                    <Button>Employee</Button>
-                    <Button  size="medium" color="primary" >Loyalty</Button>
-                    <Button  size="medium" color="primary" >Loyalty</Button>
-                    <Button  size="medium" color="primary" >Loyalty</Button>
-                    <Button variant="contained" color="secondary"  size="large">Review</Button>
-                </ButtonGroup>
-                <ButtonGroup variant="contained" orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
-                    <Button>4</Button>
-                    <Button>5</Button>
-                    <Button>6</Button>
-                    <Button>b</Button>
-                    <Button>Disc</Button>
-                    <Button>Pannel</Button>
-                    <Button>Info</Button>
-                    <Button  size="medium" color="primary" >Loyalty</Button>
-                    <Button  size="medium" color="primary" >Loyalty</Button>
-                    <Button variant="contained" color="secondary"  startIcon={ <SaveIcon /> } size="large">PayBills</Button>
-                </ButtonGroup>
-                <ButtonGroup variant="contained" orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
-                    <Button>7</Button>
-                    <Button>8</Button>
-                    <Button>9</Button>
-                    <Button>a</Button>
-                    <Button>Price</Button>
-                    <Button>Sales</Button>
-                    <Button>Attend</Button>
-                    <Button  size="medium" color="primary" >Loyalty</Button>
-                    <Button  size="medium" color="primary" >Loyalty</Button>
-                    <Button variant="contained" color="secondary"  size="large">Discount</Button>
-                </ButtonGroup>
-                <ButtonGroup  variant="contained"  orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
-                    <Button>+</Button>
-                    <Button>0</Button>
-                    <Button >-</Button>
-                    <Button>.</Button>
-                    <Button>Del</Button>
-                    <Button>%</Button>
-                    <Button>*</Button>
-                    <Button>Chec</Button>
-                    <Button  size="medium" color="primary" >Loyalty</Button>
-                    <Button  size="medium" color="primary" >Loyalty</Button>
-                    <Button  color="accent" endIcon={ <Icon>send</Icon> } size="large" className={ classes.submit } onClick={ finalBill }>Payment</Button>
-                </ButtonGroup>
-            </Grid>
+                <Grid item xs={ 12 } sm={ 8 } md={ 5 } component={ Paper } elevation={ 6 } square>
+                    <ButtonGroup variant="contained" orientation="horizontal" color="primary" aria-label="horizontal contained primary button group">
+                        <Button size="large" variant="contained">1</Button>
+                        <Button>2</Button>
+                        <Button>3</Button>
+                        <Button>c</Button>
+                        <Button>Qty</Button>
+                        <Button>Sec1</Button>
+                        <Button>Employee</Button>
+                        <Button  size="medium" color="primary" >Loyalty</Button>
+                        <Button  size="medium" color="primary" >Loyalty</Button>
+                        <Button  size="medium" color="primary" >Loyalty</Button>
+                        <Button variant="contained" color="secondary"  size="large">Review</Button>
+                    </ButtonGroup>
+                    <ButtonGroup variant="contained" orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
+                        <Button>4</Button>
+                        <Button>5</Button>
+                        <Button>6</Button>
+                        <Button>b</Button>
+                        <Button>Disc</Button>
+                        <Button>Pannel</Button>
+                        <Button>Info</Button>
+                        <Button  size="medium" color="primary" >Loyalty</Button>
+                        <Button  size="medium" color="primary" >Loyalty</Button>
+                        <Button variant="contained" color="secondary"  startIcon={ <SaveIcon /> } size="large">PayBills</Button>
+                    </ButtonGroup>
+                    <ButtonGroup variant="contained" orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
+                        <Button>7</Button>
+                        <Button>8</Button>
+                        <Button>9</Button>
+                        <Button>a</Button>
+                        <Button>Price</Button>
+                        <Button>Sales</Button>
+                        <Button>Attend</Button>
+                        <Button  size="medium" color="primary" >Loyalty</Button>
+                        <Button  size="medium" color="primary" >Loyalty</Button>
+                        <Button variant="contained" color="secondary"  size="large">Discount</Button>
+                    </ButtonGroup>
+                    <ButtonGroup  variant="contained"  orientation="horizontal" size="large" color="primary" aria-label="horizontal contained primary button group">
+                        <Button>+</Button>
+                        <Button>0</Button>
+                        <Button >-</Button>
+                        <Button>.</Button>
+                        <Button>Del</Button>
+                        <Button>%</Button>
+                        <Button>*</Button>
+                        <Button>Chec</Button>
+                        <Button  size="medium" color="primary" >Loyalty</Button>
+                        <Button  size="medium" color="primary" >Loyalty</Button>
+                        <Button  color="accent" endIcon={ <Icon>send</Icon> } size="large" href={ 'http://localhost:3000/' } className={ classes.submit } onClick={ finalBill }>Payment</Button>
+                    </ButtonGroup>
+                </Grid>
 
+            </Grid>
         </Grid>
-    </Grid>
+    </div>
 );
  }

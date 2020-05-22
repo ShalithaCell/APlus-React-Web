@@ -88,12 +88,12 @@ export default class storeBar extends React.PureComponent {
                         <ValueAxis />
 
                         <AreaSeries
-						name="Branch 1"
+						name="selling"
 						valueField="android"
 						argumentField="year"
 					/>
                         <AreaSeries
-						name="Branch 2"
+						name="returns"
 						valueField="ios"
 						argumentField="year"
 					/>
@@ -105,7 +105,7 @@ export default class storeBar extends React.PureComponent {
 						labelComponent={ LegendLabel }
 					/>
                         <Title
-						text="Comparing Organizations"
+						text="Comparing Selling"
 					/>
                     </Chart>
                 </Paper>

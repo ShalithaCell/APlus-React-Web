@@ -13,9 +13,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Navbar from './navbar';
 import Container from '@material-ui/core/Container';
-import storeAdd from './storeAdd';
-import TableBody from '@material-ui/core/TableBody';
 import { getBranchInformation, updateBranch } from '../redux/branchActions';
+import * as map from 'rxjs';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import Dialog from '@material-ui/core/Dialog';
+import { ToastContainer } from './dialogs/ToastContainer';
+import { TOAST_ERROR, TOAST_WARN } from '../config';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
 	return (
@@ -60,17 +67,79 @@ const useStyles = makeStyles((theme) => ({
 		margin : theme.spacing(6, 0, 2)
 	}
 }));
+
+const initialFieldValues = {
+	branchnameWarning   : '',
+	orgNameWarning      : '',
+	locationWarning     : '',
+	tpNoWarning         : '',
+	locationError       : '',
+	noofEmployeeWarning : ''
+
+}
+
 const StoreUpdate = ( props ) => {
 
 	const classes = useStyles();
-	const [ currentbranch, setcurrentbranch ] = useState({ branch: null });
-	
-	const [ update, setupdate ] = useState({ bName: '', location: '', tpNo: '', noofEmployees: '' });
+	//const [ currentbranch, setcurrentbranch ] = useState({ branch: null });
+	const history = useHistory();
+	// eslint-disable-next-line react/prop-types
+	const [ update, setupdate ] = useState({ bName: props.location.state.branchName, location: props.location.state.branchLocation, tpNo: props.location.state.branchPhone, noofEmployees: props.location.state.noofEmployees });
 
 	const Updatebranch = (id) => {
 		console.log(id);
-		props.updateBranch(id)
+
+		if (update.bName.length === 0 || initialFieldValues.branchnameWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Branch Name');
+			return;
+		}
+		if (update.location.length === 0 || initialFieldValues.locationWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Branch location');
+			return;
+		}
+
+		if (update.tpNo.length === 0 || initialFieldValues.tpNoWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Branch TelePhone Number ');
+			return;
+		}
+
+		if (update.tpNo.length !== 10 )
+		{
+			ToastContainer(TOAST_WARN, 'Invalid TelePhone Number ');
+			return;
+		}
+
+		const branchView = {
+			BranchName     : update.bName,
+			OrgName        : 1,
+			BranchLocation : update.location,
+			BranchPhone    : update.tpNo,
+			NoofEmployees  : update.noofEmployees,
+			Id             : props.location.state.id
+		};
+
+		props.updateBranch(branchView);
 		props.getBranchInformation();
+		// eslint-disable-next-line no-use-before-define
+		handleClickOpen();
+	}
+	const [ open, setOpen ] = React.useState(false);
+	const handleClose = () =>
+	{
+		setOpen(false);
+	};
+	const handleClickOpen = () =>
+	{
+		setOpen(true);
+	};
+	const storeRoute = () => {
+		// eslint-disable-next-line no-use-before-define
+
+		const path = 'storeDashboard';
+		history.push(path);
 	}
 
 	const onChange = (e) =>
@@ -81,15 +150,10 @@ const StoreUpdate = ( props ) => {
 	}
 
 	useEffect(() => {
-		console.log('DDDD');
-		props.getBranchInformation();
-		console.log(props.branchList);
-		{props.branchList.map(function(item, i) {
-			console.log(item);
-
-		})}
-
-	}, [ 2 ]);
+		console.log(props.location.state);
+		// props.updateBranch();
+		// props.getBranchInformation();
+		}, [ props.location.state ]);
 
 	return (
     <div>
@@ -121,7 +185,7 @@ const StoreUpdate = ( props ) => {
 							label="Branch Name"
 							name="bName"
 							autoComplete="bName"
-							value={ update.bName }
+							value={ update.bName  }
 							onChange={ onChange }
 
 						/>
@@ -135,6 +199,7 @@ const StoreUpdate = ( props ) => {
 							type="location"
 							id="location"
 							value={ update.location }
+							onChange={ onChange }
 
 						/>
                                 <TextField
@@ -147,6 +212,7 @@ const StoreUpdate = ( props ) => {
 							type="tpNo"
 							id="tpNo"
 							value={ update.tpNo }
+							onChange={ onChange }
 						/>
                                 <TextField
 							variant="outlined"
@@ -157,6 +223,7 @@ const StoreUpdate = ( props ) => {
 							type="noofEmployees"
 							id="noofEmployees"
 							value={ update.noofEmployees }
+							onChange={ onChange }
 						/>
 						
                                 <Button
@@ -164,10 +231,28 @@ const StoreUpdate = ( props ) => {
 							variant="contained"
 							color="primary"
 							className={ classes.submit }
+							onClick={ Updatebranch.bind(null, location.id) }
 						>
                                     Update Branch
                                 </Button>
+                                <Dialog
+									open={ open }
+									onClose={ handleClose }
+									aria-labelledby="alert-dialog-title"
+									aria-describedby="alert-dialog-description"
+								>
+                                    <DialogTitle id="alert-dialog-title">{'Successfully Updated!!'}</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText id="alert-dialog-description">
 
+                                        </DialogContentText>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={ storeRoute } color="primary">
+                                            OK
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
                                 <Box mt={ 8 }>
                                     <Copyright />
                                 </Box>

@@ -112,7 +112,7 @@ export const updateOrg = (OrgData) => async (dispatch) =>
 		method  : 'post',
 		url     : UPDATE_ORG_DETAILS_ENDPOINT,
 		headers : { Authorization: 'Bearer ' + token },
-		data    : branchData
+		data    : OrgData
 	})
 		.then(function(response)
 		{
@@ -151,7 +151,7 @@ export const getOrgInformation = (orgId) => async (dispatch) => {
 		.then(function(response)
 		{
 			dispatch({
-				type    : UPDATE_ORG_DETAILS_ENDPOINT,
+				type    : UPDATE_ORG_DETAILS_LIST,
 				payload : response.data
 			});
 		})
@@ -166,7 +166,7 @@ export const getOrgInformation = (orgId) => async (dispatch) => {
 			}
 			throw error;
 		});
-
+	return responseData;
 }
 
 export const removeOrg = (orgId) => async (dispatch) => {

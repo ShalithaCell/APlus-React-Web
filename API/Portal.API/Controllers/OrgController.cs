@@ -82,26 +82,23 @@ namespace Portal.API.Controllers
 
         [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
         [HttpPost("updateOrg")]
-        public async Task<IActionResult> UpdateBranch(int id, OrgModel orgView)
+        public async Task<IActionResult> UpdateOrg(int id, OrgModel orgView)
         {
-            if (id != orgView.Id)
-            {
-                return BadRequest();
-            }
-
-            var branchUpdate = await _context.branches.FindAsync(id);
-            if (branchUpdate == null)
+           
+            var orgUpdate = await _context.organizations.FindAsync(id);
+            if (orgUpdate == null)
             {
                 return NotFound();
             }
-            branchUpdate.ID = orgView.Id;
-            branchUpdate.BranchName = orgView.Org_Name;
-            branchUpdate.BranchLocation = orgView.Org_Location;
-            
+            orgUpdate.ID = orgView.Id;
+            orgUpdate.OrgName = orgView.Org_Name;
+            orgUpdate.OrgLocation = orgView.Org_Location;
+
 
             try
             {
-                await _context.SaveChangesAsync();
+                _context.organizations.Update(orgUpdate);
+                _context.SaveChangesAsync();
             }
             catch (Exception e)
             {
