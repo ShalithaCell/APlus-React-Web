@@ -19,8 +19,10 @@ import axios from 'axios';
 import { ADD_REQUEST } from '../config';
 import { useDispatch } from 'react-redux';
 import { REMOVE_REQUEST_ENDPOINT } from '../config';
-
-//
+import { getRequestInformation, updateRequest } from '../redux/requestActions';
+import { connect } from 'react-redux';
+import { ToastContainer } from './dialogs/ToastContainer';
+import { TOAST_ERROR, TOAST_SUCCESS } from '../config';
 function Copyright() {
   return (
       <Typography variant="body2" color="textSecondary" align="center">
@@ -53,109 +55,98 @@ const useStyles = makeStyles((theme) => ({
     margin : theme.spacing(3, 0, 2)
   }
 }));
+const initialFieldValues = {
+	firstnameWarning   : '',
+	lastNameWarning    : '',
+	emailWarning       : '',
+	addressWarning     : '',
+  phoneNumberWarning : '',
+  roleWarning        : '',
+  passwordWarning    : ''
 
-export default function UpdateRequest() {
-  //const dispatch = useDispatch();
-  //const classes = useStyles();
-  //const [ update, setadd ] = useState( { firstName: '', lastName: '', email: '', password: '', Address: '', PhoneNumber: '',  Role: '' });
-  //const onChangeAddRequest = (event) => {
-    //event.persist();
-    //setadd({ ...update, [ event.target.name ]: event.target.value });
-     //};
-  // const  onChangeupdateRequest = (requestData) => async (dispatch) => {
+}
 
-    //  const localData = JSON.parse(GetSession());
-      //let token = localData.sessionData.token;
-      //token = decrypt(token); //decrypt the token
+const RequestUpdate = ( props ) => {
+
+	const classes = useStyles();
+  const [ update, setupdate ] = useState({ 
+    firstName   : props.location.state.firstName,
+    lastName    : props.location.state.lastName, 
+    email       : props.location.state.email,
+    address     : props.location.state.address,
+    phoneNumber : props.location.state.phoneNumber,
+    role        : props.location.state.role, 
+    id          : props.location.state.id });
+
+	const UpdateRequest = () => {
+    console.log();
+    if (update.firstName.length === 0 || initialFieldValues.firstnameWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter First Name');
+			return;
+    }
+    if (update.lastName.length === 0 || initialFieldValues.lastNameWarning.length !== 0)
+		{
+      ToastContainer(TOAST_ERROR, 'Please enter Last Name');
+      return;
+    }
+    if (update.email.length === 0 || initialFieldValues.emailWarning .length !== 0)
+		{
+      ToastContainer(TOAST_ERROR, 'Please enter Email ');
+    }
+  
+    if (update.address.length === 0 || initialFieldValues.addressWarning.length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Address');
+			return;
+    }
+    	
+    if (update.phoneNumber.length === 0 || initialFieldValues.phoneNumberWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Phone Number');
+      return;
+     }
+    if (update.role.length === 0 || initialFieldValues.roleWarning .length !== 0)
+		{
+			ToastContainer(TOAST_ERROR, 'Please enter Role Name');
+			return;
+    }
+    //if (add.remail.length !== /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test) {
+    //  ToastContainer(TOAST_WARN, 'Please enter valid Email');
+    //  return;
+   // }
+    if (update.phoneNumber.length !== 10)
+		{
+			ToastContainer(TOAST_WARN, 'Invalid TelePhone Number ');
+			return;
+    }   
+		const requestView = {
+			FirstName   : update.firstName,
+      LastName    : update.lastName,
+      Email       : update.email,
+			Address     : update.address,
+			PhoneNumber : update.phoneNumber,
+			Role        : update.role,
+			ID          : update.id
+		};
+
+		props.updateRequest(requestView);
+		props.getRequestInformation();
+	}
+
+	const onChangeRequest = (e) =>
+	{
+		e.persist();
+		setupdate({ ...update, [ e.target.name ]: e.target.value })
+
+	}
+
+	useEffect(() => {
+		console.log(props.location.state);
+		// props.updateBranch();
+		// props.getBranchInformation();
+		}, [ props.location.state ]);
    
-/* async function UpdateRequests()
-  {
-      const localData = JSON.parse(GetSession());
-      let token = localData.sessionData.token;
-      token = decrypt(token);
-
-      //console.log('ABC');
-      let success = false;
-      let resData;
-    
-      //API call
-      await axios({
-        method  : 'post',
-        url     : UPDATE_REQUEST_ENDPOINT,
-        headers : { Authorization: 'Bearer ' + token },
-        data    : requestData
-      })
-        .then(function(response)
-        {
-          return true;
-        })
-        .catch(function(error)
-        {
-          if(error.response.status === 401){
-            dispatch({
-              type    : SET_SESSION_EXPIRED,
-              payload : true
-            });
-    
-          }
-          throw error;
-        });
-    
-    }*/
-   // const dispatch = useDispatch();
-  const classes = useStyles();
-  /*const [ add, setadd ] = useState( { fname: '', lname: '', remail: '', rAddress: '', rPhonenumber: '', arole: '' } );
-  const onChangeUpdateRequest = (event) => {
-    event.persist();
-    setadd({ ...add, [ event.target.name ]: event.target.value });
-     };
-
-  async function AddRequests()
-  {
-      const localData = JSON.parse(GetSession());
-      let token = localData.sessionData.token;
-      token = decrypt(token);
-
-      //console.log('ABC');
-      let success = false;
-      let resData;
-
-      console.log(token);
-
-      const userObj = {
-        fname   : add.fname,
-        lname   : add.lname,
-        email   : add.remail,
-        address : add.rAddress,
-        phoneno : add.rPhonenumber,
-        role    : add.arole
-      
-      }
-
-      //API call
-      await axios({
-        method  : 'post',
-        url     : ADD_REQUEST,
-        headers : { Authorization: 'Bearer ' + token },
-        data    : userObj
-    })
-        .then(function(response)
-        {
-            console.log("ok");
-        })
-        .catch(function(error)
-        {
-            if(error.response.status === 401){
-                dispatch({
-                    type    : SET_SESSION_EXPIRED,
-                    payload : true
-                });
-
-            }
-            throw error;
-        });
-}*/
-    
   return (
       <Container component="main" maxWidth="xs">
           <Navbar/>
@@ -165,45 +156,45 @@ export default function UpdateRequest() {
                   <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                  New Employee
+                  Update Employee
               </Typography>
-              <form className={ classes.form } noValidate>
+              <div>
                   <Grid container spacing={ 2 }>
                       <Grid item xs={ 12 } sm={ 6 }>
                           <TextField
-                autoComplete="fname"
-                name="fname"
+                autoComplete="firstName"
+                name="firstName"
                 variant="outlined"
-                required
                 fullWidth
                 id="firstName"
                 label="First Name"
                 autoFocus
-                //onChange={ onChangeAddRequest }
+                value={ update.firstName }
+                onChange={ onChangeRequest }
               />
                       </Grid>
                       <Grid item xs={ 12 } sm={ 6 }>
                           <TextField
                 variant="outlined"
-                required
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lname"
-                autoComplete="lname"
-                //onChange={ onChangeupdateRequest }
+                name="lastName"
+                autoComplete="lastName"
+                value={ update.lastName }
+                onChange={ onChangeRequest }
               />
                       </Grid>
                       <Grid item xs={ 12 }>
                           <TextField
                 variant="outlined"
-                required
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="remail"
+                name="email"
                 autoComplete="email"
-                //onChange={ onChangeupdateRequest }
+                value={ update.email }
+                onChange={ onChangeRequest }
               />
                       </Grid>
                       <Grid item xs={ 12 }>
@@ -212,42 +203,42 @@ export default function UpdateRequest() {
                       <Grid item xs={ 12 }>
                           <TextField
                 variant="outlined"
-                required
                 fullWidth
-                name="rAddress"
+                name="address"
                 label="Address"
-                type="Address"
-                id="Address"
-                autoComplete="current-password"
-                //onChange={ onChangeupdateRequest }
+                type="address"
+                id="address"
+                autoComplete="address"
+                value={ update.address }
+                onChange={ onChangeRequest }
               />
               
                       </Grid>
                       <Grid item xs={ 12 }>
                           <TextField
                 variant="outlined"
-                required
                 fullWidth
-                name="rPhonenumber"
+                name="phoneNumber"
                 label="Phone Number"
                 type="Phone Number"
-                id="Phone Number"
-                autoComplete="Phone Number"
-                //onChange={ onChangeupdateRequest }
+                id="phoneNumber"
+                autoComplete="phoneNumber"
+                value={ update.phoneNumber }
+                onChange={ onChangeRequest }
               />
               
                       </Grid>
                       <Grid item xs={ 12 }>
                           <TextField
                 variant="outlined"
-                required
                 fullWidth
-                name="arole"
+                name="role"
                 label="Role"
-                type="Role"
-                id="Role"
-                autoComplete="Role"
-                //onChange={ onChangeupdateRequest }
+                type="role"
+                id="role"
+                autoComplete="role"
+                value={ update.role }
+                onChange={ onChangeRequest }
               />
                       </Grid>
                      
@@ -257,26 +248,18 @@ export default function UpdateRequest() {
             maxWidth="50sp"
             variant="contained"
             color="primary"
-            className={ classes.submit }
-           // onClick={ UpdateRequests }
+            onClick={ UpdateRequest }
           >
                       UPDATE
                   </Button>
-                 
-                  <Button
-            type="submit"
-          maxWidth="50sp"
-            variant="contained"
-            color="primary"
-            className={ classes.submit }
-            //onClick={ removeRequest }
-          >
-                      DELETE
-                  </Button>
-                 
-              </form>
+              
+              </div>
           </div>
           
       </Container>
   );
 }
+const mapStateToProps = (state) => ({
+	requestList : state.request.requestList
+})
+export default connect(mapStateToProps, { getRequestInformation, updateRequest })(RequestUpdate);

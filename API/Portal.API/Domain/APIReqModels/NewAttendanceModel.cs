@@ -22,7 +22,6 @@ namespace Portal.API.Domain.APIReqModels
 
         [Required(ErrorMessage = "WorkingHours is Required")]
         public DateTime wHours { get; set; }
-
-       
+      
     }
 }
