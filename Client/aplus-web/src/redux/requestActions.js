@@ -5,7 +5,6 @@ import { decrypt } from '../services/EncryptionService';
 import { GetSession } from '../services/sessionManagement';
 import { SetSessionExpiredStatus } from './systemActions';
 import { popupSpinner } from './systemActions';
-import { any } from 'prop-types';
 
 export const getRequestInformation = () => async (dispatch) => {
     console.log('abcd');
