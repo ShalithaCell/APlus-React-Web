@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
 using Portal.API.Domain.IdentityModel;
@@ -50,5 +51,33 @@ namespace Portal.API.Controllers
 
             return Ok();
         }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("removebill")]
+        public async Task<IActionResult> Deletebill([FromBody] JObject bills)
+        {
+            CashierData bill = _context.cashierDatas.Where(o => o.ID == Convert.ToInt32(bills["billID"].ToString())).FirstOrDefault();
+
+            if (bill == null)
+            {
+                return BadRequest();
+            }
+
+            _context.cashierDatas.Remove(bill);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+
+
+        }
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpGet("getbill")]
+        public async Task<IActionResult> Getbill()
+        {
+            var bills = _context.cashierDatas.Where(o => o.IsActive == true).ToList();
+
+            return Ok(bills);
+        }
+
     }
 }

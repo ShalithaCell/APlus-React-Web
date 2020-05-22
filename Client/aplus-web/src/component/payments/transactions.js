@@ -24,9 +24,12 @@ import { connect } from 'react-redux';
 import { ADD_TRANS, VIEW_TRANS, UPDATE_TRANS, DELETE_TRANS } from '../../redux/actionTypes';
 import { addTrans, deleteTrans, viewTrans, updateTrans } from '../../redux/transactionActions';
 import { transactionReducer } from '../../redux/reducers/transactionReducer';
-import '../../redux/reducers/index';
 import { useEffect, useState } from 'react';
-
+import '../../redux/reducers/index';
+import Router, { useRouter }  from 'react';
+import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
+import './editTrans';
 const TAX_RATE = 0.07;
 
 const useStyles = makeStyles((theme) => ({
@@ -130,19 +133,26 @@ const ViewTransaction = (props) => {
     const deleteTrans = (id) => {
         console.log(id);
         props.deleteTrans(id);
+        props.viewTrans();
+
     }
 
-    const [ values, setvalues ] = useState ()
+    const [ values, setvalues ] = useState()
+    const [ currentId, serCurrentId ] = useState(0)
 
     useEffect(() => {
         console.log('aaa');
 
-        setvalues(
-            props.transList
-        )
+        props.viewTrans();
+    }, [  ])
 
-        props.viewTrans(values);
-    }, [ ViewTransaction ])
+    useEffect(() => {
+        const { pathname } = Router
+        if(pathname == '/' ){
+            Router.push('/editTrans')
+        }
+      });
+//      const router = useRouter()
 
     return (
 
@@ -151,7 +161,7 @@ const ViewTransaction = (props) => {
             <Container maxWidth="$" >
                 // eslint-disable-next-line react/jsx-indent
                 <Typography component="div" className={ classes.table } />
-                <React.Fragment>
+                <React.Fragment { ...({ currentId, serCurrentId }) }>
                     <div className={ classes.root }>
                         <AppBar position="relative">
                             <div>
@@ -159,12 +169,13 @@ const ViewTransaction = (props) => {
                             </div>
                             <Toolbar>
                                 <Typography className={ classes.title } variant="h7" noWrap>
-                                    Transaction Details
+                                    Transactions
                                 </Typography>
                                 <div className={ classes.search }>
                                     <div className={ classes.searchIcon }>
                                         <SearchIcon />
                                     </div>
+
                                     <InputBase
                                         placeholder="Search…"
                                         classes={ {
@@ -174,10 +185,17 @@ const ViewTransaction = (props) => {
                                         inputProps={ { 'aria-label': 'search' } }
                                     />
                                 </div>
+                                <Button
+                                                        variant="contained"
+                                                        color="purple"
+                                                        onClick={ (event) =>  window.location.href='/addTrans' }
+                                                        className={ classes.button }>
+                                    <AddIcon/>
+                                </Button>
                             </Toolbar>
                         </AppBar>
                     </div>
-                    <TableContainer component={ Paper }>
+                    <TableContainer component={ Paper } >
                         <Table className={ classes.table } aria-label="spanning table">
                             <TableHead>
                                 <TableRow>
@@ -190,8 +208,8 @@ const ViewTransaction = (props) => {
                                     <TableCell>Edit / Delete</TableCell>
                                     <TableCell>Trans_ID</TableCell>
                                     <TableCell>Des</TableCell>
-                                    <TableCell>User ID</TableCell>
                                     <TableCell>Date</TableCell>
+                                    <TableCell>User ID</TableCell>
                                     <TableCell>Time</TableCell>
                                     <TableCell align="right">Qty.</TableCell>
                                     <TableCell align="right">Unit</TableCell>
@@ -199,41 +217,44 @@ const ViewTransaction = (props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                { props.transList.map((row) => {
-                                    <TableRow  key= { row.id }>
-                                        <TableCell>
-                                            <React.Fragment>
-                                                {getStepContent(activeStep)}
-                                                <div className={ classes.buttons }>
+                                { props.list.map((row) => {
+                                    return(
+                                        <TableRow  key= { row.id }>
+                                            <TableCell>
+                                                <React.Fragment>
+                                                    {getStepContent(activeStep)}
+                                                    <div className={ classes.buttons }>
 
-                                                    <Button
+                                                        <Button
                                                         variant="contained"
                                                         color="purple"
-                                                        onClick={ handleBack }
+                                                        // onClick={ (event) =>  window.location.href='/editTrans' }
+                                                        onClick = { () => {serCurrentId(row.id)}, (event) =>  window.location.href='/editTrans' }
                                                         className={ classes.button }>
-                                                        <EditIcon />
-                                                    </Button>
+                                                        
+                                                            <EditIcon />
+                                                        </Button>
 
-                                                    <Button
+                                                        <Button
                                                         variant="contained"
                                                         color="secondary"
-                                                        onClick={ handleNext }
+                                                        onClick={ deleteTrans.bind(null, row.id) }
                                                         className={ classes.button }>
-                                                        <DeleteIcon />
-                                                    </Button>
-                                                </div>
-                                            </React.Fragment>
-                                        </TableCell>
+                                                            <DeleteIcon />
+                                                        </Button>
+                                                    </div>
+                                                </React.Fragment>
+                                            </TableCell>
 
-                                        <TableCell>{row.id}</TableCell>
-                                        <TableCell>{row.description}</TableCell>
-                                        <TableCell>{row.registedDate}</TableCell>
-                                        <TableCell>{row.user_ID}</TableCell>
-                                        <TableCell>{row.registedDate}</TableCell>
-                                        <TableCell align="right">{row.quantity}</TableCell>
-                                        <TableCell align="right">{row.unit_price}</TableCell>
-                                        <TableCell align="right">{ccyFormat(row.total)}</TableCell>
-                                    </TableRow>
+                                            <TableCell>{row.id}</TableCell>
+                                            <TableCell>{row.description}</TableCell>
+                                            <TableCell>{row.registedDate}</TableCell>
+                                            <TableCell>{row.user_ID}</TableCell>
+                                            <TableCell>{row.registedDate}</TableCell>
+                                            <TableCell align="right">{row.quantity}</TableCell>
+                                            <TableCell align="right">{row.unit_price}</TableCell>
+                                            <TableCell align="right">{row.quantity * row.unit_price}</TableCell>
+                                        </TableRow>)
                                 }
                                 )}
 
@@ -260,7 +281,7 @@ const ViewTransaction = (props) => {
     );
 }
 const mapStateToProps = (state) => {
-    return { transList: state.transaction.list }
+    return { list: state.transaction.list }
 }
 // mapActionToProps = {
 //     viewTrans : ViewTransaction

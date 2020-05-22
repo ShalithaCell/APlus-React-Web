@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -14,18 +15,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Navbar from '../navbar';
 import { useState, useEffect } from 'react';
-import { addTrans } from '../../redux/transactionActions'
+import { addSalary } from '../../redux/salaryActions'
 import { useDispatch } from 'react-redux'
 import { GetSession } from '../../services/sessionManagement';
 import { decrypt } from '../../services/EncryptionService';
 import axios from 'axios';
-import { ADD_TRANSACTION_ENDPOINT } from '../../config';
+import { ADD_SALARY_ENDPOINT } from '../../config';
 import { SET_SESSION_EXPIRED } from '../../redux/actionTypes';
 import { connect } from 'react-redux';
-import { transactionReducer } from '../../redux/reducers/transactionReducer';
+import { salaryReducer } from '../../redux/reducers/salaryReducer';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { useToasts } from 'react-toast-notifications';
-import { ToastContainer } from '../../component/dialogs/ToastContainer';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
 
 function Copyright() {
@@ -65,57 +64,56 @@ const useStyles = makeStyles((theme) => ({
 ///////////////////////////////////////
 
 const initialValues ={
-  description : '',
-  userid      : '',
-  qty         : '0', 
-  unit        : '0',
-  total       : '0'
+    name        : '',
+    eid         : '',
+    basic       : '',
+    bonus       : '',
+    designation : '',
+    attendance  : '',
+    for_month   : '',
+    total       : ''
 }
 
-const AddTransaction = ({ ...props }) => {
+const addSalaries = ({ ...props }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const [ values, setvalues ] = useState (initialValues) 
   const [ errors, seterrors ] = useState({})
-
-  const transObj = {
-    Description : values.description,
-    User_ID     : values.userid,
-    Quantity    : values.qty,
-    Unit_price  : values.unit,
-    Total       : values.total
-  }
-  const validate = (fieldValues = values) => {
+  const [ values, setvalues ] = useState (initialValues) 
+ 
+  const validate = () => {
     const temp = {}
-    temp.description = fieldValues.description?'':'This field is required.'
-    temp.userid = fieldValues.userid?'':'This field is required.'
-    temp.total = fieldValues.total?'':'This field is required.'
+    temp.name = values.name?'':'This field is required.'
+    temp.designation = values.designation?'':'This field is required.'
+    temp.eid = values.eid?'':'This field is required.'
+    temp.basic = values.basic?'':'This field is required.'
+    temp.for_month = values.for_month?'':'This field is required.'
+    temp.attendance = values.attendance?'':'This field is required.'
+    temp.total = values.total?'':'This field is required.'
+
     seterrors({
       ...temp
     })
-if(fieldValues == values)
-    { return Object.values(temp).every((x) => x == '') }
+    return Object.values(temp).every((x) => x == '') 
   }
 
   const OnChange = (e) => {
     e.persist();
-     const { name, value } = e.target
-    const fieldValue = { [ name ]: value }
-    setvalues({ ...values, ...fieldValue
-       
-      })
-    validate(fieldValue)
+    const { name, value } = e.target
+    setvalues({ ...values,
+      [ e.target.name ] : e.target.value })
+
+    validate(values)
   }
 
   const handleClick = (e) => {
     e.preventDefault()
-    // props.addTrans(userObj);
-    props.addTrans(values);
+    props.addSalary(values);
     console.log(values) ;
     if(validate()){
       window.alert('Validation Succeeded.')
     }
+ 
   }
 
   return (
@@ -128,55 +126,71 @@ if(fieldValues == values)
                   <CssBaseline />
                   <div className={ classes.paper }>
                       <Typography component="h1" variant="h5">
-                          Add Transaction
+                          Add Salary
                       </Typography>
                       <div className={ classes.form } noValidate onSubmit={ handleClick }>
                           <Grid container spacing={ 2 }>
                              
                               <Grid container spacing={ 2 }>
-                                  { <Grid item xs={ 12 } sm={ 6 }>
+                                  <Grid item xs={ 12 } sm={ 6 }>
                                       { <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="description"
-                label="Description"
-                name="description"
-                autoComplete="description"
-                value = { values.description }
+                id="name"
+                label="Name"
+                name="name"
+                autoComplete="name"
+                value = { values.name }
                 onChange = { OnChange }
-                { ...(errors.description && { error: true, helperText: errors.description }) }
+                { ...(errors.name && { error: true, helperText: errors.name }) }
               /> }
-                                  </Grid> }
+                                  </Grid> 
                                   <Grid item xs={ 12 } sm={ 6 }>
                                       <TextField
-                variant="userid"
                 required
                 fullWidth
-                id="userid"
+                id="designation"
                 variant="outlined"
-                label="User ID"
-                name="userid"
-                autoComplete="userid"
-                value = { values.userid }
+                label="Designation"
+                name="designation"
+                autoComplete="designation"
+                value = { values.designation }
                 onChange = { OnChange }
-                { ...(errors.userid && { error: true, helperText: errors.userid }) }
-
+                { ...(errors.designation && { error: true, helperText: errors.designation }) }
+              />
+                                  </Grid>
+                                  <Grid item xs={ 12 }>    
+                                      <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="eid"
+                label="Employee ID"
+                name="eid"
+                autoComplete="eid"
+                value = { values.eid }
+                onChange = { OnChange }
+                { ...(errors.eid && { error: true, helperText: errors.eid }) }
               />
                                   </Grid>
                                   
                                   <Grid item xs={ 12 } sm={ 6 }>
-                                      <TextField
+                                      <CurrencyTextField
                 variant="outlined"
                 required
                 fullWidth
-                id="qty"
-                label=" Quantity"
-                name="qty"
-                outputFormat="int"
-                autoComplete="Quantity"
-                value = { values.qty }
+                currencySymbol="$"
+                outputFormat="string"
+                decimalCharacter="."
+		            digitGroupSeparator=","
+                id="basic"
+                label="Basic"
+                name="basic"
+                autoComplete="basic"
+                value = { values.basic }
                 onChange = { OnChange }
+                { ...(errors.basic && { error: true, helperText: errors.basic }) }
               />
                                   </Grid>
                                   <Grid item xs={ 12 } sm={ 6 }>
@@ -184,16 +198,48 @@ if(fieldValues == values)
                 variant="outlined"
                 required
                 fullWidth
-                id="unit"
-                label="Unit Price"
-                name="unit"
                 currencySymbol="$"
                 outputFormat="string"
                 decimalCharacter="."
-		            digitGroupSeparator="," 
-                autoComplete="unit"
-                value = { values.unit }
+		            digitGroupSeparator=","
+                id="bonus"
+                label="Bonus"
+                name="bonus"
+                autoComplete="bonus"
+                value = { values.bonus }
                 onChange = { OnChange }
+              />
+                                  </Grid> <Grid item xs={ 12 }>    
+                                      <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="attendance"
+                label="Attendance"
+                name="attendance"
+                autoComplete="attendance"
+                value = { values.attendance }
+                onChange = { OnChange }
+                { ...(errors.attendance && { error: true, helperText: errors.attendance }) }
+              />
+                                  </Grid>
+                                  <Grid item xs={ 12 }>    
+                                      <TextField
+                variant="outlined"
+                required
+                fullWidth
+                name="total"
+                currencySymbol="$"
+                outputFormat="string"
+                decimalCharacter="."
+		            digitGroupSeparator=","
+                id="for_month"
+                label="For_month"
+                name="for_month"
+                autoComplete="for_month"
+                value = { values.for_month }
+                onChange = { OnChange }
+                { ...(errors.for_month && { error: true, helperText: errors.for_month }) }
               />
                                   </Grid>
                                   <Grid item xs={ 12 }>    
@@ -201,18 +247,21 @@ if(fieldValues == values)
                 variant="outlined"
                 required
                 fullWidth
-                id="total"
-                label="Total"
                 name="total"
                 currencySymbol="$"
                 outputFormat="string"
                 decimalCharacter="."
 		            digitGroupSeparator=","
+                id="total"
+                label="Total"
+                name="total"
+                currencySymbol="$"
+                decimalCharacter="."
+		            digitGroupSeparator=","
                 autoComplete="total"
-                value = {  values.unit * values.qty }
+                value = { values.basic + values.bonus }
                 onChange = { OnChange }
                 { ...(errors.total && { error: true, helperText: errors.total }) }
-
               />
                                   </Grid>
                               </Grid>
@@ -241,4 +290,4 @@ if(fieldValues == values)
   );
 }
 
-export default connect(null, { addTrans })(withStyles(useStyles)(AddTransaction));
+export default connect(null, { addSalary })(withStyles(useStyles)(addSalaries));

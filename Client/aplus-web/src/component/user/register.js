@@ -82,6 +82,10 @@ class Register extends Component{
 
 		if(e.target.id === 'email'){
 
+			this.setState({
+				username : e.target.value
+			});
+
 			if(e.target.value === ''){
 				this.setState({
 					emailWarning : 'email address is required  !'
@@ -334,7 +338,7 @@ class Register extends Component{
 										   error={ this.state.usernameWarning.length !== 0 }
 										   helperText={ this.state.usernameWarning }
 										   autoComplete={ false }
-										   disabled={ this.props.editable }
+										   disabled
 										   required/>
                             </div>
                             <div className="form-group">
