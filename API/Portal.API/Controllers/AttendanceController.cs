@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Portal.API.Domain.APIReqModels;
 using Portal.API.Domain.DataBaseModels;
+using Portal.API.Domain.DataTransactionModels;
 using Portal.API.Domain.IdentityModel;
 using Portal.API.Infrastructure;
 using Portal.API.Infrastructure.DAL.DatabaseContext;
@@ -86,6 +87,36 @@ namespace Portal.API.Controllers
 
             return Ok();
 
+        }
+
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("updateAttendance")]
+        public async Task<IActionResult> UpdateAttendance(AttendanceView attendanceView)
+        {
+
+            var attendanceUpdate = await _context.attendances.FindAsync(attendanceView.Id);
+            if (attendanceUpdate == null)
+            {
+                return NotFound();
+            }
+            attendanceUpdate.ID = attendanceView.Id;
+            attendanceUpdate.Name = attendanceView.Name;
+            attendanceUpdate.Role = attendanceView.Role;
+            attendanceUpdate.ClockOnTime = attendanceView.ClockOnTime;
+            attendanceUpdate.ClockOutTime = attendanceView.ClockOutTime;
+            attendanceUpdate.WorkingHours = attendanceView.WorkingHours;
+
+            try
+            {
+                _context.attendances.Update(attendanceUpdate);
+                _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return Ok();
         }
 
     }

@@ -24,13 +24,14 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { useDispatch } from 'react-redux';
-import { ADD_ATTENDANCE, TOAST_ERROR } from '../config';
+import { ADD_ATTENDANCE } from '../config';
 import { makeStyles } from '@material-ui/core/styles';
 import { ToastContainer } from './dialogs/ToastContainer';
 import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
 import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
+import { TOAST_ERROR, TOAST_SUCCESS } from '../config';
 
 const useStyles = makeStyles((theme) => ({
   paper : {
@@ -57,15 +58,10 @@ const initialFieldValues = {
 	timeWarning         : '',
 	clockOnTimeWarning  : '',
   clockOutTimeWarning : ''
- // hourWarning         : ''
 }
 
 export default function AddAttendance() {
- // const [ selectedDate, setSelectedDate ] = React.useState(new Date('2014-08-18T21:11:54'));
-
-  //const handleDateChange = (date) => {
-  //  setSelectedDate(date);
- // };
+ 
   const dispatch = useDispatch();
   const classes = useStyles();
   const [ add, setadd ] = useState( { afname: '', arole: '', adate: '', aclockOnTime: '', aclockOutTime: '', aHours: ''  });
@@ -88,27 +84,24 @@ export default function AddAttendance() {
     }
     if (add.adate.length === 0 || initialFieldValues.timeWarning.length !== 0)
 		{
-			ToastContainer(TOAST_ERROR, 'Please enter Role');
+			ToastContainer(TOAST_ERROR, 'Please enter Date');
 			return;
     }
     if (add.aclockOnTime.length === 0 || initialFieldValues.clockOnTimeWarning.length !== 0)
 		{
-			ToastContainer(TOAST_ERROR, 'Please enter Role');
+			ToastContainer(TOAST_ERROR, 'Please enter Clock On Time');
 			return;
     }
     if (add.aclockOutTime.length === 0 || initialFieldValues.clockOutTimeWarning.length !== 0)
 		{
-			ToastContainer(TOAST_ERROR, 'Please enter Role');
+			ToastContainer(TOAST_ERROR, 'Please enter  Clock Out Time');
 			return;
     }
-    //if (add.aHours.length === 0 || initialFieldValues.hourWarning.length !== 0)
-		//{
-		//	ToastContainer(TOAST_ERROR, 'Please enter Role');
-		//	return;
-  //  }
+  
       const localData = JSON.parse(GetSession());
       let token = localData.sessionData.token;
       token = decrypt(token);
+      ToastContainer(TOAST_SUCCESS, "Successfully Added Attendnce")
 
       //console.log('ABC');
       let success = false;
@@ -189,6 +182,12 @@ export default function AddAttendance() {
             label="Date"
             fullWidth
             autoComplete="date"
+            type="date"
+            defaultValue="2017-05-24"
+            className={ classes.textField }
+            InputLabelProps={ {
+            shrink : true
+          } }
             value={ add.adate }
                 onChange={ onChangeAddAttendance }
           />
@@ -196,11 +195,21 @@ export default function AddAttendance() {
                   <Grid item xs={ 12 }>
                       <TextField
             required
-            id="clockOnTime"
+            id="time"
             name="aclockOnTime"
             label="Clock On Time"
             fullWidth
             autoComplete="clockOnTime"
+            label="Alarm clock"
+            type="time"
+            defaultValue="07:30"
+            className={ classes.textField }
+            InputLabelProps={ {
+            shrink : true
+    } }
+           inputProps={ {
+      step : 300 // 5 min
+    } }
             value={ add.aclockOnTime }
                 onChange={ onChangeAddAttendance }
           />
@@ -208,11 +217,21 @@ export default function AddAttendance() {
                   <Grid item xs={ 12 }>
                       <TextField
             required
-            id="clockOutTime"
+            id="time"
             name="aclockOutTime"
             label="Clock Out Time"
             fullWidth
             autoComplete="date"
+            label="Alarm clock"
+            type="time"
+            defaultValue="07:30"
+            className={ classes.textField }
+            InputLabelProps={ {
+            shrink : true
+    } }
+           inputProps={ {
+      step : 300 // 5 min
+    } }
             value={ add.aclockOutTime }
                 onChange={ onChangeAddAttendance }
           />

@@ -22,10 +22,13 @@ import { mainListItems, secondaryListItems } from './store/listItems';
 import Chart from './store/storeChart';
 import Deposits from './store/deposit';
 import Branch from './store/noOfBranch';
+import Sales from './store/upcomingInventory'
 //import Map from './store/map';
 import Pie from './store/storepie';
 import { Button } from '@material-ui/core';
 import Navbar from './navbar';
+import { connect } from 'react-redux';
+import { getBranchInformation, updateBranch } from '../redux/branchActions';
 
 function Copyright() {
 	return (
@@ -193,7 +196,7 @@ function Dashboard() {
                     </Grid>
                     <Grid item xs={ 12 } md={ 4 } lg={ 4 }>
                         <Paper className={ fixedHeightPaper } >
-                            <Pie />
+                            <Sales />
                         </Paper>
                     </Grid>
                     <Grid item xs={ 12 }>
@@ -211,4 +214,7 @@ function Dashboard() {
            	);
 
 }
-export default Dashboard;
+const mapStateToProps = (state) => ({
+	orgList : state.org.orgList
+})
+export default connect(mapStateToProps, { getBranchInformation, updateBranch })(Dashboard);

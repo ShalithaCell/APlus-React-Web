@@ -54,7 +54,6 @@ export default function Deposits() {
                     </Grid>
                 </TableCell>
                 <TableCell>
-
                     <Title>Number of Branches</Title>
                 </TableCell>
             </TableRow>
@@ -66,10 +65,10 @@ export default function Deposits() {
 
         <div>
             <IconButton color="inherit">
-                <Button href="http://localhost:3000/home"
+                <Button href="http://localhost:3000/storeAdd"
 							variant="contained"
 							color="#ffffff"
-					> View</Button>
+					> Add</Button>
             </IconButton>
         </div>
 

@@ -3,7 +3,7 @@ import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
 import { LIST_CUSTOMER } from '../config';
 import { GET_CUSTOMER_ENDPOINT } from '../config';
-import { REMOVE_CUSTOMER_ENDPOINT } from '../config';
+import { REMOVE_CUSTOMER_ENDPOINT, UPDATE_CUSTOMER_ENDPOINT } from '../config';
 import { SET_SESSION_EXPIRED, UPDATE_CUSTOMER_LIST } from './actionTypes';
 
 export const CustomerActions = (customer)  => async () =>
@@ -115,4 +115,35 @@ export const removecustomer = (customerId) => async (dispatch) => {
 		});
 
 	return responseData;
+}
+
+export const updateCustomer = (customerData) => async (dispatch) =>
+{
+	console.log(customerData);
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	//API call
+	await axios({
+		method  : 'post',
+		url     : UPDATE_CUSTOMER_ENDPOINT,
+		headers : { Authorization: 'Bearer ' + token },
+		data    : customerData
+	})
+		.then(function(response)
+		{
+			return true;
+		})
+		.catch(function(error)
+		{
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}
+			throw error;
+		});
 }

@@ -21,6 +21,7 @@ import Orders from './Inventory/orders';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import Navbar from './navbar';
+import imgOk from '../resources/images/ok_img.png';
 
 const drawerWidth = 240;
 
@@ -152,6 +153,13 @@ export default function DashboardInventory() {
                             </Paper>
                         </Grid>
                         <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
+                            <Paper className={ fixedHeightPaper } >
+                                <Button variant="contained" color="secondary">
+                                    REPORTS
+                                </Button>
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
                             <Paper className={ fixedHeightPaper }>
                                 <DashCard5 />
                             </Paper>
@@ -161,13 +169,7 @@ export default function DashboardInventory() {
                                 <DashCard6 />
                             </Paper>
                         </Grid>
-                        <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
-                            <Paper className={ fixedHeightPaper } >
-                                <Button variant="contained" color="secondary">
-                                    REPORTS
-                                </Button>
-                            </Paper>
-                        </Grid>
+                        
                         <Grid item xs={ 12 } md={ 4 } lg={ 3 }>
                             <Paper className={ fixedHeightPaper } >
                                 <Button variant="contained" color="secondary" href="http://localhost:3000/updateinventory">

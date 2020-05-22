@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Navbar from '../navbar';
 import { useState, useEffect } from 'react';
-import { updateTrans } from '../../redux/transactionActions'
+import { updateTrans, viewTrans } from '../../redux/transactionActions'
 import { useDispatch } from 'react-redux'
 import { GetSession } from '../../services/sessionManagement';
 import { decrypt } from '../../services/EncryptionService';
@@ -25,6 +25,7 @@ import { connect } from 'react-redux';
 import { transactionReducer } from '../../redux/reducers/transactionReducer';
 import withStyles from '@material-ui/core/styles/withStyles';
 import   transactions  from './transactions';
+import { useHistory } from "react-router-dom";
 
 function Copyright() {
   return (
@@ -60,16 +61,48 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 const EditTransaction = ({ ...props }) => { 
+  const history = useHistory();
 
   const [ values, setvalues ] = useState()
+   const [ update, setupdate ] = useState({
+
+     description : props.location.state.description,
+     user_ID     : props.location.state.user_ID, 
+     quantity    : props.location.state.quantity, 
+     unit_price  : props.location.state.unit_price,
+     total       : props.location.state.total
+
+   })
+    const updateTrans = (id) => {
+	 	console.log(id);
+
+	 	const transView = {
+      Description : update.description,
+	 		User_ID     : update.user_ID,
+	 		Quantity    : update.quantity,
+      Unit_price  : update.unit_price,
+      Total       : update.total,
+	 	  ID          : props.location.state.id
+	 	};
+ 	props.updateTrans(transView);
+   const updateRoute = () => {
+    console.log();
+    const path = 'transactions';
+    history.push(path);
+}
+
+ }
   
   const classes = useStyles();
-  useEffect(() => {
-    // if( props.currentId != 0)
-    // setvalues({
-    //   ...props.list.find( x.id == props.currentId  )
-    // })
-  }), [ props.currentId ]
+
+const onChange = (e) => {
+  e.persist();
+  setupdate({ ...update, [ e.target.name ]: e.target.value })
+}
+useEffect( () => {
+  console.log(props.location.state);
+  // props.updateTrans();
+}, [  ])
 
   return (
       <Container component="main" maxWidth="sx">
@@ -83,7 +116,7 @@ const EditTransaction = ({ ...props }) => {
                       <Typography component="h1" variant="h5">
                           Edit Transaction
                       </Typography>
-                      <form className={ classes.form } noValidate>
+                      <div >
                           <Grid container spacing={ 2 }>
                              
                               <Grid container spacing={ 2 }>
@@ -96,6 +129,8 @@ const EditTransaction = ({ ...props }) => {
                 fullWidth
                 id="description"                                                       
                 label="Description"
+                value={ update.description }
+                onChange={ onChange }
                 autoFocus
               />
                                   </Grid>
@@ -107,21 +142,25 @@ const EditTransaction = ({ ...props }) => {
                 id="userid"
                 variant="outlined"
                 label="User ID"
-                name="userid"
+                name="user_ID"
                 autoComplete="userid"
+                value={ update.user_ID }
+                onChange={ onChange }
               />
                                   </Grid>
                                   
                                   <Grid item xs={ 12 } sm={ 6 }>
                                       <TextField
                 autoComplete="qty"
-                name="Quantity"
+                name="quantity"
                 variant="outlined"
                 required
                 fullWidth
-                id="qty"                                                       
+                id="quantity"                                                       
                 label="Quantity"
                 autoFocus
+                value={ update.quantity }
+                onChange={ onChange }
               />
                                   </Grid>
                                   <Grid item xs={ 12 } sm={ 6 }>
@@ -132,8 +171,10 @@ const EditTransaction = ({ ...props }) => {
                 id="unit"
                 variant="outlined"
                 label="Unit Price"
-                name="unit"
+                name="unit_price"
                 autoComplete="unit"
+                value={ update.unit_price }
+                onChange={ onChange }
               />
                                   </Grid>
                                   <Grid item xs={ 12 }>    
@@ -141,11 +182,11 @@ const EditTransaction = ({ ...props }) => {
                 variant="outlined"
                 required
                 fullWidth
-                name="Total"
+                name="total"
                 label="Total"
-                type="currency"
                 id="total"
-                autoComplete="current-password"
+                value={ update.total }
+                onChange={ onChange }
               />
                                   </Grid>
                               </Grid>
@@ -154,14 +195,14 @@ const EditTransaction = ({ ...props }) => {
             fullWidth
             variant="contained"
             color="primary"
-            className={ classes.submit }
+            onClick={ updateTrans }
           >
                                   Update
                               </Button>
                               <Grid container justify="flex-end">
                               </Grid>
                           </Grid>
-                      </form>
+                      </div>
                   </div>
                   <Box mt={ 5 }>
                       <Copyright />
@@ -171,4 +212,7 @@ const EditTransaction = ({ ...props }) => {
       </Container> 
   );
 }
-export default connect(null, { updateTrans })(withStyles(useStyles)(EditTransaction));
+const mapStateToProps = (state) => {
+  return { list: state.transaction.list }
+}
+export default connect(mapStateToProps, { viewTrans, updateTrans })(withStyles(useStyles)(EditTransaction));

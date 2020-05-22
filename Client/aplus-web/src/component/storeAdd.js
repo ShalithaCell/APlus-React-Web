@@ -80,7 +80,8 @@ const initialFieldValues = {
 	locationWarning     : '',
 	tpNoWarning         : '',
 	locationError       : '',
-	noofEmployeeWarning : ''
+	noofEmployeeWarning : '',
+	emailWarning        : ''
 
 }
 
@@ -116,14 +117,15 @@ function storeAdd() {
 
 	const onChange = (e) =>
 	{
-		e.persist();
-		setadd({ ...add, [ e.target.name ]: e.target.value })
 
-	 }
+		e.persist();
+		setadd({ ...add, [ e.target.name ]: e.target.value } );
+
+	}
 
 	async function Insertbranch(){
 
-		if (add.bName.length === 0 || initialFieldValues.branchnameWarning.length !== 0)
+		if (add.bName.length === 0 || initialFieldValues.branchnameWarning.length !== 0 )
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Branch Name');
 			return;
@@ -143,6 +145,12 @@ function storeAdd() {
 		if (add.tpNo.length === 0 || initialFieldValues.tpNoWarning.length !== 0)
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Branch TelePhone Number ');
+			return;
+		}
+
+		if (add.tpNo.length !== 10)
+		{
+			ToastContainer(TOAST_WARN, 'Invalid TelePhone Number ');
 			return;
 		}
 

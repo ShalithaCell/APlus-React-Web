@@ -11,7 +11,7 @@ import {
 	UPDATE_SUPPLIER_ENDPOINT
 } from '../config';
 
-export const addBranchDetails = ()  => async (dispatch) =>
+export const addsupplier = ()  => async (dispatch) =>
 {
 	const localData = JSON.parse(GetSession());
 	let token = localData.sessionData.token;
@@ -125,4 +125,38 @@ export const removeSupplier = (supplierId) => async (dispatch) =>
 		});
 
 	return responseData;
+}
+
+export const updateSupplier = (supplierData) => async (dispatch) =>
+{
+	console.log(supplierData);
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	//API call
+	await axios({
+		method  : 'post',
+		url     : UPDATE_SUPPLIER_ENDPOINT,
+		headers : { Authorization: 'Bearer ' + token },
+		data    : supplierData
+	})
+		.then(function(response)
+		{
+			return true;
+		})
+		.catch(function(error)
+		{
+			/*
+			if(error.response.status === 401){
+				dispatch({
+					type    : SET_SESSION_EXPIRED,
+					payload : true
+				});
+
+			}
+			throw error;
+
+			 */
+		});
 }

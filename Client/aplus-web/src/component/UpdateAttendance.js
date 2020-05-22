@@ -31,6 +31,10 @@ import { GetSession } from '../services/sessionManagement';
 import { decrypt } from '../services/EncryptionService';
 import axios from 'axios';
 import { SET_SESSION_EXPIRED } from '../redux/actionTypes';
+import { connect } from 'react-redux';
+import { updateAttendance, getAttendanceInformation } from '../redux/AttendanceAction';
+import { useHistory } from 'react-router-dom';
+import { TOAST_SUCCESS } from '../config';
 
 const useStyles = makeStyles((theme) => ({
   paper : {
@@ -60,94 +64,69 @@ const initialFieldValues = {
  // hourWarning         : ''
 }
 
-export default function AddAttendance() {
- // const [ selectedDate, setSelectedDate ] = React.useState(new Date('2014-08-18T21:11:54'));
+ const AttendanceUpdate = ( props ) => {
 
-  //const handleDateChange = (date) => {
-  //  setSelectedDate(date);
- // };
-  const dispatch = useDispatch();
-  const classes = useStyles();
-  const [ add, setadd ] = useState( { afname: '', arole: '', adate: '', aclockOnTime: '', aclockOutTime: '', aHours: ''  });
-  const onChangeAddAttendance = (event) => {
-    event.persist();
-    setadd({ ...add, [ event.target.name ]: event.target.value });
-     };
-    
-   async function AddAttendances()
-  {
-    if (add.afname.length === 0 || initialFieldValues.firstnameWarning .length !== 0)
+	const classes = useStyles();
+	const [ update, setupdate ] = useState({ 
+    name         : props.location.state.name,
+    role         : props.location.state.role,
+    date         : props.location.state.registedDate,
+    clockOnTime  : props.location.state.clockOnTime,
+    clockOutTime : props.location.state.clockOutTime });
+
+	const UpdateAttendance = () => {
+    console.log();
+    if (update.name.length === 0 || initialFieldValues.firstnameWarning .length !== 0)
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter First Name');
 			return;
     }
-    if (add.arole.length === 0 || initialFieldValues.roleWarning.length !== 0)
+    if (update.role.length === 0 || initialFieldValues.roleWarning.length !== 0)
 		{
 			ToastContainer(TOAST_ERROR, 'Please enter Role');
 			return;
     }
-    if (add.adate.length === 0 || initialFieldValues.timeWarning.length !== 0)
+    if (update.registedDate.length === 0 || initialFieldValues.timeWarning.length !== 0)
 		{
-			ToastContainer(TOAST_ERROR, 'Please enter Role');
+			ToastContainer(TOAST_ERROR, 'Please enter Date');
 			return;
     }
-    if (add.aclockOnTime.length === 0 || initialFieldValues.clockOnTimeWarning.length !== 0)
+    if (update.clockOnTime.length === 0 || initialFieldValues.clockOnTimeWarning.length !== 0)
 		{
-			ToastContainer(TOAST_ERROR, 'Please enter Role');
+			ToastContainer(TOAST_ERROR, 'Please enter Clock On Time');
 			return;
     }
-    if (add.aclockOutTime.length === 0 || initialFieldValues.clockOutTimeWarning.length !== 0)
+    if (update.clockOutTime.length === 0 || initialFieldValues.clockOutTimeWarning.length !== 0)
 		{
-			ToastContainer(TOAST_ERROR, 'Please enter Role');
+			ToastContainer(TOAST_ERROR, 'Please enter  Clock Out Time');
 			return;
     }
-    //if (add.aHours.length === 0 || initialFieldValues.hourWarning.length !== 0)
-		//{
-		//	ToastContainer(TOAST_ERROR, 'Please enter Role');
-		//	return;
-  //  }
-      const localData = JSON.parse(GetSession());
-      let token = localData.sessionData.token;
-      token = decrypt(token);
+    ToastContainer(TOAST_SUCCESS, "Successfully Updateted Attendnce")
+	const attendanceView = {
+			Name         : update.name,
+      Role         : update.role,
+      Date         : update.date,
+			ClockOnTime  : update.clockOnTime,
+			ClockOutTime : update.clockOutTime,
+			WorkingHours : update.hours,
+			ID           : props.location.state.id
+		};
 
-      //console.log('ABC');
-      let success = false;
-      let resData;
+		props.updateAttendance(attendanceView);
+		props.getAttendanceInformation();
+	}
 
-      console.log(token);
+	const onChangeAttendance = (e) =>
+	{
+		e.persist();
+		setupdate({ ...update, [ e.target.name ]: e.target.value })
 
-      const userObj = {
-        name    : add.afname,
-        role    : add.arole,
-        date    : add.adate,
-        onTime  : add.aclockOnTime,
-        outTime : add.aclockOutTime
-       // wHours  : add.aHours
-      }
+	}
 
-      //API call
-      await axios({
-        method  : 'post',
-        url     : ADD_ATTENDANCE,
-        headers : { Authorization: 'Bearer ' + token },
-        data    : userObj
-    })
-        .then(function(response)
-        {
-            console.log("ok");
-        })
-        .catch(function(error)
-        {
-            if(error.response.status === 401){
-                dispatch({
-                    type    : SET_SESSION_EXPIRED,
-                    payload : true
-                });
-
-            }
-            throw error;
-        });
-}
+	useEffect(() => {
+    console.log(props.location.state);
+		}, [ props.location.state ]);
+   
   return (
       <React.Fragment>
           <CssBaseline />
@@ -159,71 +138,66 @@ export default function AddAttendance() {
               <Grid container spacing={ 5 }>
                   <Grid item xs={ 12 } sm={ 6 }>
                       <TextField
-            required
-            id="firstName"
-            name="afname"
+            id="name"
+            name="name"
             label="First name"
             fullWidth
-            autoComplete="fname"
-            value={ add.afname }
-                onChange={ onChangeAddAttendance }
+            autoComplete="name"
+            value={ update.name }
+                onChange={ onChangeAttendance }
           />
                   </Grid>
                   <Grid item xs={ 12 } sm={ 6 }>
                       <TextField
-            required
             id="role"
-            name="arole"
+            name="role"
             label="Role"
             fullWidth
             autoComplete="role"
-            value={ add.arole }
-                onChange={ onChangeAddAttendance }
+            value={ update.role }
+                onChange={ onChangeAttendance }
           />
                   </Grid>
                   <Grid item xs={ 12 }>
                       <TextField
-            required
-            id="date"
-            name="adate"
-            label="Date"
-            fullWidth
-            autoComplete="date"
-            value={ add.adate }
-                onChange={ onChangeAddAttendance }
-          />
-                  </Grid>
-                  <Grid item xs={ 12 }>
-                      <TextField
-            required
             id="clockOnTime"
-            name="aclockOnTime"
+            name="clockOnTime"
             label="Clock On Time"
             fullWidth
             autoComplete="clockOnTime"
-            value={ add.aclockOnTime }
-                onChange={ onChangeAddAttendance }
+            autoComplete="date"
+            type="datetime-local"
+            className={ classes.textField }
+            InputLabelProps={ {
+              shrink : true
+            } }
+            value={ update.clockOnTime }
+                onChange={ onChangeAttendance }
           />
                   </Grid>
                   <Grid item xs={ 12 }>
                       <TextField
-            required
-            id="clockOnTime"
-            name="aclockOutTime"
+            id="clockOutTime"
+            name="clockOutTime"
             label="Clock Out Time"
             fullWidth
+            autoComplete="clockOutTime"
             autoComplete="date"
-            value={ add.aclockOutTime }
-                onChange={ onChangeAddAttendance }
+            label="Alarm clock"
+            type="datetime-local"
+            className={ classes.textField }
+            InputLabelProps={ {
+              shrink : true
+            } }
+            value={ update.clockOutTime }
+                onChange={ onChangeAttendance }
           />
                   </Grid>
-                  <Button
-            type="submit"
+                  <Button 
             fullWidth
             variant="contained"
             color="primary"
-            className={ classes.submit }
-            onClick={ AddAttendances }
+            onClick={ UpdateAttendance }
           >
                       UPDATE
                   </Button>
@@ -232,3 +206,7 @@ export default function AddAttendance() {
       </React.Fragment>
   );
 }
+const mapStateToProps = (state) => ({
+	attendanceList : state.attendance.attendanceList
+})
+export default connect(mapStateToProps, { getAttendanceInformation, updateAttendance })(AttendanceUpdate);

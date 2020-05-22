@@ -86,14 +86,10 @@ namespace Portal.API.Controllers
 
         [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
         [HttpPost("updateBranch")]
-        public async Task<IActionResult> UpdateBranch(int id, BranchView branchView)
+        public async Task<IActionResult> UpdateBranch(BranchView branchView)
         {
-            if (id != branchView.Id)
-            {
-                return BadRequest();
-            }
-
-            var branchUpdate = await _context.branches.FindAsync(id);
+            
+            var branchUpdate = await _context.branches.FindAsync(branchView.Id);
             if (branchUpdate == null)
             {
                 return NotFound();
@@ -106,7 +102,8 @@ namespace Portal.API.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                _context.branches.Update(branchUpdate);
+                _context.SaveChangesAsync();
             }
             catch (Exception e)
             {

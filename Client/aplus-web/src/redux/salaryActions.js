@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { ADD_SALARY, VIEW_SALARY } from './actionTypes';
 import axios from 'axios';
-import { ADD_SALARY_ENDPOINT, VIEW_SALARY_ENDPOINT, DELETE_SALARY_ENDPOINT } from '../config';
+import { ADD_SALARY_ENDPOINT, VIEW_SALARY_ENDPOINT, DELETE_SALARY_ENDPOINT, UPDATE_SALARY_ENDPOINT } from '../config';
 import { decrypt } from '../services/EncryptionService';
 import { GetSession } from '../services/sessionManagement';
 import { SetSessionExpiredStatus } from './systemActions';
@@ -50,18 +50,6 @@ export const addSalary = (values) => async (dispatch) =>
 			}
 			throw error;
 		});
-
-	//Check API call is success or not
-	// if(success){
-	// 	dispatch({
-	// 		type    : ADD_SALARY,
-	// 		payload : resData
-	// 	});
-
-	// 	return { 'success': resData.authenticated, 'data': resData, 'error': false };
-	// }else{
-	// 	return { 'success': success, 'data': resData, 'error': true };
-	// }
 
 }
 export const viewSalary = () => async (dispatch) => {
@@ -137,4 +125,33 @@ export const deleteSal = (id) => async (dispatch) => {
 
 	return responseData;
 
+}
+export const updateSal = (Data) => async (dispatch) => {
+
+	console.log(Data);
+	const localData = JSON.parse(GetSession());
+	let token = localData.sessionData.token;
+	token = decrypt(token); //decrypt the token
+
+	axios({
+		method  : 'post',
+		url     : UPDATE_SALARY_ENDPOINT,
+		headers : { Authorization: 'Bearer ' + token },
+		data    : Data 
+	})
+	.then(function(response)
+	{
+		return true;
+	})
+	.catch(function(error)
+	{
+		if(error.response.status === 401){
+			dispatch({
+				type    : SET_SESSION_EXPIRED,
+				payload : true
+			});
+
+		}
+		throw error;
+	});
 }

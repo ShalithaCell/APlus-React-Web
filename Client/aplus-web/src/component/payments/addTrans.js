@@ -27,6 +27,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import { useToasts } from 'react-toast-notifications';
 import { ToastContainer } from '../../component/dialogs/ToastContainer';
 import CurrencyTextField from '@unicef/material-ui-currency-textfield';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -116,6 +117,7 @@ if(fieldValues == values)
     if(validate()){
       window.alert('Validation Succeeded.')
     }
+    
   }
 
   return (
@@ -173,7 +175,7 @@ if(fieldValues == values)
                 id="qty"
                 label=" Quantity"
                 name="qty"
-                outputFormat="int"
+                outputFormat="integer"
                 autoComplete="Quantity"
                 value = { values.qty }
                 onChange = { OnChange }
@@ -222,7 +224,6 @@ if(fieldValues == values)
             variant="contained"
             color="primary"
             onClick={ handleClick }
-            //onSubmit={ handleSubmit }
             className={ classes.submit }
           >
                                   Add

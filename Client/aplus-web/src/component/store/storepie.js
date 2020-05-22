@@ -11,14 +11,14 @@ import Navbar from '../navbar';
 import Container from '@material-ui/core/Container';
 
 const data = [
-	{ country: 'Russia', area: 12 },
-	{ country: 'Canada', area: 7 },
-	{ country: 'USA', area: 7 },
-	{ country: 'China', area: 7 },
-	{ country: 'Brazil', area: 6 },
-	{ country: 'Australia', area: 5 },
-	{ country: 'India', area: 2 },
-	{ country: 'Others', area: 55 }
+	{ country: 'Inventory1', area: 12 },
+	{ country: 'Inventory2', area: 7 },
+	{ country: 'Inventory3', area: 7 },
+	{ country: 'Inventory4', area: 7 },
+	{ country: 'Inventory5', area: 6 },
+	{ country: 'Inventory6', area: 5 },
+	{ country: 'Inventory7', area: 2 },
+	{ country: 'Inventory8', area: 55 }
 ];
 export default class storepie extends React.PureComponent {
 
@@ -48,7 +48,7 @@ export default class storepie extends React.PureComponent {
 						argumentField="country"
 					/>
                         <Title
-						text="Monthly profit"
+						text="Last week"
 					/>
                         <Animation />
                     </Chart>

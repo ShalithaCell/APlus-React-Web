@@ -302,7 +302,7 @@ export default function AddBills() {
                         <Button>Chec</Button>
                         <Button  size="medium" color="primary" >Loyalty</Button>
                         <Button  size="medium" color="primary" >Loyalty</Button>
-                        <Button  color="accent" endIcon={ <Icon>send</Icon> } size="large" href={ 'http://localhost:3000/' } className={ classes.submit } onClick={ finalBill }>Payment</Button>
+                        <Button  color="primary" endIcon={ <Icon>send</Icon> } size="large" href={ 'http://localhost:3000/checkout' } className={ classes.submit } onClick={ finalBill }>Payment</Button>
                     </ButtonGroup>
                 </Grid>
 

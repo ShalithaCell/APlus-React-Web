@@ -15,12 +15,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Navbar from '../navbar';
 import { useState, useEffect } from 'react';
-import { addSalary } from '../../redux/salaryActions'
-import { useDispatch } from 'react-redux'
+import { viewSalary, updateSal } from '../../redux/salaryActions';
+import { useDispatch } from 'react-redux';
 import { GetSession } from '../../services/sessionManagement';
 import { decrypt } from '../../services/EncryptionService';
 import axios from 'axios';
-import { ADD_SALARY_ENDPOINT } from '../../config';
+import { UPDATE_SALARY_ENDPOINT } from '../../config';
 import { SET_SESSION_EXPIRED } from '../../redux/actionTypes';
 import { connect } from 'react-redux';
 import { salaryReducer } from '../../redux/reducers/salaryReducer';
@@ -63,16 +63,16 @@ const useStyles = makeStyles((theme) => ({
 
 ///////////////////////////////////////
 
-const initialValues ={
-    name        : '',
-    eid         : '',
-    basic       : '',
-    bonus       : '',
-    designation : '',
-    attendance  : '',
-    for_month   : '',
-    total       : ''
-}
+ const initialValues ={
+     name        : '',
+     eid         : '',
+     basic       : '',
+     bonus       : '',
+     designation : '',
+     attendance  : '',
+     for_month   : '',
+     total       : ''
+ }
 
 const editSalaries = ({ ...props }) => {
   const dispatch = useDispatch();
@@ -80,6 +80,23 @@ const editSalaries = ({ ...props }) => {
 
   const [ errors, seterrors ] = useState({})
   const [ values, setvalues ] = useState (initialValues) 
+  const [ update, setupdate ] = useState({ name: props.location.state.name, eid: props.location.state.eid, basic: props.location.state.basic, bonus: props.location.state.bonus, designation: props.location.state.designation, attendance: props.location.state.attendance, for_month: props.location.state.for_month, total: props.location.state.total })
+   const updateSal = (id) => {
+    console.log(id);
+
+    const salView = {
+      Name        : update.name,
+      Eid         : update.eid,
+      Basic       : update.basic,
+      Bonus       : update.bonus,
+      Designation : update.designation,
+      Attendance  : update.attendance,
+      For_month   : update.for_month,
+      Total       : update.total,
+      ID          : props.location.state.id
+    };
+  props.updateSal(salView);
+}
  
   const validate = () => {
     const temp = {}
@@ -100,11 +117,17 @@ const editSalaries = ({ ...props }) => {
   const OnChange = (e) => {
     e.persist();
     const { name, value } = e.target
-    setvalues({ ...values, ...fieldValue,
-      [ e.target.name ] : e.target.value })
+     setvalues({ ...values, 
+       [ e.target.name ] : e.target.value })
+      setupdate({ ...update, [ e.target.name ]: e.target.value })
 
     validate(value)
   }
+  useEffect( () => {
+    console.log(props.location.state);
+    props.updateSal();
+  
+  }, [ props ])
 
   const handleClick = (e) => {
     e.preventDefault()
@@ -141,7 +164,7 @@ const editSalaries = ({ ...props }) => {
                 label="Name"
                 name="name"
                 autoComplete="name"
-                value = { values.name }
+                value={ update.name }
                 onChange = { OnChange }
                 { ...(errors.name && { error: true, helperText: errors.name }) }
               /> }
@@ -155,7 +178,7 @@ const editSalaries = ({ ...props }) => {
                 label="Designation"
                 name="designation"
                 autoComplete="designation"
-                value = { values.designation }
+                value={ update.designation }
                 onChange = { OnChange }
                 { ...(errors.designation && { error: true, helperText: errors.designation }) }
               />
@@ -169,7 +192,7 @@ const editSalaries = ({ ...props }) => {
                 label="Employee ID"
                 name="eid"
                 autoComplete="eid"
-                value = { values.eid }
+                value={ update.eid }
                 onChange = { OnChange }
                 { ...(errors.eid && { error: true, helperText: errors.eid }) }
               />
@@ -188,7 +211,7 @@ const editSalaries = ({ ...props }) => {
                 label="Basic"
                 name="basic"
                 autoComplete="basic"
-                value = { values.basic }
+                value={ update.basic }
                 onChange = { OnChange }
                 { ...(errors.basic && { error: true, helperText: errors.basic }) }
               />
@@ -206,7 +229,7 @@ const editSalaries = ({ ...props }) => {
                 label="Bonus"
                 name="bonus"
                 autoComplete="bonus"
-                value = { values.bonus }
+                value={ update.bonus }
                 onChange = { OnChange }
               />
                                   </Grid> <Grid item xs={ 12 }>    
@@ -214,12 +237,11 @@ const editSalaries = ({ ...props }) => {
                 variant="outlined"
                 required
                 fullWidth
-                
                 id="attendance"
                 label="Attendance"
                 name="attendance"
                 autoComplete="attendance"
-                value = { values.attendance }
+                value={ update.attendance }
                 onChange = { OnChange }
                 { ...(errors.attendance && { error: true, helperText: errors.attendance }) }
               />
@@ -238,7 +260,7 @@ const editSalaries = ({ ...props }) => {
                 label="For_month"
                 name="for_month"
                 autoComplete="for_month"
-                value = { values.for_month }
+                value={ update.for_month }
                 onChange = { OnChange }
                 { ...(errors.for_month && { error: true, helperText: errors.for_month }) }
               />
@@ -260,7 +282,7 @@ const editSalaries = ({ ...props }) => {
                 decimalCharacter="."
 		            digitGroupSeparator=","
                 autoComplete="total"
-                value = { values.basic + values.bonus }
+                value={ update.total }
                 onChange = { OnChange }
                 { ...(errors.total && { error: true, helperText: errors.total }) }
               />
@@ -271,9 +293,7 @@ const editSalaries = ({ ...props }) => {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={ handleClick }
-            //onSubmit={ handleSubmit }
-            className={ classes.submit }
+            onClick={ updateSal }
           >
                                   Update
                               </Button>
@@ -290,5 +310,7 @@ const editSalaries = ({ ...props }) => {
       </Container> 
   );
 }
-
-export default connect(null, { addSalary })(withStyles(useStyles)(editSalaries));
+const mapStateToProps = (state) => {
+  return { list: state.salary.list }
+}
+export default connect(mapStateToProps, { viewSalary, updateSal })(withStyles(useStyles)(editSalaries));

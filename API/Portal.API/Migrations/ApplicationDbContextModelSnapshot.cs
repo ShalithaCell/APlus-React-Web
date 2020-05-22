@@ -284,7 +284,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Report",
                             PermissionCode = "RE",
-                            RegistedDate = new DateTime(2020, 5, 6, 19, 17, 20, 453, DateTimeKind.Local).AddTicks(5126)
+                            RegistedDate = new DateTime(2020, 5, 19, 13, 32, 19, 71, DateTimeKind.Local).AddTicks(6564)
                         },
                         new
                         {
@@ -292,7 +292,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Sales",
                             PermissionCode = "SE",
-                            RegistedDate = new DateTime(2020, 5, 6, 19, 17, 20, 454, DateTimeKind.Local).AddTicks(6893)
+                            RegistedDate = new DateTime(2020, 5, 19, 13, 32, 19, 72, DateTimeKind.Local).AddTicks(4045)
                         },
                         new
                         {
@@ -300,7 +300,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory View",
                             PermissionCode = "IV",
-                            RegistedDate = new DateTime(2020, 5, 6, 19, 17, 20, 454, DateTimeKind.Local).AddTicks(6926)
+                            RegistedDate = new DateTime(2020, 5, 19, 13, 32, 19, 72, DateTimeKind.Local).AddTicks(4070)
                         },
                         new
                         {
@@ -308,7 +308,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Add",
                             PermissionCode = "IA",
-                            RegistedDate = new DateTime(2020, 5, 6, 19, 17, 20, 454, DateTimeKind.Local).AddTicks(6928)
+                            RegistedDate = new DateTime(2020, 5, 19, 13, 32, 19, 72, DateTimeKind.Local).AddTicks(4072)
                         },
                         new
                         {
@@ -316,7 +316,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Update",
                             PermissionCode = "IU",
-                            RegistedDate = new DateTime(2020, 5, 6, 19, 17, 20, 454, DateTimeKind.Local).AddTicks(6930)
+                            RegistedDate = new DateTime(2020, 5, 19, 13, 32, 19, 72, DateTimeKind.Local).AddTicks(4073)
                         },
                         new
                         {
@@ -324,7 +324,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Inventory Delete",
                             PermissionCode = "ID",
-                            RegistedDate = new DateTime(2020, 5, 6, 19, 17, 20, 454, DateTimeKind.Local).AddTicks(6932)
+                            RegistedDate = new DateTime(2020, 5, 19, 13, 32, 19, 72, DateTimeKind.Local).AddTicks(4074)
                         },
                         new
                         {
@@ -332,7 +332,7 @@ namespace Portal.API.Migrations
                             IsActive = true,
                             Permission = "Customer Handling",
                             PermissionCode = "CH",
-                            RegistedDate = new DateTime(2020, 5, 6, 19, 17, 20, 454, DateTimeKind.Local).AddTicks(6934)
+                            RegistedDate = new DateTime(2020, 5, 19, 13, 32, 19, 72, DateTimeKind.Local).AddTicks(4075)
                         });
                 });
 
@@ -542,14 +542,6 @@ namespace Portal.API.Migrations
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("passwordConfirm")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -764,7 +756,7 @@ namespace Portal.API.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("customers");
+                    b.ToTable("customer");
                 });
 
             modelBuilder.Entity("Portal.API.Domain.IdentityModel.AppRole", b =>

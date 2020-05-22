@@ -29,6 +29,7 @@ import AddIcon from '@material-ui/icons/Add';
 import './editTrans';
 import Icon from '@material-ui/core/Icon';
 import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
+import { useHistory } from 'react-router-dom';
 
 const useStyles =  makeStyles((theme) => ({
   table : {
@@ -86,125 +87,10 @@ const useStyles =  makeStyles((theme) => ({
 	}
 }));
 
-/*const ViewSalaries = (props) => {
-  const [ state, setState ] = React.useState({
-    columns : [
-      { title: 'Salary ID', field: 'salary_id', type: 'numeric' },
-      { title: 'Full Name', field: 'name' },
-      { title: 'EID', field: 'eid', type: 'numeric' },
-      {
-        title  : 'Designation',
-        field  : 'designation',
-        lookup : { 34: 'Manager', 63: 'Cleaner' }
-       },
-      { title: 'Basic  (Rs)', field: 'basic', type: 'numeric' },
-      { title: 'Attendance', field: 'attendance', type: 'numeric' },
-      { title: 'Paid date', field: 'paid_date', type: 'numeric' },
-      { title: 'For month', field: 'for_month', type: 'numeric' },
-      { title: 'Bonus (Rs)', field: 'bonus', type: 'numeric' },
-      { title: 'Total (Rs)', field: 'total', type: 'decimal' }
-
-    ],
-    data : [
-        { 
-            eid          : 100001,
-            basic        : 15000.00,
-            bonus        : 500.00,
-            designation  : 63,
-            attendance   : 20,
-            registedDate : '2020.03.03',
-            for_month    : 3, 
-            total        : 15500.00
-          }
-          
-    ]
-  });
-
-  const classes = useStyles();
-  const [ add, setadd ] = useState( { salary_id: '', name: '', eid: '', basic: '', bonus: '', designation: '', attendance: '', paid_date: '', for_month: '', total: '' })
-
-  const OnChange = (e) => {
-    e.persist();
-    setadd( { ...add, [ e.target.name ]: e.target.value })
-  }
-  useEffect(() => {
-		console.log('Data');
-	 	props.viewSalary();
-	}, []);
-  return (
-      <Container component="main" maxWidth="sx">
-          <Navbar/>
-          <Container maxWidth="s" >
-              // eslint-disable-next-line react/jsx-indent
-              <Typography component="div" className={ classes.table } />
-              <React.Fragment>
-
-                  <div className={ classes.root }>
-                      <AppBar position="relative">
-                          <div>
-                              <navbar/>
-                          </div>
-                          <Toolbar>
-                              <Typography className={ classes.title } variant="h6" noWrap>
-                                  Salary Management Details
-                              </Typography>
-                          </Toolbar>
-                      </AppBar>
-                  </div>
-                  <MaterialTable color="primary"
-              title="Employeesalla"
-              columns={ state.columns }
-              data={ state.data }
-              editable={ {
-                onRowAdd : (newData) =>
-                  new Promise((resolve) => {
-                    setTimeout(() => {
-                      resolve();
-                      setState((prevState) => {
-                        const data = [ ...prevState.data ];
-                        data.push(newData);
-                        return { ...prevState, data };
-                      });
-                    }, 600);
-                  }),
-                onRowUpdate : (newData, oldData) =>
-                  new Promise((resolve) => {
-                    setTimeout(() => {
-                      resolve();
-                      if (oldData) {
-                        setState((prevState) => {
-                          const data = [ ...prevState.data ];
-                          data[ data.indexOf(oldData) ] = newData;
-                          return { ...prevState, data };
-                        });
-                      }
-                    }, 600);
-                  }),
-                onRowDelete : (oldData) =>
-                  new Promise((resolve) => {
-                    setTimeout(() => {
-                      resolve();
-                      setState((prevState) => {
-                        const data = [ ...prevState.data ];
-                        data.splice(data.indexOf(oldData), 1);
-                        return { ...prevState, data };
-                      });
-                    }, 600);
-                  })
-              } }
-            />
-              </React.Fragment>
-          </Container>
-      </Container> 
-  );
-}
-const mapStateToProps = (state) => {
-  return { list: state.salary.list }
-}
-export default connect(mapStateToProps, { viewSalary })(ViewSalaries);
-*/
 const ViewSalaries = (props) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const [ activeStep, setActiveStep ] = React.useState(0);
 
   const handleNext = () => {
@@ -220,13 +106,17 @@ const ViewSalaries = (props) => {
        props.deleteSal(id);
        props.viewSalary();
    }
-
+   const updateRoute = (data) => {
+    console.log(data);
+    const path = 'editSalary';
+    history.push(path, data);
+}
   const [ values, setvalues ] = useState ()
 
   useEffect(() => {
       console.log('aaa');
       props.viewSalary();
-  }, [ props ])
+  }, [  ])
 
   return (
 
@@ -301,7 +191,7 @@ const ViewSalaries = (props) => {
                                                   <Button
                                                       variant="contained"
                                                       color="purple"
-                                                      onClick={ (event) =>  window.location.href='/editSalary' }
+                                                      onClick = { () => updateRoute(row) }
                                                       >
                                                       < EditIcon /> 
                                                   </Button>

@@ -26,11 +26,6 @@ namespace Portal.API.Domain.APIReqModels
 
         [Required(ErrorMessage = "Role name is Required")]
         public string role { get; set; }
-
-        [Required(ErrorMessage = "Password is Required")]
-        public string pw { get; set; }
-
-        [Required(ErrorMessage = "confirm Password is Required")]
-        public string pwconfirm { get; set; }
+       
     }
 }

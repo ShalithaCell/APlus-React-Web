@@ -1,10 +1,17 @@
-import { POPUP_DIALOG_FORGOTPASSWORD, POPUP_SPINNER, SET_SESSION_EXPIRED, UPDATE_USER_NAME_LIST } from '../actionTypes';
+import {
+	POPUP_DIALOG_FORGOTPASSWORD,
+	POPUP_SPINNER,
+	SET_PERMISSON_LIST,
+	SET_SESSION_EXPIRED,
+	UPDATE_USER_NAME_LIST
+} from '../actionTypes';
 
 const initialState = {
 	popupForgotpwDialog : false,
 	loader              : false,
 	sessionExpired      : false,
-	userNameList        : []
+	userNameList        : [],
+	permissonLevels     : null
 }
 
 export default function(state = initialState, action)
@@ -30,6 +37,11 @@ export default function(state = initialState, action)
 			return {
 				...state,
 				userNameList : action.payload
+			}
+		case SET_PERMISSON_LIST :
+			return {
+				...state,
+				permissonLevels : action.payload
 			}
 		default :
 			return state;

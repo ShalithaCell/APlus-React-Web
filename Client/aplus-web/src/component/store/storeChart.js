@@ -18,9 +18,6 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
 import { getBranchInformation, removeBranch, updateBranch } from '../../redux/branchActions';
 import { useHistory } from 'react-router-dom';
-import storeAdd from '../storeAdd';
-import Router, { useRouter }  from 'next/router';
-import { createUrl as router } from 'next/dist/pages/_app';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -128,10 +125,12 @@ const StoreChart = ( props ) => {
 	const [ open, setOpen ] = React.useState(false);
 	//const navigateTo = () => history.push('/storeUpdate');
 
-	const updateRoute = () => {
+	const updateRoute = (data) => {
+		console.log(data);
 		const path = 'storeUpdate';
-		history.push(path);
+		history.push(path, data);
 	}
+
 	const handleClickOpen = () =>
 	{
 		setOpen(true);
@@ -153,28 +152,25 @@ const StoreChart = ( props ) => {
 	useEffect(() => {
 		console.log('DDDD');
 	 	props.getBranchInformation();
-	}, [ props ]);
+	}, [ history ]);
 
 	return (
-    <div>
-        <Navbar/>
-        <div className={ 'top-5pres' }>
-            <Container fixed>
-                <React.Fragment>
-                    <Grid container component="main" className={ classes.root }>
-                        <div className={ classes.root }>
-                            <AppBar color="primary" position="relative">
 
-                                <Toolbar>
+    <React.Fragment>
+        <Grid container component="main" className={ classes.root }>
+            <div className={ classes.root }>
+                <AppBar color="primary" position="relative">
 
-                                    <Typography className={ classes.title } variant="h6" noWrap>
-                                        Branch Details
-                                    </Typography>
-                                    <div className={ classes.search }>
-                                        <div className={ classes.searchIcon }>
-                                            <SearchIcon />
-                                        </div>
-                                        <InputBase
+                    <Toolbar>
+
+                        <Typography className={ classes.title } variant="h6" noWrap>
+                            Branch Details
+                        </Typography>
+                        <div className={ classes.search }>
+                            <div className={ classes.searchIcon }>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
 								placeholder="Search…"
 								classes={ {
 									root  : classes.inputRoot,
@@ -182,42 +178,42 @@ const StoreChart = ( props ) => {
 								} }
 								inputProps={ { 'aria-label': 'search' } }
 							/>
-                                    </div>
-                                </Toolbar>
-                            </AppBar>
                         </div>
-                        <Table size="small">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Branch ID</TableCell>
-                                    <TableCell>Branch Name</TableCell>
-                                    <TableCell>Location</TableCell>
-                                    <TableCell>Phone</TableCell>
-                                    <TableCell>No of Employees</TableCell>
-                                    <TableCell>Edit</TableCell>
-                                    <TableCell>Delete</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                { props.branchList.map((row) => (
-                                    <TableRow key={ row.id }>
-                                        <TableCell>{ row.id }</TableCell>
-                                        <TableCell>{ row.branchName }</TableCell>
-                                        <TableCell>{ row.branchLocation }</TableCell>
-                                        <TableCell>{ row.branchPhone }</TableCell>
-                                        <TableCell>{ row.noofEmployees }</TableCell>
-                                        <TableCell>{
-                                            <Button
+                    </Toolbar>
+                </AppBar>
+            </div>
+            <Table size="small">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Branch ID</TableCell>
+                        <TableCell>Branch Name</TableCell>
+                        <TableCell>Location</TableCell>
+                        <TableCell>Phone</TableCell>
+                        <TableCell>No of Employees</TableCell>
+                        <TableCell>Edit</TableCell>
+                        <TableCell>Delete</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    { props.branchList.map((row) => (
+                        <TableRow key={ row.id }>
+                            <TableCell>{ row.id }</TableCell>
+                            <TableCell>{ row.branchName }</TableCell>
+                            <TableCell>{ row.branchLocation }</TableCell>
+                            <TableCell>{ row.branchPhone }</TableCell>
+                            <TableCell>{ row.noofEmployees }</TableCell>
+                            <TableCell>{
+                                <Button
 								variant="contained"
 								color="primary"
 								className={ classes.button }
 								startIcon={ <EditIcon /> }
-								onClick={ updateRoute }
+								onClick={ () => updateRoute(row) }
 							>
 
-                                            </Button>
+                                </Button>
 							}</TableCell>
-                                        <TableCell>{ <Button
+                            <TableCell>{ <Button
 								variant="contained"
 								color="secondary"
 								tooltip = 'Click here to remove user'
@@ -226,42 +222,38 @@ const StoreChart = ( props ) => {
 								onClick={ handleClickOpen }
 							>
 
-                                        </Button>
+                            </Button>
 							} </TableCell>
-                                        <Dialog
+                            <Dialog
 							open={ open }
 							onClose={ handleClose }
 							aria-labelledby="alert-dialog-title"
 							aria-describedby="alert-dialog-description"
 						>
-                                            <DialogTitle id="alert-dialog-title">{'Are you sure you want delete this Branch?'}</DialogTitle>
-                                            <DialogContent>
-                                                <DialogContentText id="alert-dialog-description">
+                                <DialogTitle id="alert-dialog-title">{'Are you sure you want delete this Branch?'}</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText id="alert-dialog-description">
 
-                                                </DialogContentText>
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button onClick={ Deletebranch.bind(null, row.id) } color="primary">
-                                                    Yes
-                                                </Button>
-                                                <Button onClick={ handleClose } color="primary" autoFocus>
-                                                    No
-                                                </Button>
-                                            </DialogActions>
-                                        </Dialog>
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={ Deletebranch.bind(null, row.id) } color="primary">
+                                        Yes
+                                    </Button>
+                                    <Button onClick={ handleClose } color="primary" autoFocus>
+                                        No
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
 
-                                    </TableRow>
+                        </TableRow>
 					))
 					}
-                            </TableBody>
-                        </Table>
-                    </Grid>
-                </React.Fragment>
-            </Container>
-        </div>
-    </div>
-            
-	);
+                </TableBody>
+            </Table>
+        </Grid>
+    </React.Fragment>
+            );
 }
 const mapStateToProps = (state) => ({
 	branchList : state.branch.branchList

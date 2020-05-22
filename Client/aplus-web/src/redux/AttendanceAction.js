@@ -7,122 +7,6 @@ import { SetSessionExpiredStatus } from './systemActions';
 import { popupSpinner } from './systemActions';
 import { any } from 'prop-types';
 
-/*export const updateRequestDetails = ()  => async (dispatch) =>
-{
-
-	const localData = JSON.parse(GetSession());
-	let token = localData.sessionData.token;
-	token = decrypt(token); //decrypt the token
-
-	//spinner
-	dispatch({
-		type    : POPUP_SPINNER,
-		payload : true
-	});
-
-	//API call
-	axios({
-		method  : 'get',
-		url     : GET_REQUEST_LIST_ENDPOINT,
-		headers : { Authorization: 'Bearer ' + token }
-	})
-		.then(function(response)
-		{
-			dispatch({
-				type    : UPDATE_REQUEST_LIST,
-				payload : response.data
-			});
-
-			//spinner
-			dispatch({
-				type    : POPUP_SPINNER,
-				payload : false
-			});
-
-			return response.data;
-		})
-		.catch(function(error)
-		{
-			//spinner
-			dispatch({
-				type    : POPUP_SPINNER,
-				payload : false
-			});
-
-			if(error.response.status === 401){
-
-				dispatch({
-					type    : SET_SESSION_EXPIRED,
-					payload : true
-				});
-				return
-			}
-			throw error;
-		});
-}
-
-/*export const addNewRole = (roleData) => async (dispatch) => {
-	
-	const localData = JSON.parse(GetSession());
-	let token = localData.sessionData.token;
-	token = decrypt(token); //decrypt the token
-
-	//API call
-	await axios({
-		method  : 'post',
-		url     : REGISTER_NEW_ROLE_ENDPOINT,
-		headers : { Authorization: 'Bearer ' + token },
-		data    : roleData
-	})
-		.then(function(response)
-		{
-			return true;
-		})
-		.catch(function(error)
-		{
-			if(error.response.status === 401){
-				dispatch({
-					type    : SET_SESSION_EXPIRED,
-					payload : true
-				});
-
-			}
-			throw error;
-		});
-	
-}*/
-
-export const updateAttendance = (requestData) => async (dispatch) => {
-
-	const localData = JSON.parse(GetSession());
-	let token = localData.sessionData.token;
-	token = decrypt(token); //decrypt the token
-
-	//API call
-	await axios({
-		method  : 'post',
-		url     : UPDATE_ATTENDANCE_ENDPOINT,
-		headers : { Authorization: 'Bearer ' + token },
-		data    : requestData
-	})
-		.then(function(response)
-		{
-			return true;
-		})
-		.catch(function(error)
-		{
-			if(error.response.status === 401){
-				dispatch({
-					type    : SET_SESSION_EXPIRED,
-					payload : true
-				});
-
-			}
-			throw error;
-		});
-
-}
-
 export const getAttendanceInformation = () => async (dispatch) => {
     console.log('abcd');
 	const localData = JSON.parse(GetSession());
@@ -198,5 +82,34 @@ export const removeAttendance = (attendanceId) => async (dispatch) => {
 		});
 
 	return responseData;
-
 }
+	export const updateAttendance = (attendanceData) => async (dispatch) =>
+	{
+		console.log(attendanceData);
+		const localData = JSON.parse(GetSession());
+		let token = localData.sessionData.token;
+		token = decrypt(token); //decrypt the token
+	
+		//API call
+		await axios({
+			method  : 'post',
+			url     : UPDATE_ATTENDANCE_ENDPOINT,
+			headers : { Authorization: 'Bearer ' + token },
+			data    : attendanceData
+		})
+			.then(function(response)
+			{
+				return true;
+			})
+			.catch(function(error)
+			{
+				if(error.response.status === 401){
+					dispatch({
+						type    : SET_SESSION_EXPIRED,
+						payload : true
+					});
+	
+				}
+				throw error;
+			});
+	}

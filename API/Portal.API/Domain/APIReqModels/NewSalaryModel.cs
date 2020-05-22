@@ -20,6 +20,8 @@ namespace Portal.API.Domain.APIReqModels
         public String for_month { get; set; }
         [Required(ErrorMessage = "Total is required.")]
         public Double total { get; set; }
+        public int ID { get; set; }
+
 
     }
 }

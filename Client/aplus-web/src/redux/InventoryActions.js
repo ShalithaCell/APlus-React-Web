@@ -91,6 +91,7 @@ export const getInventoryDetails = ( inventoryId ) => async  ( dispatch ) => {
 //Update Inventory
 export const updateInventory = (inventoryData) => async (dispatch) => {
 
+	console.log(inventoryData);
 	const localData = JSON.parse(GetSession());
 	let token = localData.sessionData.token;
 	token = decrypt(token); //decrypt the token

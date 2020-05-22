@@ -70,9 +70,13 @@ class Navbar extends Component
                                 <NavLink tag={ Link } className="gn-icon" to="/roles"><i className="fa fa-university" aria-hidden="true"/> Roles</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/transactions"><i className="fa fa-users" aria-hidden="true"/> Transactions</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/salary_management"><i className="fa fa-users" aria-hidden="true"/> salary Management</NavLink>
-                                <NavLink tag={ Link } className="gn-icon" to="/users"><i className="fa fa-users" aria-hidden="true"/> Users</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/SupplierList"><i className="fa fa-users" aria-hidden="true"/> Suppliers</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/dashboardInventory"><i className="fa fa-university" aria-hidden="true"/> Inventory</NavLink>
                                 <NavLink tag={ Link } className="gn-icon" to="/orgTable"><i className="fa fa-university" aria-hidden="true"/> Organization</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/ListOfBills"><i className="fa fa-university" aria-hidden="true"/> AllLists</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/EmployeeRequest"><i className="fa fa-users" aria-hidden="true"/> Employee</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/attendance_Dashbord"><i className="fa fa-users" aria-hidden="true"/> Attendance</NavLink>
+                                <NavLink tag={ Link } className="gn-icon" to="/orgTable"><i className="fa fa-slideshare" aria-hidden="true"/> Organization</NavLink>
                             </li>
 
                         </ul>
@@ -108,7 +112,8 @@ class Navbar extends Component
 }
 
 const mapStateToProps = (state) => ({
-    items : state.user
+    items       : state.user,
+    permissions : state.system
 })
 
 export default withRouter(connect(mapStateToProps, { doLogOut })(Navbar));
