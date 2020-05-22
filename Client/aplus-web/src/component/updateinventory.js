@@ -129,8 +129,8 @@ const InventoryList = ( props ) => {
 	useEffect(() => {
 		console.log('success');
 		props.getInventoryDetails();
-	}, [ props ]);
 
+	}, [ props ]);
 	//const updateInventory = (inventoryData) =>
 	//{
 		//console.log(inventoryData);

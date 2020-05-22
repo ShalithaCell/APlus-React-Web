@@ -19,8 +19,6 @@ import { fade } from '@material-ui/core';
 import { getBranchInformation, removeBranch } from '../../redux/branchActions';
 import { useHistory } from 'react-router-dom';
 import storeAdd from '../storeAdd';
-import Router, { useRouter }  from 'next/router';
-import { createUrl as router } from 'next/dist/pages/_app';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';

@@ -23,7 +23,7 @@ namespace Portal.API.Infrastructure.DAL.DatabaseContext
         public DbSet<CustomRolePermissionLevelc> customRolePermissionLevels { get; set; }
         public DbSet<CashierData> cashierDatas { get; set; }
         public DbSet<SupplierDetailsTable> supplierDetailsTables { get; set; }
-        public DbSet<customer> customers { get; set; }
+        public DbSet<customer> customer { get; set; }
         public DbSet<Loyaity_card> loyaity_Card { get; set; }
         public DbSet<TransactionDetails> TransactionDetails { get; set; }
         public DbSet<SalaryDetails> SalaryDetails { get; set; }
