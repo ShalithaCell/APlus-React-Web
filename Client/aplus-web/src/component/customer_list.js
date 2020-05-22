@@ -25,6 +25,14 @@ import Fab from '@material-ui/core/Fab';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import { ToastContainer } from './dialogs/ToastContainer';
+import { TOAST_ERROR, TOAST_SUCCESS } from '../config';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { useHistory } from 'react-router-dom';
 
 // Generate Order Data
 function createData(id, FirstName, LastName, Email, nicnum,  PhoneNo, Update, Delete) {
@@ -117,6 +125,23 @@ const useStyles = makeStyles((theme) => ({
 
  const CustomerLlist = ( props ) => {
   const classes = useStyles();
+  const history = useHistory();
+  const [ open, setOpen ] = React.useState(false);
+
+  const updateRoute = (data) => {
+	console.log(data);
+	const path = 'customerupdate';
+	history.push(path, data);
+}
+
+	const handleCloseCustomerRequest = () => {
+		setOpen(false);
+	};
+
+	const handleClickOpenCustomerRequest = () =>
+	{
+		setOpen(true);
+	};
 
 	const removecustomer = (customerId) => {
 		console.log(customerId);
@@ -124,6 +149,8 @@ const useStyles = makeStyles((theme) => ({
 		props.removecustomer(customerId);
 		// eslint-disable-next-line react/prop-types
 		props.getcustomerDetails();
+		handleCloseCustomerRequest();
+        ToastContainer(TOAST_SUCCESS, 'Successfully Deleted')
 	}
 
 	useEffect(() => {
@@ -191,11 +218,12 @@ const useStyles = makeStyles((theme) => ({
                                             <TableCell>{ row.id_number}</TableCell>
                                             <TableCell>{ row.phone_number }</TableCell>
                                             <TableCell>{
-                                                <Button href="http://localhost:3000/customerllist"
+                                                <Button href="http://localhost:3000/customerupdate"
 										variant="contained"
 										color="primary"
 										className={ classes.button }
 										startIcon={ <EditIcon /> }
+										onClick={ () => updateRoute(row) }
 								>
 
                                                 </Button>
@@ -206,11 +234,32 @@ const useStyles = makeStyles((theme) => ({
 								tooltip = 'Click here to remove user'
 								className={ classes.button }
 								startIcon={ <DeleteIcon /> }
-								onClick={ removecustomer.bind(null, row.id) }
+								onClick={ handleClickOpenCustomerRequest }
 							>
 
                                             </Button>
 							} </TableCell>
+                                            <Dialog
+								open={ open }
+								onClose={ handleCloseCustomerRequest }
+								aria-labelledby="alert-dialog-title"
+								aria-describedby="alert-dialog-description"
+							>
+                                                <DialogTitle id="alert-dialog-title">{'Are you sure you want delete this Customer?'}</DialogTitle>
+                                                <DialogContent>
+                                                    <DialogContentText id="alert-dialog-description">
+
+                                                    </DialogContentText>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={ removecustomer.bind(null, row.id) } color="primary">
+                                                        Yes
+                                                    </Button>
+                                                    <Button onClick={ handleCloseCustomerRequest } color="primary" autoFocus>
+                                                        No
+                                                    </Button>
+                                                </DialogActions>
+                                            </Dialog>
 
                                         </TableRow>
 					))

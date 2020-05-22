@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect  } from 'react';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,29 +10,49 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import { getbill, removebill } from '../redux/billActions';
+import { useDispatch } from 'react-redux';
 import Navbar from './navbar';
+import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
-import { connect } from 'react-redux';
-import { removeInventory, updateInventory, getInventoryDetails } from '../redux/InventoryActions';
+import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
-import { ToastContainer } from './dialogs/ToastContainer';
-import { TOAST_ERROR, TOAST_SUCCESS } from '../config';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { ToastContainer } from './dialogs/ToastContainer';
+import { TOAST_ERROR, TOAST_SUCCESS } from '../config';
+
+// Generate Order Data
+function createData(id, Description, Qty, UnitPrice, Sum, SubTotal, Discount, Total, Delete) {
+	return { id, Description, Qty, UnitPrice, Sum, SubTotal, Discount, Total, Delete };
+}
 
 function preventDefault(event) {
 	event.preventDefault();
+}
+
+function Copyright() {
+	return (
+    <Typography variant="body2" color="textSecondary" align="center">
+        {'Copyright © '}
+        <Link color="inherit" href="https://material-ui.com/">
+            A Plus Web
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+    </Typography>
+	);
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -42,6 +62,11 @@ const useStyles = makeStyles((theme) => ({
 	root : {
 		flexGrow : 5
 
+	},
+	paper : {
+		padding   : theme.spacing(2),
+		textAlign : 'center',
+		color     : '#95a5a6'
 	},
 	menuButton : {
 		marginRight : theme.spacing(2)
@@ -76,12 +101,6 @@ const useStyles = makeStyles((theme) => ({
 		alignItems     : 'center',
 		justifyContent : 'center'
 	},
-	paper : {
-		padding       : theme.spacing(2),
-		display       : 'flex',
-		overflow      : 'auto',
-		flexDirection : 'column'
-	},
 	inputRoot : {
 		color : '#95a5a6'
 
@@ -103,33 +122,30 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const InventoryList = ( props ) => {
-
-	const classes = useStyles();
+const BillList = ( props ) => {
 	const [ open, setOpen ] = React.useState(false);
 
-	const handleOpenInventory = () =>
-	{
-		setOpen(true);
-	};
-
-	const handleCloseInventory = () => {
+	const handleclosebillwarning = () => {
 		setOpen(false);
 	};
 
-	const removeInventory = (inventoryId) =>
+	const handleClickOpenBillWarning= () =>
 	{
-		console.log(inventoryId);
-		props.removeInventory(inventoryId);
-		props.getInventoryDetails();
-		handleCloseInventory();
-		ToastContainer(TOAST_SUCCESS, "Successfully Deleted")
+		setOpen(true);
+	};
+	const classes = useStyles();
+
+	const Deletebill = (id) => {
+		console.log(id);
+		props.removebill(id);
+		props.getbill();
+		handleclosebillwarning();
+		ToastContainer(TOAST_SUCCESS, "Successfully Deleted Bill")
 	}
 
 	useEffect(() => {
-		console.log('success');
-		props.getInventoryDetails();
-
+		console.log('Hi');
+		props.getbill();
 	}, [ props ]);
 
 	return (
@@ -140,29 +156,31 @@ const InventoryList = ( props ) => {
                 <Grid item xs={ 12 }>
                     <Paper className={ classes.paper }>
                         <React.Fragment>
+
                             <div className={ classes.root }>
                                 <AppBar color="primary" position="relative">
+
                                     <Toolbar>
-                                        <IconButton color="inherit" href={ 'http://localhost:3000/addinventory' }>
+                                        <IconButton color="inherit" href={ 'http://localhost:3000/home' }>
                                             <Fab size="small" color="secondary" aria-label="add" className={ classes.margin }>
                                                 <AddIcon />
                                             </Fab>
                                         </IconButton>
                                         <Typography className={ classes.title } variant="h6" noWrap>
-                                            Inventory Details
+                                            List of All Bills
                                         </Typography>
                                         <div className={ classes.search }>
                                             <div className={ classes.searchIcon }>
                                                 <SearchIcon />
                                             </div>
                                             <InputBase
-												placeholder="Search…"
-												classes={ {
-													root  : classes.inputRoot,
-													input : classes.inputInput
-												} }
-												inputProps={ { 'aria-label': 'search' } }
-											/>
+								placeholder="Search…"
+								classes={ {
+									root  : classes.inputRoot,
+									input : classes.inputInput
+								} }
+								inputProps={ { 'aria-label': 'search' } }
+							/>
                                         </div>
                                     </Toolbar>
                                 </AppBar>
@@ -170,68 +188,64 @@ const InventoryList = ( props ) => {
                             <Table size="small">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Product Code</TableCell>
-                                        <TableCell>Product Name</TableCell>
-                                        <TableCell>Quantity</TableCell>
-                                        <TableCell>Unit Price</TableCell>
-                                        <TableCell>Supplier Name</TableCell>
-                                        <TableCell>Supplier Email</TableCell>
-                                        <TableCell>Edit</TableCell>
+                                        <TableCell>ID</TableCell>
+                                        <TableCell>Description</TableCell>
+                                        <TableCell>Qty</TableCell>
+                                        <TableCell>UnitPrice</TableCell>
+                                        <TableCell>Sum</TableCell>
+                                        <TableCell>SubTotal</TableCell>
+                                        <TableCell>Discount</TableCell>
+                                        <TableCell>Total</TableCell>
                                         <TableCell>Delete</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-
-                                    { props.inventoryList.map((row) => (
+                                    { props.billLists.map((row) => (
                                         <TableRow key={ row.id }>
-                                            <TableCell>{ row.productCode }</TableCell>
-                                            <TableCell>{ row.productName }</TableCell>
+                                            <TableCell>{ row.id }</TableCell>
+                                            <TableCell>{ row.description }</TableCell>
                                             <TableCell>{ row.qty }</TableCell>
                                             <TableCell>{ row.unitPrice }</TableCell>
-                                            <TableCell>{ row.supplireName }</TableCell>
-                                            <TableCell>{ row.supplireEmail }</TableCell>
-                                            <TableCell>{ <Button href="http://localhost:3000/tableInventory"
-												variant="contained"
-												color="primary"
-												className={ classes.button }
-												startIcon={ <EditIcon /> }
-											>
-                                            </Button>
-											}</TableCell>
-                                            <TableCell>{ <Button
-												variant="contained"
-												color="secondary"
-												className={ classes.button }
-												startIcon={ <DeleteIcon /> }
-												onClick={ handleOpenInventory }
-											>
+                                            <TableCell>{ row.sum }</TableCell>
+                                            <TableCell>{ row.subTotal }</TableCell>
+                                            <TableCell>{ row.discount }</TableCell>
+                                            <TableCell>{ row.total }</TableCell>
+                                            <TableCell align='left'>{ <Button
+								variant="contained"
+								color="secondary"
+								tooltip = 'Click here to remove bill'
+								className={ classes.button }
+								startIcon={ <DeleteIcon /> }
+								onClick={ handleClickOpenBillWarning }
+							>
 
                                             </Button>
-											}</TableCell>
+							} </TableCell>
                                             <Dialog
-                                            	open={ open }
-                                            	onClose={ handleCloseInventory }
-                                            	aria-labelledby="alert-dialog-title"
-                                            	aria-describedby="alert-dialog-description"
-                                            >
-                                                <DialogTitle id="alert-dialog-title">{'Are you sure you want delete this order?'}</DialogTitle>
+												open={ open }
+												onClose={ handleclosebillwarning }
+												aria-labelledby="alert-dialog-title"
+												aria-describedby="alert-dialog-description"
+											>
+                                                <DialogTitle id="alert-dialog-title">{'Delete with Super-Admin Permission?'}</DialogTitle>
                                                 <DialogContent>
                                                     <DialogContentText id="alert-dialog-description">
-											
+
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
-                                                    <Button onClick={ removeInventory.bind(null, row.id) } color="primary">
+                                                    <Button onClick={ Deletebill.bind(null, row.id) } color="primary">
                                                         Yes
                                                     </Button>
-                                                    <Button onClick={ handleCloseInventory } color="primary" autoFocus>
+                                                    <Button onClick={ handleclosebillwarning } color="primary" autoFocus>
                                                         No
                                                     </Button>
                                                 </DialogActions>
                                             </Dialog>
+
                                         </TableRow>
-									))
-									}
+					))
+					}
                                 </TableBody>
                             </Table>
                         </React.Fragment>
@@ -242,9 +256,8 @@ const InventoryList = ( props ) => {
     </div>
 	);
 }
-
 const mapStateToProps = (state) => ({
-	inventoryList : state.inventory.inventoryList
+	billLists : state.bill.billLists
 })
 
-export default connect(mapStateToProps, { removeInventory, updateInventory, getInventoryDetails })(InventoryList);
+export default connect(mapStateToProps, { removebill, getbill })(BillList);
