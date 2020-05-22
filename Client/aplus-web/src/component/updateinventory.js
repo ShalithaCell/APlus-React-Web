@@ -131,11 +131,6 @@ const InventoryList = ( props ) => {
 		props.getInventoryDetails();
 
 	}, [ props ]);
-	//const updateInventory = (inventoryData) =>
-	//{
-		//console.log(inventoryData);
-		//props.updateInventory(inventoryData);
-	//}
 
 	return (
     <div>

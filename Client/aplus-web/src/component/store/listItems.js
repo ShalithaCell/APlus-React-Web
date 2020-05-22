@@ -56,14 +56,7 @@ export const mainListItems = (
                 <ListItemText primary="Month Plan" />
             </Button>
         </ListItem>
-        <ListItem button>
-            <Button href="http://localhost:3000/storeUpdate">
-                <ListItemIcon>
-                    <EditLocationTwoToneIcon />
-                </ListItemIcon>
-                <ListItemText primary="Edit Organization" />
-            </Button>
-        </ListItem>
+
     </div>
 );
 
