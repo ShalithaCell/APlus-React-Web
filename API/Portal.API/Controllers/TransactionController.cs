@@ -86,26 +86,36 @@ namespace Portal.API.Controllers
             return Ok(transactions);
 
         }
+
+
         [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
         [HttpPost("updateTransactions")]
-        public async Task<IActionResult> UpdateTransactionInformation([FromBody]JObject transRes)
+        public async Task<IActionResult> UpdateTransactions(NewTransactionModel transModel)
         {
-           
-                    TransactionDetails transaction = _context.TransactionDetails.Where(o => o.ID == Convert.ToInt32(transRes["transId"].ToString())).FirstOrDefault();
-                    if (transaction == null)
-                    {
-                        return BadRequest();
-                    }
-                   
-                    _context.Entry(transaction).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    _context.TransactionDetails.Update(transaction);
-                    await _context.SaveChangesAsync();
 
-                    return Ok();
-                
+            var updateTrans = await _context.TransactionDetails.FindAsync(transModel.ID);
+            if (updateTrans == null)
+            {
+                return NotFound();
+            }
+            updateTrans.ID = transModel.ID;
+            updateTrans.Description = transModel.Description;
+            updateTrans.User_ID = transModel.User_ID;
+            updateTrans.Quantity = transModel.Quantity;
+            updateTrans.Unit_price = transModel.Unit_price;
+            updateTrans.Total = transModel.Total;
+            try
+            {
+                _context.TransactionDetails.Update(updateTrans);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
 
-            
-           
+            return NoContent();
+
         }
 
 

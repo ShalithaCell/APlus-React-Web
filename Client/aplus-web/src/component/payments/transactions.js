@@ -21,6 +21,7 @@ import EditIcon from '@material-ui/icons/EditTwoTone';
 import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
 import purple from '@material-ui/core/colors/purple';
 import { connect } from 'react-redux';
+import { useHistory } from "react-router-dom";
 import { ADD_TRANS, VIEW_TRANS, UPDATE_TRANS, DELETE_TRANS } from '../../redux/actionTypes';
 import { addTrans, deleteTrans, viewTrans, updateTrans } from '../../redux/transactionActions';
 import { transactionReducer } from '../../redux/reducers/transactionReducer';
@@ -114,12 +115,10 @@ function subtotal(items) {
     return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
 }
 
-// const invoiceSubtotal = subtotal(row);
-// const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-// const invoiceTotal = invoiceTaxes + invoiceSubtotal;
-
 const ViewTransaction = (props) => {
     const classes = useStyles();
+    const history = useHistory();
+
     const [ activeStep, setActiveStep ] = React.useState(0);
 
     const handleNext = () => {
@@ -134,25 +133,18 @@ const ViewTransaction = (props) => {
         console.log(id);
         props.deleteTrans(id);
         props.viewTrans();
-
     }
 
-    const [ values, setvalues ] = useState()
-    const [ currentId, serCurrentId ] = useState(0)
+    const updateRoute = (data) => {
+           console.log(data);
+           const path = 'editTrans';
+           history.push(path, data);
+    }
 
     useEffect(() => {
         console.log('aaa');
-
         props.viewTrans();
     }, [  ])
-
-    useEffect(() => {
-        const { pathname } = Router
-        if(pathname == '/' ){
-            Router.push('/editTrans')
-        }
-      });
-//      const router = useRouter()
 
     return (
 
@@ -161,7 +153,7 @@ const ViewTransaction = (props) => {
             <Container maxWidth="$" >
                 // eslint-disable-next-line react/jsx-indent
                 <Typography component="div" className={ classes.table } />
-                <React.Fragment { ...({ currentId, serCurrentId }) }>
+                <React.Fragment >
                     <div className={ classes.root }>
                         <AppBar position="relative">
                             <div>
@@ -228,10 +220,8 @@ const ViewTransaction = (props) => {
                                                         <Button
                                                         variant="contained"
                                                         color="purple"
-                                                        // onClick={ (event) =>  window.location.href='/editTrans' }
-                                                        onClick = { () => {serCurrentId(row.id)}, (event) =>  window.location.href='/editTrans' }
+                                                        onClick = { () => updateRoute(row) }
                                                         className={ classes.button }>
-                                                        
                                                             <EditIcon />
                                                         </Button>
 

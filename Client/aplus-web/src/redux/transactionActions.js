@@ -99,57 +99,34 @@ export const viewTrans = () => async (dispatch) => {
 //  	});
 //  }
 
-export const updateTrans = (transid, transData) => async (dispatch) => {
+export const updateTrans = (transData) => async (dispatch) => {
 
+	console.log(transData);
 	const localData = JSON.parse(GetSession());
 	let token = localData.sessionData.token;
 	token = decrypt(token); //decrypt the token
-	let responseData;
 
-	//spinner
-	// dispatch({
-	// 	type    : POPUP_SPINNER,
-	// 	payload : true
-	// });
-
-	//API call
 	axios({
 		method  : 'post',
 		url     : UPDATE_TRANSACTION_ENDPOINT,
 		headers : { Authorization: 'Bearer ' + token },
-		data    : { transid, transData }
+		data    : transData 
 	})
-		.then(function (response) {
+	.then(function(response)
+	{
+		return true;
+	})
+	.catch(function(error)
+	{
+		if(error.response.status === 401){
 			dispatch({
-				type    : UPDATE_TRANS,
-				payload : response.data
+				type    : SET_SESSION_EXPIRED,
+				payload : true
 			});
 
-			//spinner
-			// dispatch({
-			// 	type    : POPUP_SPINNER,
-			//     payload : false
-			// });
-
-			return true;
-		})
-		.catch(function (error) {
-			//spinner
-			// dispatch({
-			// 	type    : POPUP_SPINNER,
-			// 	payload : false
-			// });
-
-			if (error.response.status === 401) {
-
-				dispatch({
-					type    : SET_SESSION_EXPIRED,
-					payload : true
-				});
-				return
-			}
-			throw error;
-		});
+		}
+		throw error;
+	});
 }
 
 export const deleteTrans = (transId) => async (dispatch) => {

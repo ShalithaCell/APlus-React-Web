@@ -105,5 +105,39 @@ namespace Portal.API.Controllers
 
             return Ok();
         }
+        [Authorize(Roles = Const.RoleAdminOrSuperAdmin)]
+        [HttpPost("updateSalaries")]
+        public async Task<IActionResult> UpdateSalaries(NewSalaryModel salaryModel)
+        {
+
+            var updateSal = await _context.SalaryDetails.FindAsync(salaryModel.ID);
+            if (updateSal == null)
+            {
+                return NotFound();
+            }
+            updateSal.ID = salaryModel.ID;
+            updateSal.Name = salaryModel.name;
+            updateSal.Designation = salaryModel.designation;
+            updateSal.Eid = salaryModel.eid;
+            updateSal.Basic = salaryModel.basic;
+            updateSal.Bonus = salaryModel.bonus;
+            updateSal.Attendance = salaryModel.attendance;
+            updateSal.For_month = salaryModel.for_month;
+            updateSal.Total = salaryModel.total;
+
+            try
+            {
+                _context.SalaryDetails.Update(updateSal);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return NoContent();
+
+        }
     }
+   
 }
